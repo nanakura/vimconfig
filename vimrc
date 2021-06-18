@@ -81,8 +81,8 @@ let g:rainbow_active = 1
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
 "call plug#begin('~/.config/nvim/plugged')
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes' "状态栏美化
+	"Plug 'vim-airline/vim-airline'
+	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
 	Plug 'preservim/nerdtree' "目录树
 	Plug 'Yggdroot/indentLine',{'for':['c,cpp']} "缩进线
@@ -92,7 +92,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'ryanoasis/vim-devicons' "美化
 
 	"git
-	plug '/airblade/vim-gitgutter'
+	Plug 'airblade/vim-gitgutter'
 	Plug 'tpope/vim-fugitive'
 	Plug 'junegunn/gv.vim'
 	"nvim
@@ -266,20 +266,17 @@ inoremap" ""<Left>
 
 nnoremap ,w :w<CR>
 nnoremap ,q :wq<CR>
-nnoremap ,qq :q!<CR>
 nnoremap X "_X
 nnoremap x "_x
 nnoremap dd "_dd
-nnoremap ss dd
-nnoremap s d
+nnoremap dy dd
 vnoremap s d
 vnoremap d "_d
 vnoremap q <Esc>
-nnoremap d "_d
-nnoremap dl d$
-nnoremap dh d^
-nnoremap sl y$
-nnoremap sh y^
+nnoremap dl "_d$
+nnoremap dh "_d^
+nnoremap yl y$
+nnoremap yh y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
 nnoremap <C-d> :bd<CR>
