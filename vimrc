@@ -170,8 +170,20 @@ let g:rnvimr_presets = [
             \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0},
             \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0.5}
             \ ]
-highlight LspCxxHlSymFunction cterm=none
+highlight LspCxxHlSymFunction cterm=none ctermfg=80
+highlight LspCxxHlSymNamespace ctermfg=5
 highlight LspCxxHlGroupMemberVariable ctermfg=87
+hi LspCxxHlSymMethod ctermfg=80
+hi Function ctermfg=80
+else
+hi cppSTLnamespace ctermfg=5
+hi cppSTLconstant ctermfg=44
+hi       cppString ctermfg=80
+hi       cString ctermfg=80
+hi       cppNumber ctermfg=80
+hi       cNumber ctermfg=80
+hi      cppBoolean ctermfg=80
+hi       cIncluded ctermfg=44
 endif
 "------------------------------------------------------------------------------------------
 
