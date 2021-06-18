@@ -249,6 +249,7 @@ let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 inoremap jj <Esc>
+inoremap ,w <Esc>:w<CR>
 inoremap <C-v> <Esc>v
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -262,6 +263,10 @@ inoremap<> <><Left>
 inoremap<< <<
 inoremap ' ''<Left>
 inoremap" ""<Left>
+
+nnoremap ,w :w<CR>
+nnoremap ,q :wq<CR>
+nnoremap ,qq :q!<CR>
 nnoremap X "_X
 nnoremap x "_x
 nnoremap dd "_dd
