@@ -287,6 +287,9 @@ nnoremap K 3k
 nnoremap H J
 nnoremap J 3j
 nnoremap z. <C-w>3>
-nnoremap z, <C-w>3<
+nnoremap z, <C-w>3
+<nnoremap <C-q> :nohl<CR>
+
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"
+
 
