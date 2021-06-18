@@ -265,7 +265,7 @@ inoremap ' ''<Left>
 inoremap" ""<Left>
 
 nnoremap ,w :w<CR>
-nnoremap ,q :wq<CR>
+nnoremap ,q :q!<CR>
 nnoremap X "_X
 nnoremap x "_x
 nnoremap dd "_dd
