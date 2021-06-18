@@ -41,7 +41,7 @@ let NERDTreeShowBookmarks=1
 autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 "autocmd VimEnter * NERDTree
 wincmd w
-autocmd VimEnter * wincmd w
+"autocmd VimEnter * wincmd w
 nnoremap <C-c> :NERDTreeClose<CR>
 nnoremap <C-o> :NERDTree<CR>
 
@@ -70,9 +70,9 @@ nnoremap <C-o> :NERDTree<CR>
 
 
 "set indentLine 缩进线
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme="understated"
-let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline_theme="understated"
+"let g:airline_powerline_fonts = 1
 let g:indentLine_char='┆'
 let g:indentLine_enabled = 1
 let g:indentLine_noConcealCursor = 1
