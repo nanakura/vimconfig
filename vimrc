@@ -103,6 +103,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
 	else
 	Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
+	Plug 'voldikss/vim-floaterm'
 	endif
 
 call plug#end()
@@ -184,6 +185,9 @@ hi       cppNumber ctermfg=80
 hi       cNumber ctermfg=80
 hi      cppBoolean ctermfg=80
 hi       cIncluded ctermfg=44
+nnoremap ,f :FloatermNew<CR>
+else
+
 endif
 "------------------------------------------------------------------------------------------
 
