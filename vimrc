@@ -265,7 +265,6 @@ inoremap ' ''<Left>
 inoremap" ""<Left>
 
 nnoremap ,w :w<CR>
-nnoremap ,q :q!<CR>
 nnoremap X "_X
 nnoremap x "_x
 nnoremap dd "_dd
@@ -280,6 +279,7 @@ nnoremap yh y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
 nnoremap <C-d> :bd<CR>
+
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
 
