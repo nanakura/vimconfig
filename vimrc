@@ -186,6 +186,7 @@ hi       cNumber ctermfg=80
 hi      cppBoolean ctermfg=80
 hi       cIncluded ctermfg=44
 nnoremap ,f :FloatermNew<CR>
+tnoremap ,q exit<CR>
 else
 
 endif
