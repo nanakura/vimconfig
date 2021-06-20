@@ -199,6 +199,12 @@ hi       cppNumber ctermfg=80
 hi       cNumber ctermfg=80
 hi      cppBoolean ctermfg=80
 hi       cIncluded ctermfg=44
+
+let g:floaterm_width=0.6
+let g:floaterm_height=0.6
+au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
+let g:floaterm_title = ''
+let g:floaterm_autoclose = 1
 nnoremap ,f :FloatermNew<CR>
 tnoremap ,q exit<CR>
 else
