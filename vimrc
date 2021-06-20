@@ -96,7 +96,6 @@ call plug#begin('~/.vim/plugged')
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
 	Plug 'frazrepo/vim-rainbow'
 	Plug 'jiangmiao/auto-pairs'
-	Plug 'itchyny/lightline.vim'
 	
 	Plug 'preservim/nerdtree' "目录树
 	Plug 'Yggdroot/indentLine',{'for':['c,cpp']} "缩进线
@@ -207,7 +206,6 @@ let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
 nnoremap ,f :FloatermNew<CR>
 tnoremap ,q exit<CR>
-else
 
 endif
 "------------------------------------------------------------------------------------------
@@ -273,7 +271,7 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap jj <Esc>
+inoremap ,f <Esc>
 inoremap ,w <Esc>:w<CR>
 inoremap <C-v> <Esc>v
 inoremap <C-h> <Left>
@@ -305,7 +303,7 @@ nnoremap H J
 nnoremap J 3j
 nnoremap z. <C-w>3>
 nnoremap z, <C-w>3
-<nnoremap <C-q> :nohl<CR>
+nnoremap <C-q> :nohl<CR>
 
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"
 
