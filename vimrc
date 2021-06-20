@@ -69,6 +69,16 @@ nnoremap <C-o> :NERDTree<CR>
 "let g:airline_theme="bubblegum"
 
 
+let g:rainbow_active = 1
+let g:rainbow_load_separately = [
+    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+    \ ]
+let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
+let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+
 "set indentLine 缩进线
 "let g:airline#extensions#tabline#enabled = 1
 "let g:airline_theme="understated"
@@ -84,6 +94,10 @@ call plug#begin('~/.vim/plugged')
 	"Plug 'vim-airline/vim-airline'
 	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+	Plug 'frazrepo/vim-rainbow'
+	Plug 'jiangmiao/auto-pairs'
+	Plug 'itchyny/lightline.vim'
+	
 	Plug 'preservim/nerdtree' "目录树
 	Plug 'Yggdroot/indentLine',{'for':['c,cpp']} "缩进线
 	Plug 'preservim/nerdcommenter' "注释
@@ -260,14 +274,6 @@ inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-l> <Right>
-inoremap{ {}<Left>
-inoremap{<CR> {}<ESC>i<CR><ESC>O
-inoremap[ []<Left>
-inoremap( ()<Left>
-inoremap<> <><Left>
-inoremap<< <<
-inoremap ' ''<Left>
-inoremap" ""<Left>
 
 nnoremap ,w :w<CR>
 nnoremap X "_X
