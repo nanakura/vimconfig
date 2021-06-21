@@ -204,8 +204,8 @@ let g:floaterm_height=0.6
 au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
 let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
-nnoremap ,f :FloatermNew<CR>
-tnoremap ,q exit<CR>
+nnoremap <leader>f :FloatermNew<CR>
+tnoremap <leader>q exit<CR>
 
 endif
 "------------------------------------------------------------------------------------------
@@ -271,8 +271,8 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap ,f <Esc>
-inoremap ,w <Esc>:w<CR>
+inoremap <leader>f <Esc>
+inoremap <leader>w <Esc>:w<CR>
 inoremap <C-v> <Esc>v
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -282,7 +282,7 @@ inoremap <C-l> <Right>
 inoremap <> <><Left>
 inoremap << <<
 
-nnoremap ,w :w<CR>
+nnoremap <leader>w :w<CR>
 nnoremap x "_x
 nnoremap X "_X
 nnoremap d "_d
