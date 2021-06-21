@@ -279,6 +279,9 @@ inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 
+inoremap < <><Left>
+inoremap << <<
+
 nnoremap ,w :w<CR>
 nnoremap x "_x
 nnoremap X "_X
