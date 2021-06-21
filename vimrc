@@ -280,15 +280,25 @@ inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 
 nnoremap ,w :w<CR>
-nnoremap X "_X
 nnoremap x "_x
+nnoremap X "_X
+nnoremap d "_d
 nnoremap dd "_dd
-nnoremap dy dd
-vnoremap s d
-vnoremap d "_d
-vnoremap q <Esc>
-nnoremap dl "_d$
+nnoremap D "_D
 nnoremap dh "_d^
+ nnoremap dl "_d$
+vnoremap d "_d
+vnoremap dd "_dd
+
+nnoremap <leader>x ""x
+nnoremap <leader>X ""X
+nnoremap <leader>d ""d
+nnoremap <leader>dd ""dd
+nnoremap <leader>D ""D
+vnoremap <leader>d ""d
+vnoremap <leader>dd ""dd
+
+vnoremap q <Esc>
 nnoremap yl y$
 nnoremap yh y^
 nnoremap <C-l> :bn<CR>
