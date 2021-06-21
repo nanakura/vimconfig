@@ -190,14 +190,14 @@ highlight LspCxxHlGroupMemberVariable ctermfg=87
 hi LspCxxHlSymMethod ctermfg=80
 hi Function ctermfg=80
 else
-hi cppSTLnamespace ctermfg=5
-hi cppSTLconstant ctermfg=44
-hi       cppString ctermfg=80
-hi       cString ctermfg=80
-hi       cppNumber ctermfg=80
-hi       cNumber ctermfg=80
-hi      cppBoolean ctermfg=80
-hi       cIncluded ctermfg=44
+"hi cppSTLnamespace ctermfg=5
+"hi cppSTLconstant ctermfg=44
+"hi       cppString ctermfg=80
+"hi       cString ctermfg=80
+"hi       cppNumber ctermfg=80
+"hi       cNumber ctermfg=80
+"hi      cppBoolean ctermfg=80
+"hi       cIncluded ctermfg=44
 
 let g:floaterm_width=0.6
 let g:floaterm_height=0.6
@@ -206,6 +206,12 @@ let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
 nnoremap <leader>f :FloatermNew<CR>
 tnoremap <leader>q exit<CR>
+
+highlight LspCxxHlSymFunction cterm=none ctermfg=80
+highlight LspCxxHlSymNamespace ctermfg=5
+highlight LspCxxHlGroupMemberVariable ctermfg=87
+hi LspCxxHlSymMethod ctermfg=80
+hi Function ctermfg=80
 
 endif
 "------------------------------------------------------------------------------------------
