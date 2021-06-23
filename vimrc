@@ -94,8 +94,9 @@ call plug#begin('~/.vim/plugged')
 	"Plug 'vim-airline/vim-airline'
 	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-	Plug 'frazrepo/vim-rainbow'
-	Plug 'jiangmiao/auto-pairs'
+	Plug 'frazrepo/vim-rainbow'"括号高亮
+	Plug 'jiangmiao/auto-pairs'"补全括号
+	Plug 'bling/vim-bufferline'"buffer显示
 	
 	Plug 'preservim/nerdtree' "目录树
 	Plug 'Yggdroot/indentLine',{'for':['c,cpp']} "缩进线
@@ -103,7 +104,13 @@ call plug#begin('~/.vim/plugged')
 	Plug 'mg979/vim-visual-multi', {'branch':'master'} "多光标
 	Plug 'honza/vim-snippets' "片段补全
 	Plug 'ryanoasis/vim-devicons' "美化
-
+	
+	"Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
+	Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
+	Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
+	""clangd.semanticHighlighting": true
+	""clangd.disableDiagnostics": true
+	
 	"git
 	Plug 'airblade/vim-gitgutter'
 	Plug 'tpope/vim-fugitive'
@@ -112,13 +119,13 @@ call plug#begin('~/.vim/plugged')
 	"高亮
 	if has('nvim')
 	Plug 'kevinhwang91/rnvimr'
-	Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
-	Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
+	"pip3 install ranger-fm pynvim
+	"pip3 install ueberzug
+	"nvim +'checkhealth rnvimr'
 	else
-	Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
 	Plug 'voldikss/vim-floaterm'
 	endif
-
+"
 call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc
