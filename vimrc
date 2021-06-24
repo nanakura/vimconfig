@@ -191,20 +191,6 @@ let g:rnvimr_presets = [
             \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0},
             \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0.5}
             \ ]
-highlight LspCxxHlSymFunction cterm=none ctermfg=80
-highlight LspCxxHlSymNamespace ctermfg=5
-highlight LspCxxHlGroupMemberVariable ctermfg=87
-hi LspCxxHlSymMethod ctermfg=80
-hi Function ctermfg=80
-else
-"hi cppSTLnamespace ctermfg=5
-"hi cppSTLconstant ctermfg=44
-"hi       cppString ctermfg=80
-"hi       cString ctermfg=80
-"hi       cppNumber ctermfg=80
-"hi       cNumber ctermfg=80
-"hi      cppBoolean ctermfg=80
-"hi       cIncluded ctermfg=44
 
 let g:floaterm_width=0.6
 let g:floaterm_height=0.6
@@ -213,12 +199,6 @@ let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
 nnoremap <leader>f :FloatermNew<CR>
 tnoremap <leader>q exit<CR>
-
-highlight LspCxxHlSymFunction cterm=none ctermfg=80
-highlight LspCxxHlSymNamespace ctermfg=5
-highlight LspCxxHlGroupMemberVariable ctermfg=87
-hi LspCxxHlSymMethod ctermfg=80
-hi Function ctermfg=80
 
 endif
 "------------------------------------------------------------------------------------------
@@ -229,6 +209,31 @@ endif
 "hi cFunctions term=underline cterm=bold ctermfg=14
 "syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
 "hi cClass term=underline cterm=bold ctermfg=14
+"设置c/cpp高亮
+highlight  LspCxxHlSymFunction  cterm=none ctermfg=47
+highlight  LspCxxHlSymNamespace        ctermfg=226
+highlight  LspCxxHlGroupMemberVariable ctermfg=47
+highlight  LspCxxHlSymDependentType    ctermfg=226
+"highlight  LspCxxHlSymTypedef          ctermfg=226
+"highlight  LspCxxHlSymPrimitive        ctermfg=226
+"highlight  LspCxxHlSymConcept          ctermfg=226
+highlight  LspCxxHlSymClass            ctermfg=226
+highlight  LspCxxHlSymMethod           ctermfg=47
+highlight  Function                    ctermfg=47
+highlight  cppNumber                   ctermfg=123
+highlight  cNumber                     ctermfg=123
+highlight  cppString                   ctermfg=172
+highlight  cString                     ctermfg=172
+highlight  cppBoolean                  ctermfg=123
+"hi cppSTLnamespace ctermfg=5
+"hi cppSTLconstant ctermfg=44
+"hi       cppString ctermfg=80
+"hi       cString ctermfg=80
+"hi       cppNumber ctermfg=80
+"hi       cNumber ctermfg=80
+"hi      cppBoolean ctermfg=80
+"hi       cIncluded ctermfg=44
+
 
 highlight GitGutterAdd    guifg=#009900 ctermfg=46
 highlight GitGutterChange guifg=#bbbb00 ctermfg=214
@@ -256,6 +261,7 @@ set numberwidth=3
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 set scrolloff=2
+set ignorecase "搜索忽略大小写
 set noerrorbells "关闭提示音
 set novisualbell
 set t_vb=
