@@ -191,7 +191,7 @@ let g:rnvimr_presets = [
             \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0},
             \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0.5}
             \ ]
-
+else
 let g:floaterm_width=0.6
 let g:floaterm_height=0.6
 au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
