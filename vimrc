@@ -332,9 +332,9 @@ nnoremap <C-c> :bd<CR>
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
 
-nnoremap K 3k
+nnoremap K <C-u>
 nnoremap H J
-nnoremap J 3j
+nnoremap J <C-d>
 nnoremap z. <C-w>3>
 nnoremap z, <C-w>3
 nnoremap <C-q> :nohl<CR>
