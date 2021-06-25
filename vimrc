@@ -262,6 +262,7 @@ set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 set scrolloff=2
 set ignorecase "搜索忽略大小写
+autocmd VimEnter * NoMatchParen "取消括号高亮匹配
 set noerrorbells "关闭提示音
 set novisualbell
 set t_vb=
@@ -302,6 +303,7 @@ inoremap <> <><Left>
 inoremap << <<
 
 nnoremap <leader>w :w<CR>
+nnoremap <leader>q :wq<CR>
 nnoremap x "_x
 nnoremap X "_X
 nnoremap d "_d
@@ -325,7 +327,7 @@ nnoremap yl y$
 nnoremap yh y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
-nnoremap <C-d> :bd<CR>
+nnoremap <C-c> :bd<CR>
 
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
