@@ -105,16 +105,16 @@ call plug#begin('~/.vim/plugged')
 	Plug 'honza/vim-snippets' "片段补全
 	Plug 'ryanoasis/vim-devicons' "美化
 	
-	"Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
-	Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
-	Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
+	Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
+	"Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
+	"Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
 	""clangd.semanticHighlighting": true
 	""clangd.disableDiagnostics": true
 	
 	"git
-	Plug 'airblade/vim-gitgutter'
-	Plug 'tpope/vim-fugitive'
-	Plug 'junegunn/gv.vim'
+	"Plug 'airblade/vim-gitgutter'
+	"Plug 'tpope/vim-fugitive'
+	"Plug 'junegunn/gv.vim'
 	"nvim
 	"高亮
 	if has('nvim')
@@ -210,29 +210,26 @@ endif
 "syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
 "hi cClass term=underline cterm=bold ctermfg=14
 "设置c/cpp高亮
+"highlight  LspCxxHlSymTypedef          ctermfg=226
+"highlight  LspCxxHlSymPrimitive        ctermfg=226
+"highlight  LspCxxHlSymConcept          ctermfg=226
+
 highlight  LspCxxHlSymFunction  cterm=none ctermfg=47
 highlight  LspCxxHlSymNamespace        ctermfg=226
 highlight  LspCxxHlGroupMemberVariable ctermfg=47
 highlight  LspCxxHlSymDependentType    ctermfg=226
-"highlight  LspCxxHlSymTypedef          ctermfg=226
-"highlight  LspCxxHlSymPrimitive        ctermfg=226
-"highlight  LspCxxHlSymConcept          ctermfg=226
 highlight  LspCxxHlSymClass            ctermfg=226
 highlight  LspCxxHlSymMethod           ctermfg=47
+
 highlight  Function                    ctermfg=47
 highlight  cppNumber                   ctermfg=123
 highlight  cNumber                     ctermfg=123
 highlight  cppString                   ctermfg=172
 highlight  cString                     ctermfg=172
 highlight  cppBoolean                  ctermfg=123
-"hi cppSTLnamespace ctermfg=5
-"hi cppSTLconstant ctermfg=44
-"hi       cppString ctermfg=80
-"hi       cString ctermfg=80
-"hi       cppNumber ctermfg=80
-"hi       cNumber ctermfg=80
-"hi      cppBoolean ctermfg=80
-"hi       cIncluded ctermfg=44
+
+hi cppSTLnamespace ctermfg=226
+hi cppSTLconstant ctermfg=47
 
 
 highlight GitGutterAdd    guifg=#009900 ctermfg=46
