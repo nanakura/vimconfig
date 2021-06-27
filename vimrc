@@ -227,6 +227,9 @@ highlight  cNumber                     ctermfg=123
 highlight  cppString                   ctermfg=172
 highlight  cString                     ctermfg=172
 highlight  cppBoolean                  ctermfg=123
+highlight  Constant                    ctermfg=123
+highlight  cInclude                    ctermfg=172
+
 
 hi cppSTLnamespace ctermfg=226
 hi cppSTLconstant ctermfg=47
