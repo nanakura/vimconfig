@@ -322,7 +322,7 @@ nnoremap <leader>dd ""dd
 nnoremap <leader>D ""D
 vnoremap <leader>d ""d
 vnoremap <leader>dd ""dd
-Vnoremap <leader>x ""x
+vnoremap <leader>x ""x
 vnoremap <leader>X ""X
 
 vnoremap q <Esc>
@@ -335,9 +335,9 @@ nnoremap <C-c> :bd<CR>
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
 
-nnoremap K <C-f>
+nnoremap K <C-b>
 nnoremap H J
-nnoremap J <C-b>
+nnoremap J <C-f>
 nnoremap z. <C-w>3>
 nnoremap z, <C-w>3
 nnoremap <C-q> :nohl<CR>
