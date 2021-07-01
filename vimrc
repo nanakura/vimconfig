@@ -293,7 +293,6 @@ let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 inoremap <leader>f <Esc>
 inoremap <leader>w <Esc>:w<CR>
-inoremap <C-v> <Esc>v
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
@@ -310,9 +309,11 @@ nnoremap d "_d
 nnoremap dd "_dd
 nnoremap D "_D
 nnoremap dh "_d^
- nnoremap dl "_d$
+nnoremap dl "_d$
 vnoremap d "_d
 vnoremap dd "_dd
+vnoremap x "_x
+vnoremap X "_X
 
 nnoremap <leader>x ""x
 nnoremap <leader>X ""X
@@ -321,6 +322,8 @@ nnoremap <leader>dd ""dd
 nnoremap <leader>D ""D
 vnoremap <leader>d ""d
 vnoremap <leader>dd ""dd
+Vnoremap <leader>x ""x
+vnoremap <leader>X ""X
 
 vnoremap q <Esc>
 nnoremap yl y$
@@ -332,9 +335,9 @@ nnoremap <C-c> :bd<CR>
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
 
-nnoremap K <C-u>
+nnoremap K <C-f>
 nnoremap H J
-nnoremap J <C-d>
+nnoremap J <C-b>
 nnoremap z. <C-w>3>
 nnoremap z, <C-w>3
 nnoremap <C-q> :nohl<CR>
