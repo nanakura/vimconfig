@@ -214,14 +214,14 @@ endif
 "highlight  LspCxxHlSymPrimitive        ctermfg=226
 "highlight  LspCxxHlSymConcept          ctermfg=226
 
-highlight  LspCxxHlSymFunction  cterm=none ctermfg=47
+highlight  LspCxxHlSymFunction  cterm=none ctermfg=155
 highlight  LspCxxHlSymNamespace        ctermfg=226
-highlight  LspCxxHlGroupMemberVariable ctermfg=47
+highlight  LspCxxHlGroupMemberVariable ctermfg=155
 highlight  LspCxxHlSymDependentType    ctermfg=226
 highlight  LspCxxHlSymClass            ctermfg=226
-highlight  LspCxxHlSymMethod           ctermfg=47
+highlight  LspCxxHlSymMethod           ctermfg=155
 
-highlight  Function                    ctermfg=47
+highlight  Function                    ctermfg=155
 highlight  cppNumber                   ctermfg=123
 highlight  cNumber                     ctermfg=123
 highlight  cppString                   ctermfg=172
@@ -232,7 +232,7 @@ highlight  cInclude                    ctermfg=172
 
 
 hi cppSTLnamespace ctermfg=226
-hi cppSTLconstant ctermfg=47
+hi cppSTLconstant ctermfg=155
 
 
 highlight GitGutterAdd    guifg=#009900 ctermfg=46
@@ -252,6 +252,9 @@ highlight CursorLine         cterm=bold ctermbg=237
 highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=237
 hi SignColumn ctermbg=none
 
+highlight MatchParen ctermbg=000 guibg=lightblue
+highlight Cursor guifg=15
+
 "nvim
 "~/.config/nvim/autoload/plug.vim   
 "~/.config/nvim/init.vim   // ~/.config/nvim/plugged 
@@ -262,7 +265,7 @@ set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 set scrolloff=2
 set ignorecase "搜索忽略大小写
-autocmd VimEnter * NoMatchParen "取消括号高亮匹配
+"autocmd VimEnter * NoMatchParen "取消括号高亮匹配
 set noerrorbells "关闭提示音
 set novisualbell
 set t_vb=
@@ -291,7 +294,7 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap <leader>f <Esc>
+inoremap <leader>q <Esc>
 inoremap <leader>w <Esc>:w<CR>
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
