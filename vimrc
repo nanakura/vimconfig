@@ -197,9 +197,8 @@ let g:floaterm_height=0.6
 au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
 let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
-nnoremap <leader>f :FloatermNew<CR>
-tnoremap <leader>q exit<CR>
-
+nnoremap <leader>t :FloatermNew<CR>
+tnoremap <leader>c exit<CR>
 endif
 "------------------------------------------------------------------------------------------
 
