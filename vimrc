@@ -45,25 +45,25 @@ wincmd w
 nnoremap <C-c> :NERDTreeClose<CR>
 nnoremap <C-o> :NERDTree<CR>
 
-"set statusline=%1*\%<%.50F\             "显示文件名和文件路径 (%<应该可以去掉)
-"set statusline+=%=%2*\%y%m%r%h%w\ %*        "显示文件类型及文件状态
-"set statusline+=%3*\%{&ff}\[%{&fenc}]\ %*   "显示文件编码类型
-"set statusline+=%4*\Row:%l/%L:Col:%c\ %*  "显示光标所在行和列
-"set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的比例
-"hi User1 cterm=none,bold ctermfg=160 ctermbg=0
-"hi User2 cterm=none,bold ctermfg=119 ctermbg=0
-"hi User3 cterm=none,bold ctermfg=169 ctermbg=0
-"hi User4 cterm=none,bold ctermfg=14 ctermbg=0
-"hi User5 cterm=none,bold ctermfg=226 ctermbg=0
-"function! InsertStatuslineColor(mode)
-    "if a:mode != 'i'
-            "hi User1 cterm=none,bold ctermfg=160 ctermbg=0
-        "else
-                "hi User1 cterm=none,bold ctermfg=41 ctermbg=0
-        "endif
-    "endfunction
-"au InsertEnter * call InsertStatuslineColor(v:insertmode)
-"au InsertLeave * hi User1 cterm=none,bold ctermfg=160 ctermbg=0
+set statusline=%1*\%<%.50F\             "显示文件名和文件路径 (%<应该可以去掉)
+set statusline+=%=%2*\%y%m%r%h%w\ %*        "显示文件类型及文件状态
+set statusline+=%3*\%{&ff}\[%{&fenc}]\ %*   "显示文件编码类型
+set statusline+=%4*\Row:%l/%L:Col:%c\ %*  "显示光标所在行和列
+set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的比例
+hi User1 cterm=none,bold ctermfg=160 ctermbg=0
+hi User2 cterm=none,bold ctermfg=119 ctermbg=0
+hi User3 cterm=none,bold ctermfg=169 ctermbg=0
+hi User4 cterm=none,bold ctermfg=14 ctermbg=0
+hi User5 cterm=none,bold ctermfg=226 ctermbg=0
+function! InsertStatuslineColor(mode)
+    if a:mode != 'i'
+            hi User1 cterm=none,bold ctermfg=160 ctermbg=0
+        else
+                hi User1 cterm=none,bold ctermfg=41 ctermbg=0
+        endif
+    endfunction
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi User1 cterm=none,bold ctermfg=160 ctermbg=0
 
 "set airline && airthemes 状态栏美化
 "let g:airline_theme="bubblegum"
@@ -112,9 +112,9 @@ call plug#begin('~/.vim/plugged')
 	""clangd.disableDiagnostics": true
 	
 	"git
-	"Plug 'airblade/vim-gitgutter'
-	"Plug 'tpope/vim-fugitive'
-	"Plug 'junegunn/gv.vim'
+	Plug 'airblade/vim-gitgutter'
+	Plug 'tpope/vim-fugitive'
+	Plug 'junegunn/gv.vim'
 	"nvim
 	"高亮
 	if has('nvim')
@@ -210,9 +210,9 @@ endif
 "syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
 "hi cClass term=underline cterm=bold ctermfg=14
 "设置c/cpp高亮
-"highlight  LspCxxHlSymTypedef          ctermfg=226
-"highlight  LspCxxHlSymPrimitive        ctermfg=226
-"highlight  LspCxxHlSymConcept          ctermfg=226
+highlight  LspCxxHlSymTypedef          ctermfg=226
+highlight  LspCxxHlSymPrimitive        ctermfg=226
+highlight  LspCxxHlSymConcept          ctermfg=226
 
 highlight  LspCxxHlSymFunction  cterm=none ctermfg=155
 highlight  LspCxxHlSymNamespace        ctermfg=226
@@ -308,27 +308,29 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>q :wq<CR>
 nnoremap x "_x
 nnoremap X "_X
-nnoremap d "_d
-nnoremap dd "_dd
-nnoremap D "_D
-nnoremap dh "_d^
-nnoremap dl "_d$
-vnoremap d "_d
-vnoremap dd "_dd
+nnoremap m "_d
+nnoremap mm "_dd
+nnoremap M "_D
+nnoremap mh "_d^
+nnoremap ml "_d$
+vnoremap m "_d
+vnoremap mm "_dd
 vnoremap x "_x
 vnoremap X "_X
 
 nnoremap <leader>x ""x
 nnoremap <leader>X ""X
-nnoremap <leader>d ""d
-nnoremap <leader>dd ""dd
-nnoremap <leader>D ""D
-vnoremap <leader>d ""d
-vnoremap <leader>dd ""dd
+nnoremap <leader>m ""d
+nnoremap <leader>mm ""dd
+nnoremap <leader>M ""D
+vnoremap <leader>m ""d
+vnoremap <leader>mm ""dd
 vnoremap <leader>x ""x
 vnoremap <leader>X ""X
 
 vnoremap q <Esc>
+nnoremap dl d$
+nnoremap dh d^
 nnoremap yl y$
 nnoremap yh y^
 nnoremap <C-l> :bn<CR>
@@ -345,6 +347,6 @@ nnoremap z. <C-w>3>
 nnoremap z, <C-w>3
 nnoremap <C-q> :nohl<CR>
 
-nnoremap <expr>m col(".")+1==col("$")?"^":"$"
+nnoremap <expr>s col(".")+1==col("$")?"^":"$"
 
 
