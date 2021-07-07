@@ -89,12 +89,16 @@ let g:indentLine_noConcealCursor = 1
 let g:indentLine_color_term = 0
 let g:rainbow_active = 1
 "--------------------------------------------------------------------------------------"
+if has('nvim')
 call plug#begin('~/.vim/plugged')
+else
+call plug#begin('~/.config/nvim/plugged')
+endif
 "call plug#begin('~/.config/nvim/plugged')
 	"Plug 'vim-airline/vim-airline'
 	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-	Plug 'frazrepo/vim-rainbow'"括号高亮
+	"Plug 'frazrepo/vim-rainbow'"括号高亮
 	Plug 'jiangmiao/auto-pairs'"补全括号
 	Plug 'bling/vim-bufferline'"buffer显示
 	
@@ -252,7 +256,7 @@ highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=237
 hi SignColumn ctermbg=none
 
 highlight MatchParen ctermbg=000 guibg=lightblue
-highlight Cursor guifg=15
+"highlight Cursor guifg=15
 
 "nvim
 "~/.config/nvim/autoload/plug.vim   
