@@ -150,6 +150,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 "nvim add
 "-----------------------------------------------------------------------------------------------------------------"
 if has('nvim')
+"vim.g.loade_python_provider=0
 let g:rnvimr_enable_ex = 1
 let g:rnvimr_enable_picker = 1
 let g:rnvimr_draw_border = 0
@@ -297,7 +298,7 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap <leader>q <Esc>
+inoremap jj <Esc>
 inoremap <leader>w <Esc>:w<CR>
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -311,23 +312,25 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>q :wq<CR>
 nnoremap x "_x
 nnoremap X "_X
-nnoremap m "_d
-nnoremap mm "_dd
-nnoremap M "_D
-nnoremap mh "_d^
-nnoremap ml "_d$
-vnoremap m "_d
-vnoremap mm "_dd
+nnoremap s "_d
+nnoremap ss "_dd
+nnoremap S "_D
+nnoremap sh "_d^
+nnoremap sl "_d$
+vnoremap s "_d
+vnoremap ss "_dd
 vnoremap x "_x
 vnoremap X "_X
 
 nnoremap <leader>x ""x
 nnoremap <leader>X ""X
-nnoremap <leader>m ""d
-nnoremap <leader>mm ""dd
-nnoremap <leader>M ""D
-vnoremap <leader>m ""d
-vnoremap <leader>mm ""dd
+nnoremap <leader>s ""d
+nnoremap <leader>ss ""dd
+nnoremap <leader>S ""D
+vnoremap <leader>sh ""_d^
+vnoremap <leader>sl ""_d$
+vnoremap <leader>s ""d
+vnoremap <leader>ss ""dd
 vnoremap <leader>x ""x
 vnoremap <leader>X ""X
 
