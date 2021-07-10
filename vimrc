@@ -6,6 +6,27 @@
 "git
 "git config --global http.proxy 'http://192.168.49.1:8282'
 "git config --global https.proxy 'http://192.168.49.1:8282'
+"
+
+
+"snippet make
+	".HELLO:.c.o
+	"CC=$1
+	"EXE=$2
+	"CFLAGS = -g -Wall
+	"PKG= pkg-config --libs libavformat libavutil libavcodec
+	"DPKG=$3
+	
+	"GREP=$(DPKG:.c=.o)
+	"helo:$(GREP)
+		"$1 -o $(EXE) $(CFLAGS)$4 $(GREP)
+		"@echo '--------------------------OK------------------------------'
+	".c.o:
+		"$1 -c -o $@ $<
+	"clean:
+		"rm *.o
+		"rm $2
+"# make
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -98,7 +119,7 @@ endif
 	"Plug 'vim-airline/vim-airline'
 	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-	"Plug 'frazrepo/vim-rainbow'"括号高亮
+	Plug 'frazrepo/vim-rainbow'"括号高亮
 	Plug 'jiangmiao/auto-pairs'"补全括号
 	Plug 'bling/vim-bufferline'"buffer显示
 	
@@ -110,8 +131,8 @@ endif
 	Plug 'ryanoasis/vim-devicons' "美化
 	
 	Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
-	"Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
-	"Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
+    "Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
+    "Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
 	""clangd.semanticHighlighting": true
 	""clangd.disableDiagnostics": true
 	
@@ -202,8 +223,8 @@ let g:floaterm_height=0.6
 au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
 let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
-nnoremap <leader>t :FloatermNew<CR>
-tnoremap <leader>c exit<CR>
+nnoremap ,t :FloatermNew<CR>
+tnoremap ,c exit<CR>
 endif
 "------------------------------------------------------------------------------------------
 
@@ -263,7 +284,7 @@ highlight MatchParen ctermbg=000 guibg=lightblue
 "~/.config/nvim/autoload/plug.vim   
 "~/.config/nvim/init.vim   // ~/.config/nvim/plugged 
 
-
+set viminfo='1000,<500
 set numberwidth=3
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
@@ -275,7 +296,7 @@ set novisualbell
 set t_vb=
 set tm=500
 set number
-set relativenumber
+"set relativenumber
 set autoindent
 set ts=4
 set shiftwidth=4
@@ -298,11 +319,10 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap jj <Esc>
 inoremap <leader>w <Esc>:w<CR>
-inoremap <C-h> <Left>
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-f> <Left>
 inoremap <C-l> <Right>
 
 inoremap <> <><Left>
@@ -315,7 +335,7 @@ nnoremap X "_X
 nnoremap s "_d
 nnoremap ss "_dd
 nnoremap S "_D
-nnoremap sh "_d^
+nnoremap sf "_d^
 nnoremap sl "_d$
 vnoremap s "_d
 vnoremap ss "_dd
@@ -327,8 +347,8 @@ nnoremap <leader>X ""X
 nnoremap <leader>s ""d
 nnoremap <leader>ss ""dd
 nnoremap <leader>S ""D
-vnoremap <leader>sh ""_d^
-vnoremap <leader>sl ""_d$
+nnoremap <leader>sf ""_d^
+nnoremap <leader>sl ""_d$
 vnoremap <leader>s ""d
 vnoremap <leader>ss ""dd
 vnoremap <leader>x ""x
@@ -336,9 +356,9 @@ vnoremap <leader>X ""X
 
 vnoremap q <Esc>
 nnoremap dl d$
-nnoremap dh d^
+nnoremap df d^
 nnoremap yl y$
-nnoremap yh y^
+nnoremap yf y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
 nnoremap <C-c> :bd<CR>
@@ -346,13 +366,8 @@ nnoremap <C-c> :bd<CR>
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
 
-nnoremap K <C-b>
-nnoremap H J
-nnoremap J <C-f>
 nnoremap z. <C-w>3>
 nnoremap z, <C-w>3
 nnoremap <C-q> :nohl<CR>
 
-nnoremap <expr>s col(".")+1==col("$")?"^":"$"
-
-
+nnoremap <expr>m col(".")+1==col("$")?"^":"$"
