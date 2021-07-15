@@ -63,8 +63,6 @@ autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTa
 "autocmd VimEnter * NERDTree
 wincmd w
 "autocmd VimEnter * wincmd w
-nnoremap <C-c> :NERDTreeClose<CR>
-nnoremap <C-o> :NERDTree<CR>
 
 set statusline=%1*\%<%.50F\             "显示文件名和文件路径 (%<应该可以去掉)
 set statusline+=%=%2*\%y%m%r%h%w\ %*        "显示文件类型及文件状态
@@ -111,9 +109,9 @@ let g:indentLine_color_term = 0
 let g:rainbow_active = 1
 "--------------------------------------------------------------------------------------"
 if has('nvim')
-call plug#begin('~/.vim/plugged')
-else
 call plug#begin('~/.config/nvim/plugged')
+else
+call plug#begin('~/.vim/plugged')
 endif
 "call plug#begin('~/.config/nvim/plugged')
 	"Plug 'vim-airline/vim-airline'
@@ -121,10 +119,9 @@ endif
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
 	Plug 'frazrepo/vim-rainbow'"括号高亮
 	Plug 'jiangmiao/auto-pairs'"补全括号
-	Plug 'bling/vim-bufferline'"buffer显示
-	
+	Plug 'bling/vim-bufferline' "buffer显示
 	Plug 'preservim/nerdtree' "目录树
-	Plug 'Yggdroot/indentLine',{'for':['c,cpp']} "缩进线
+	Plug 'Yggdroot/indentLine',{'for':['c,cpp']}"缩进线
 	Plug 'preservim/nerdcommenter' "注释
 	Plug 'mg979/vim-visual-multi', {'branch':'master'} "多光标
 	Plug 'honza/vim-snippets' "片段补全
@@ -143,12 +140,12 @@ endif
 	"nvim
 	"高亮
 	if has('nvim')
-	Plug 'kevinhwang91/rnvimr'
+    Plug 'kevinhwang91/rnvimr'
 	"pip3 install ranger-fm pynvim
 	"pip3 install ueberzug
 	"nvim +'checkhealth rnvimr'
 	else
-	Plug 'voldikss/vim-floaterm'
+    "Plug 'voldikss/vim-floaterm'
 	endif
 "
 call plug#end()
@@ -182,7 +179,6 @@ let g:rnvimr_shadow_winblend = 50
 let g:rnvimr_ranger_cmd = 'ranger --cmd="set draw_borders both"'
 highlight link RnvimrNormal CursorLine
 let g:ranger_map_keys = 0
-nnoremap ,f :RnvimrToggle<CR>
 let g:rnvimr_action = {
             \ '<C-t>': 'NvimEdit tabedit',
             \ '<C-x>': 'NvimEdit split',
@@ -223,8 +219,6 @@ let g:floaterm_height=0.6
 au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
 let g:floaterm_title = ''
 let g:floaterm_autoclose = 1
-nnoremap ,t :FloatermNew<CR>
-tnoremap ,c exit<CR>
 endif
 "------------------------------------------------------------------------------------------
 
@@ -313,61 +307,63 @@ set cmdheight=1
 set hlsearch
 set backspace=indent,eol,start "设置back键
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
-let mapleader=","
 
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+let mapleader=","
 
 inoremap <leader>w <Esc>:w<CR>
-inoremap <C-p> <Up>
-inoremap <C-n> <Down>
-inoremap <C-f> <Left>
+nnoremap <leader>w :w<CR>
+inoremap <C-e> <Up>
+inoremap <C-d> <Down>
+inoremap <C-s> <Left>
+inoremap <C-f> <Right>
 inoremap <C-l> <Right>
-
 inoremap <> <><Left>
 inoremap << <<
+inoremap <C-k> <Esc>d$a
 
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :wq<CR>
+nnoremap <C-c> :NERDTreeClose<CR>
+nnoremap <C-o> :NERDTree<CR>
+
+nnoremap <leader>f :RnvimrToggle<CR>
+nnoremap <leader>t :FloatermNew<CR>
+tnoremap <leader>c exit<CR>
+
 nnoremap x "_x
 nnoremap X "_X
-nnoremap s "_d
-nnoremap ss "_dd
-nnoremap S "_D
-nnoremap sf "_d^
-nnoremap sl "_d$
-vnoremap s "_d
-vnoremap ss "_dd
 vnoremap x "_x
 vnoremap X "_X
+"nnoremap s "_d
+"nnoremap ss "_dd
+"nnoremap S "_D
+"nnoremap sh "_d^
+"nnoremap sl "_d$
+"vnoremap s "_d
+"vnoremap ss "_dd
 
 nnoremap <leader>x ""x
 nnoremap <leader>X ""X
-nnoremap <leader>s ""d
-nnoremap <leader>ss ""dd
-nnoremap <leader>S ""D
-nnoremap <leader>sf ""_d^
-nnoremap <leader>sl ""_d$
-vnoremap <leader>s ""d
-vnoremap <leader>ss ""dd
-vnoremap <leader>x ""x
-vnoremap <leader>X ""X
+vnoremap <leader>s ""x
+vnoremap <leader>ss ""X
+"nnoremap <leader>s ""d
+"nnoremap <leader>ss ""dd
+"nnoremap <leader>S ""D
+"nnoremap <leader>sh ""_d^
+"nnoremap <leader>sl ""_d$
 
 vnoremap q <Esc>
 nnoremap dl d$
-nnoremap df d^
+nnoremap dh d^
 nnoremap yl y$
-nnoremap yf y^
-nnoremap <C-l> :bn<CR>
-nnoremap <C-h> :bp<CR>
-nnoremap <C-c> :bd<CR>
+nnoremap yh y^
+nnoremap <C-j> :bn<CR>
+nnoremap <C-k> :bp<CR>
+nnoremap <C-d> :bd<CR>
+nnoremap E ge
 
-nnoremap <C-y> "+yy
-nnoremap <C-p> "+p
-
-nnoremap z. <C-w>3>
-nnoremap z, <C-w>3
+nnoremap <C-l> <C-w>3>
+nnoremap <C-h> <C-w>3<
 nnoremap <C-q> :nohl<CR>
-
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"

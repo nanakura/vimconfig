@@ -32,9 +32,10 @@ let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 inoremap <leader>w <Esc>:w<CR>
-inoremap <C-p> <Up>
-inoremap <C-n> <Down>
-inoremap <C-f> <Left>
+inoremap <C-e> <Up>
+inoremap <C-d> <Down>
+inoremap <C-s> <Left>
+inoremap <C-f> <Right>
 inoremap <C-l> <Right>
 
 nnoremap <leader>w :w<CR>
@@ -44,7 +45,7 @@ nnoremap X "_X
 nnoremap s "_d
 nnoremap ss "_dd
 nnoremap S "_D
-nnoremap sf "_d^
+nnoremap sh "_d^
 nnoremap sl "_d$
 vnoremap s "_d
 vnoremap ss "_dd
@@ -56,8 +57,8 @@ nnoremap <leader>X ""X
 nnoremap <leader>s ""d
 nnoremap <leader>ss ""dd
 nnoremap <leader>S ""D
-nnoremap <leader>sf ""_d^
-nnoremap <leader>sl ""_d$
+nnoremap <leader>ss ""_d^
+nnoremap <leader>sf ""_d$
 vnoremap <leader>s ""d
 vnoremap <leader>ss ""dd
 vnoremap <leader>x ""x
@@ -65,12 +66,9 @@ vnoremap <leader>X ""X
 
 vnoremap q <Esc>
 nnoremap dl d$
-nnoremap df d^
+nnoremap dh d^
 nnoremap yl y$
-nnoremap yf y^
-nnoremap <C-l> :bn<CR>
-nnoremap <C-h> :bp<CR>
-nnoremap <C-c> :bd<CR>
+nnoremap yh y^
 
 nnoremap <C-y> "+yy
 nnoremap <C-p> "+p
