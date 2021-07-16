@@ -7,26 +7,8 @@
 "git config --global http.proxy 'http://192.168.49.1:8282'
 "git config --global https.proxy 'http://192.168.49.1:8282'
 "
-
-
-"snippet make
-	".HELLO:.c.o
-	"CC=$1
-	"EXE=$2
-	"CFLAGS = -g -Wall
-	"PKG= pkg-config --libs libavformat libavutil libavcodec
-	"DPKG=$3
-	
-	"GREP=$(DPKG:.c=.o)
-	"helo:$(GREP)
-		"$1 -o $(EXE) $(CFLAGS)$4 $(GREP)
-		"@echo '--------------------------OK------------------------------'
-	".c.o:
-		"$1 -c -o $@ $<
-	"clean:
-		"rm *.o
-		"rm $2
-"# make
+"export qlist=/home/one/Qtcreate/5.11.2/gcc_64/include
+"export qinclude=$qlist/Qt3DAnimation:$qlist/QtBluetooth:$qlist/QtGamepad:$qlist/QtNfc:$qlist/QtQuickParticles:$qlist/QtThemeSupport:$qlist/Qt3DCore:$qlist/QtConcurrent:$qlist/QtGlxSupport:$qlist/QtOpenGL:$qlist/QtQuickTemplates2:$qlist/QtUiPlugin:$qlist/Qt3DExtras:$qlist/QtCore:$qlist/QtGui:$qlist/QtOpenGLExtensions:$qlist/QtQuickTest:$qlist/QtUiTools:$qlist/Qt3DInput:$qlist/QtDBus:$qlist/QtHelp:$qlist/QtPacketProtocol:$qlist/QtQuickWidgets:$qlist/QtWaylandClient:$qlist/Qt3DLogic:$qlist/QtDesigner:$qlist/QtInputSupport:$qlist/QtPlatformCompositorSupport:$qlist/QtScxml:$qlist/QtWaylandCompositor:$qlist/Qt3DQuick:$qlist/QtDesignerComponents:$qlist/QtKmsSupport:$qlist/QtPlatformHeaders:$qlist/QtSensors:$qlist/QtWebChannel:$qlist/Qt3DQuickAnimation:$qlist/QtDeviceDiscoverySupport:$qlist/QtLinuxAccessibilitySupport:$qlist/QtPositioning:$qlist/QtSerialBus:$qlist/QtWebSockets:$qlist/Qt3DQuickExtras:$qlist/QtEdidSupport:$qlist/QtLocation:$qlist/QtPositioningQuick:$qlist/QtSerialPort:$qlist/QtWebView:$qlist/Qt3DQuickInput:$qlist/QtEglFSDeviceIntegration:$qlist/QtMultimedia:$qlist/QtPrintSupport:$qlist/QtServiceSupport:$qlist/QtWidgets:$qlist/Qt3DQuickRender:$qlist/QtEglSupport:$qlist/QtMultimediaGstTools:$qlist/QtQml:$qlist/QtSql:$qlist/QtX11Extras:$qlist/Qt3DQuickScene2D:$qlist/QtEventDispatcherSupport:$qlist/QtMultimediaQuick:$qlist/QtQmlDebug:$qlist/QtSvg:$qlist/QtXml:$qlist/Qt3DRender:$qlist/QtFbSupport:$qlist/QtMultimediaWidgets:$qlist/QtQuick:$qlist/QtTest:$qlist/QtXmlPatterns:$qlist/QtAccessibilitySupport:$qlist/QtFontDatabaseSupport:$qlist/QtNetwork:$qlist/QtQuickControls2:$qlist/QtTextToSpeech
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -140,7 +122,7 @@ endif
 	"nvim
 	"高亮
 	if has('nvim')
-    Plug 'kevinhwang91/rnvimr'
+    "Plug 'kevinhwang91/rnvimr'
 	"pip3 install ranger-fm pynvim
 	"pip3 install ueberzug
 	"nvim +'checkhealth rnvimr'
@@ -279,6 +261,7 @@ highlight MatchParen ctermbg=000 guibg=lightblue
 "~/.config/nvim/init.vim   // ~/.config/nvim/plugged 
 
 set viminfo='1000,<500
+set clipboard=unnamed
 set numberwidth=3
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
@@ -307,6 +290,8 @@ set cmdheight=1
 set hlsearch
 set backspace=indent,eol,start "设置back键
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
+autocmd BufNewFile makefile 0r ~/Source/setvim/Makefile
+autocmd BufNewFile Makefile 0r ~/Source/setvim/Makefile
 
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
@@ -345,8 +330,8 @@ vnoremap X "_X
 
 nnoremap <leader>x ""x
 nnoremap <leader>X ""X
-vnoremap <leader>s ""x
-vnoremap <leader>ss ""X
+vnoremap <leader>x ""x
+vnoremap <leader>X ""X
 "nnoremap <leader>s ""d
 "nnoremap <leader>ss ""dd
 "nnoremap <leader>S ""D
@@ -358,12 +343,11 @@ nnoremap dl d$
 nnoremap dh d^
 nnoremap yl y$
 nnoremap yh y^
-nnoremap <C-j> :bn<CR>
-nnoremap <C-k> :bp<CR>
-nnoremap <C-d> :bd<CR>
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
 nnoremap E ge
 
-nnoremap <C-l> <C-w>3>
-nnoremap <C-h> <C-w>3<
+nnoremap <C-j> <C-w>3>
+nnoremap <C-k> <C-w>3<
 nnoremap <C-q> :nohl<CR>
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"
