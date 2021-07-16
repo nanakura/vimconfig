@@ -2,7 +2,7 @@
 "export http_proxy="http://192.168.49.1:8282"
 "export https_proxy="http://192.168.49.1:8282"
 "add  apt-get proxy /etc/apt/apt.conf
-"Acquire::http::Proxy "http://192.168.49.1:8282";
+"Acquire::http::Proxy "http://192.168.49.1:8282";   zsh alanpeabody
 "git
 "git config --global http.proxy 'http://192.168.49.1:8282'
 "git config --global https.proxy 'http://192.168.49.1:8282'
@@ -300,6 +300,7 @@ let mapleader=","
 
 inoremap <leader>w <Esc>:w<CR>
 nnoremap <leader>w :w<CR>
+inoremap <C-i> <Esc>
 inoremap <C-e> <Up>
 inoremap <C-d> <Down>
 inoremap <C-s> <Left>
@@ -347,7 +348,7 @@ nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
 nnoremap E ge
 
-nnoremap <C-j> <C-w>3>
-nnoremap <C-k> <C-w>3<
+nnoremap <leader>l <C-w>3>
+nnoremap <leader>h <C-w>3<
 nnoremap <C-q> :nohl<CR>
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"
