@@ -204,12 +204,16 @@ let g:floaterm_autoclose = 1
 endif
 "------------------------------------------------------------------------------------------
 
-"函数高亮
-"syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2 
-"syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-"hi cFunctions term=underline cterm=bold ctermfg=14
-"syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
-"hi cClass term=underline cterm=bold ctermfg=14
+highlight GitGutterAdd    guifg=#009900 ctermfg=46
+highlight GitGutterChange guifg=#bbbb00 ctermfg=214
+highlight GitGutterDelete guifg=#ff2222 ctermfg=196
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '~'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_removed_above_and_below = '-'
+let g:gitgutter_sign_modified_removed = 'v'
+
 "设置c/cpp高亮
 highlight  LspCxxHlSymTypedef          ctermfg=226
 highlight  LspCxxHlSymPrimitive        ctermfg=226
@@ -232,30 +236,21 @@ highlight  Constant                    ctermfg=123
 highlight  cInclude                    ctermfg=172
 
 
-hi cppSTLnamespace ctermfg=226
-hi cppSTLconstant ctermfg=155
+highlight cppSTLnamespace ctermfg=226
+highlight cppSTLconstant ctermfg=155
 
 
-highlight GitGutterAdd    guifg=#009900 ctermfg=46
-highlight GitGutterChange guifg=#bbbb00 ctermfg=214
-highlight GitGutterDelete guifg=#ff2222 ctermfg=196
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '~'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_removed_above_and_below = '-'
-let g:gitgutter_sign_modified_removed = 'v'
 
 highlight PMenu              cterm=bold ctermfg=255 ctermbg=239
 highlight PMenuSel           ctermfg=255 ctermbg=235
 set cursorline
-highlight CursorLine         cterm=bold ctermbg=237
-highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=237
-hi SignColumn ctermbg=none
+highlight CursorLine         cterm=none ctermbg=238
+highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=238
+highlight SignColumn ctermbg=none
 
 highlight MatchParen ctermbg=000 guibg=lightblue
+highlight Search ctermfg=000 ctermbg=255
 "highlight Cursor guifg=15
-
 "nvim
 "~/.config/nvim/autoload/plug.vim   
 "~/.config/nvim/init.vim   // ~/.config/nvim/plugged 
@@ -300,7 +295,6 @@ let mapleader=","
 
 inoremap <leader>w <Esc>:w<CR>
 nnoremap <leader>w :w<CR>
-inoremap <C-i> <Esc>
 inoremap <C-e> <Up>
 inoremap <C-d> <Down>
 inoremap <C-s> <Left>
@@ -314,8 +308,10 @@ nnoremap <C-c> :NERDTreeClose<CR>
 nnoremap <C-o> :NERDTree<CR>
 
 nnoremap <leader>f :RnvimrToggle<CR>
-nnoremap <leader>t :FloatermNew<CR>
+
+"nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>c exit<CR>
+
 
 nnoremap x "_x
 nnoremap X "_X
@@ -347,8 +343,9 @@ nnoremap yh y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
 nnoremap E ge
+nnoremap s gd
 
 nnoremap <leader>l <C-w>3>
 nnoremap <leader>h <C-w>3<
-nnoremap <C-q> :nohl<CR>
+nnoremap q :nohl<CR>
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"
