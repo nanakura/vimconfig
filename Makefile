@@ -2,10 +2,12 @@
 CC=
 EXE=hello
 CFLAGS = -g -Wall
-PKG= pkg-config --libs libavformat libavutil libavcodec
-DPKG=
+ff= pkg-config --libs --static libavformat libavutil libavcodec
+gl= pkg-config --libs --static gl glew glfw3
 
-GREP=$(DPKG:.c=.o)
+Source=
+
+GREP=$(Source:.c=.o)
 helo:$(GREP)
 	$(CC) -o $(EXE) $(CFLAGS) $(GREP)
 	@echo '--------------------------OK------------------------------'
@@ -13,4 +15,4 @@ helo:$(GREP)
 	$(CC) -c -o $@ $<
 clean:
 	rm *.o
-	rm hello
+	rm $(EXE)

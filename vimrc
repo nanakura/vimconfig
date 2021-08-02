@@ -122,17 +122,18 @@ endif
 	"nvim
 	"高亮
 	if has('nvim')
-    "Plug 'kevinhwang91/rnvimr'
+    Plug 'kevinhwang91/rnvimr'
 	"pip3 install ranger-fm pynvim
 	"pip3 install ueberzug
 	"nvim +'checkhealth rnvimr'
 	else
-    "Plug 'voldikss/vim-floaterm'
+    Plug 'voldikss/vim-floaterm'
 	endif
 "
 call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -144,8 +145,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
 "-------------------------------------------------------------------------------------------"
 "nvim add
 "-----------------------------------------------------------------------------------------------------------------"
@@ -238,6 +242,7 @@ highlight  cInclude                    ctermfg=172
 
 highlight cppSTLnamespace ctermfg=226
 highlight cppSTLconstant ctermfg=155
+highlight Comment        ctermfg=159
 
 
 
@@ -249,7 +254,8 @@ highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=238
 highlight SignColumn ctermbg=none
 
 highlight MatchParen ctermbg=000 guibg=lightblue
-highlight Search ctermfg=000 ctermbg=255
+highlight Search ctermfg=000 ctermbg=33FF33
+highlight Visual ctermfg=000    ctermbg=255
 "highlight Cursor guifg=15
 "nvim
 "~/.config/nvim/autoload/plug.vim   
@@ -285,15 +291,12 @@ set cmdheight=1
 set hlsearch
 set backspace=indent,eol,start "设置back键
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
-autocmd BufNewFile makefile 0r ~/Source/setvim/Makefile
-autocmd BufNewFile Makefile 0r ~/Source/setvim/Makefile
 
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 let mapleader=","
 
-inoremap <leader>w <Esc>:w<CR>
 nnoremap <leader>w :w<CR>
 inoremap <C-e> <Up>
 inoremap <C-d> <Down>
@@ -307,9 +310,9 @@ inoremap <C-k> <Esc>d$a
 nnoremap <C-c> :NERDTreeClose<CR>
 nnoremap <C-o> :NERDTree<CR>
 
-nnoremap <leader>f :RnvimrToggle<CR>
+nnoremap <leader>r :RnvimrToggle<CR>
 
-"nnoremap <leader>t :FloatermNew<CR>
+nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>c exit<CR>
 
 
@@ -342,6 +345,7 @@ nnoremap yl y$
 nnoremap yh y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
+nnoremap <C-q> :bd<CR>
 nnoremap E ge
 nnoremap s gd
 
