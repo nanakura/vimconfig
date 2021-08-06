@@ -99,7 +99,7 @@ endif
 	"Plug 'vim-airline/vim-airline'
 	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-	Plug 'frazrepo/vim-rainbow'"括号高亮
+	"Plug 'frazrepo/vim-rainbow'"括号高亮
 	Plug 'jiangmiao/auto-pairs'"补全括号
 	Plug 'bling/vim-bufferline' "buffer显示
 	Plug 'preservim/nerdtree' "目录树
@@ -123,6 +123,7 @@ endif
 	"高亮
 	if has('nvim')
     Plug 'kevinhwang91/rnvimr'
+    Plug 'voldikss/vim-floaterm'
 	"pip3 install ranger-fm pynvim
 	"pip3 install ueberzug
 	"nvim +'checkhealth rnvimr'
@@ -238,7 +239,10 @@ highlight  cString                     ctermfg=172
 highlight  cppBoolean                  ctermfg=123
 highlight  Constant                    ctermfg=123
 highlight  cInclude                    ctermfg=172
-
+highlight cStatement                   ctermfg=40
+highlight cLabl                        ctermfg=40
+highlight cConditional                 ctermfg=40
+highlight cRepeat ctermfg=40
 
 highlight cppSTLnamespace ctermfg=226
 highlight cppSTLconstant ctermfg=155
@@ -249,18 +253,15 @@ highlight Comment        ctermfg=159
 highlight PMenu              cterm=bold ctermfg=255 ctermbg=239
 highlight PMenuSel           ctermfg=255 ctermbg=235
 set cursorline
-highlight CursorLine         cterm=none ctermbg=238
-highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=238
+highlight CursorLine         cterm=none ctermbg=235
+highlight CursorLineNr       cterm=bold,italic ctermfg=255 ctermbg=235
 highlight SignColumn ctermbg=none
 
 highlight MatchParen ctermbg=000 guibg=lightblue
 highlight Search ctermfg=000 ctermbg=33FF33
-highlight Visual ctermfg=000    ctermbg=255
-"highlight Cursor guifg=15
-"nvim
-"~/.config/nvim/autoload/plug.vim   
-"~/.config/nvim/init.vim   // ~/.config/nvim/plugged 
+highlight Visual ctermfg=000    ctermbg=239
 
+let mapleader=","
 set viminfo='1000,<500
 set clipboard=unnamed
 set numberwidth=3
@@ -283,8 +284,6 @@ set tabstop=4
 set cindent
 set expandtab "设置tab=space
 "set noexpandtab "设置spce=tab
-"browsedir=buffer  "用当前文件所在目录；
-"browsedir=current "用当前工作目录    
 set mouse-=a
 set nocompatible"不兼容vi模式
 set cmdheight=1
@@ -295,7 +294,6 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
-let mapleader=","
 
 nnoremap <leader>w :w<CR>
 inoremap <C-e> <Up>
@@ -313,30 +311,14 @@ nnoremap <C-o> :NERDTree<CR>
 nnoremap <leader>r :RnvimrToggle<CR>
 
 nnoremap <leader>t :FloatermNew<CR>
-tnoremap <leader>c exit<CR>
-
+tnoremap <leader>c exit<CR><CR>
 
 nnoremap x "_x
 nnoremap X "_X
 vnoremap x "_x
 vnoremap X "_X
-"nnoremap s "_d
-"nnoremap ss "_dd
-"nnoremap S "_D
-"nnoremap sh "_d^
-"nnoremap sl "_d$
-"vnoremap s "_d
-"vnoremap ss "_dd
-
-nnoremap <leader>x ""x
-nnoremap <leader>X ""X
-vnoremap <leader>x ""x
-vnoremap <leader>X ""X
-"nnoremap <leader>s ""d
-"nnoremap <leader>ss ""dd
-"nnoremap <leader>S ""D
-"nnoremap <leader>sh ""_d^
-"nnoremap <leader>sl ""_d$
+nnoremap d "_d
+vnoremap d "_d
 
 vnoremap q <Esc>
 nnoremap dl d$
@@ -349,7 +331,7 @@ nnoremap <C-q> :bd<CR>
 nnoremap E ge
 nnoremap s gd
 
-nnoremap <leader>l <C-w>3>
-nnoremap <leader>h <C-w>3<
+nnoremap zh <C-w>3>
+nnoremap zl <C-w>3<
 nnoremap q :nohl<CR>
 nnoremap <expr>m col(".")+1==col("$")?"^":"$"

@@ -1,4 +1,6 @@
+let mapleader=","
 set viminfo='1000,<500
+set clipboard=unnamed
 set numberwidth=3
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
@@ -25,52 +27,37 @@ set cmdheight=1
 set hlsearch
 set backspace=indent,eol,start "设置back键
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
-let mapleader=","
 
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap <leader>w <Esc>:w<CR>
+nnoremap <leader>w :w<CR>
 inoremap <C-e> <Up>
 inoremap <C-d> <Down>
 inoremap <C-s> <Left>
 inoremap <C-f> <Right>
 inoremap <C-l> <Right>
+inoremap <C-k> <Esc>d$a
 
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :wq<CR>
 nnoremap x "_x
 nnoremap X "_X
-nnoremap s "_d
-nnoremap ss "_dd
-nnoremap S "_D
-nnoremap sh "_d^
-nnoremap sl "_d$
-vnoremap s "_d
-vnoremap ss "_dd
 vnoremap x "_x
 vnoremap X "_X
-
-nnoremap <leader>x ""x
-nnoremap <leader>X ""X
-nnoremap <leader>s ""d
-nnoremap <leader>ss ""dd
-nnoremap <leader>S ""D
-nnoremap <leader>ss ""_d^
-nnoremap <leader>sf ""_d$
-vnoremap <leader>s ""d
-vnoremap <leader>ss ""dd
-vnoremap <leader>x ""x
-vnoremap <leader>X ""X
+nnoremap d "_d
+vnoremap d "_d
 
 vnoremap q <Esc>
 nnoremap dl d$
 nnoremap dh d^
 nnoremap yl y$
 nnoremap yh y^
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
+nnoremap <C-q> :bd<CR>
+nnoremap E ge
+nnoremap s gd
 
-nnoremap <C-y> "+yy
-nnoremap <C-p> "+p
-nnoremap <C-q> :nohl<CR>
-nnoremap <expr>m col(".")+1==col("$")?"^":"$"
+nnoremap zh <C-w>3>
+nnoremap zl <C-w>3<
+nnoremap q :nohl<CR>
