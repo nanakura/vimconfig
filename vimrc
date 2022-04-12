@@ -1,15 +1,3 @@
-"sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv
-"export http_proxy="http://192.168.49.1:8282"
-"export https_proxy="http://192.168.49.1:8282"
-"add  apt-get proxy /etc/apt/apt.conf
-"Acquire::http::Proxy "http://192.168.49.1:8282";   zsh alanpeabody
-"git
-"git config --global http.proxy 'http://192.168.49.1:8282'
-"git config --global https.proxy 'http://192.168.49.1:8282'
-"
-"export qlist=/home/one/Qtcreate/5.11.2/gcc_64/include
-"export qinclude=$qlist/Qt3DAnimation:$qlist/QtBluetooth:$qlist/QtGamepad:$qlist/QtNfc:$qlist/QtQuickParticles:$qlist/QtThemeSupport:$qlist/Qt3DCore:$qlist/QtConcurrent:$qlist/QtGlxSupport:$qlist/QtOpenGL:$qlist/QtQuickTemplates2:$qlist/QtUiPlugin:$qlist/Qt3DExtras:$qlist/QtCore:$qlist/QtGui:$qlist/QtOpenGLExtensions:$qlist/QtQuickTest:$qlist/QtUiTools:$qlist/Qt3DInput:$qlist/QtDBus:$qlist/QtHelp:$qlist/QtPacketProtocol:$qlist/QtQuickWidgets:$qlist/QtWaylandClient:$qlist/Qt3DLogic:$qlist/QtDesigner:$qlist/QtInputSupport:$qlist/QtPlatformCompositorSupport:$qlist/QtScxml:$qlist/QtWaylandCompositor:$qlist/Qt3DQuick:$qlist/QtDesignerComponents:$qlist/QtKmsSupport:$qlist/QtPlatformHeaders:$qlist/QtSensors:$qlist/QtWebChannel:$qlist/Qt3DQuickAnimation:$qlist/QtDeviceDiscoverySupport:$qlist/QtLinuxAccessibilitySupport:$qlist/QtPositioning:$qlist/QtSerialBus:$qlist/QtWebSockets:$qlist/Qt3DQuickExtras:$qlist/QtEdidSupport:$qlist/QtLocation:$qlist/QtPositioningQuick:$qlist/QtSerialPort:$qlist/QtWebView:$qlist/Qt3DQuickInput:$qlist/QtEglFSDeviceIntegration:$qlist/QtMultimedia:$qlist/QtPrintSupport:$qlist/QtServiceSupport:$qlist/QtWidgets:$qlist/Qt3DQuickRender:$qlist/QtEglSupport:$qlist/QtMultimediaGstTools:$qlist/QtQml:$qlist/QtSql:$qlist/QtX11Extras:$qlist/Qt3DQuickScene2D:$qlist/QtEventDispatcherSupport:$qlist/QtMultimediaQuick:$qlist/QtQmlDebug:$qlist/QtSvg:$qlist/QtXml:$qlist/Qt3DRender:$qlist/QtFbSupport:$qlist/QtMultimediaWidgets:$qlist/QtQuick:$qlist/QtTest:$qlist/QtXmlPatterns:$qlist/QtAccessibilitySupport:$qlist/QtFontDatabaseSupport:$qlist/QtNetwork:$qlist/QtQuickControls2:$qlist/QtTextToSpeech
-
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
@@ -46,27 +34,28 @@ autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTa
 wincmd w
 "autocmd VimEnter * wincmd w
 
-set statusline=%1*\%<%.50F\             "显示文件名和文件路径 (%<应该可以去掉)
-set statusline+=%=%2*\%y%m%r%h%w\ %*        "显示文件类型及文件状态
-set statusline+=%3*\%{&ff}\[%{&fenc}]\ %*   "显示文件编码类型
-set statusline+=%4*\Row:%l/%L:Col:%c\ %*  "显示光标所在行和列
-set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的比例
-hi User1 cterm=none,bold ctermfg=160 ctermbg=0
-hi User2 cterm=none,bold ctermfg=119 ctermbg=0
-hi User3 cterm=none,bold ctermfg=169 ctermbg=0
-hi User4 cterm=none,bold ctermfg=14 ctermbg=0
-hi User5 cterm=none,bold ctermfg=226 ctermbg=0
-function! InsertStatuslineColor(mode)
-    if a:mode != 'i'
-            hi User1 cterm=none,bold ctermfg=160 ctermbg=0
-        else
-                hi User1 cterm=none,bold ctermfg=41 ctermbg=0
-        endif
-    endfunction
-au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * hi User1 cterm=none,bold ctermfg=160 ctermbg=0
+"set statusline=%1*\%<%.50F\             "显示文件名和文件路径 (%<应该可以去掉)
+"set statusline+=%=%2*\%y%m%r%h%w\ %*        "显示文件类型及文件状态
+"set statusline+=%3*\%{&ff}\[%{&fenc}]\ %*   "显示文件编码类型
+"set statusline+=%4*\Row:%l/%L:Col:%c\ %*  "显示光标所在行和列
+"set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的比例
+"hi User1 cterm=none,bold ctermfg=160 ctermbg=0
+"hi User2 cterm=none,bold ctermfg=119 ctermbg=0
+"hi User3 cterm=none,bold ctermfg=169 ctermbg=0
+"hi User4 cterm=none,bold ctermfg=14 ctermbg=0
+"hi User5 cterm=none,bold ctermfg=226 ctermbg=0
+"function! InsertStatuslineColor(mode)
+"    if a:mode != 'i'
+"            hi User1 cterm=none,bold ctermfg=160 ctermbg=0
+"        else
+"                hi User1 cterm=none,bold ctermfg=41 ctermbg=0
+"        endif
+"    endfunction
+"au InsertEnter * call InsertStatuslineColor(v:insertmode)
+"au InsertLeave * hi User1 cterm=none,bold ctermfg=160 ctermbg=0
 
 "set airline && airthemes 状态栏美化
+"
 "let g:airline_theme="bubblegum"
 
 
@@ -80,15 +69,6 @@ let g:rainbow_load_separately = [
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 
-"set indentLine 缩进线
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline_theme="understated"
-"let g:airline_powerline_fonts = 1
-let g:indentLine_char='┆'
-let g:indentLine_enabled = 1
-let g:indentLine_noConcealCursor = 1
-let g:indentLine_color_term = 0
-let g:rainbow_active = 1
 "--------------------------------------------------------------------------------------"
 if has('nvim')
 call plug#begin('~/.config/nvim/plugged')
@@ -96,41 +76,13 @@ else
 call plug#begin('~/.vim/plugged')
 endif
 "call plug#begin('~/.config/nvim/plugged')
-	"Plug 'vim-airline/vim-airline'
-	"Plug 'vim-airline/vim-airline-themes' "状态栏美化
+	Plug 'vim-airline/vim-airline'
 	Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-	"Plug 'frazrepo/vim-rainbow'"括号高亮
 	Plug 'jiangmiao/auto-pairs'"补全括号
-	Plug 'bling/vim-bufferline' "buffer显示
 	Plug 'preservim/nerdtree' "目录树
-	Plug 'Yggdroot/indentLine',{'for':['c,cpp']}"缩进线
 	Plug 'preservim/nerdcommenter' "注释
-	Plug 'mg979/vim-visual-multi', {'branch':'master'} "多光标
-	Plug 'honza/vim-snippets' "片段补全
-	Plug 'ryanoasis/vim-devicons' "美化
-	
 	Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c,cpp']}
-    "Plug 'prabirshrestha/vim-lsp',{'for':['c,cpp']}
-    "Plug 'jackguo380/vim-lsp-cxx-highlight',{'for':['c,cpp']}
-	""clangd.semanticHighlighting": true
-	""clangd.disableDiagnostics": true
-	
-	"git
-	Plug 'airblade/vim-gitgutter'
-	Plug 'tpope/vim-fugitive'
-	Plug 'junegunn/gv.vim'
-	"nvim
-	"高亮
-	if has('nvim')
-    Plug 'kevinhwang91/rnvimr'
     Plug 'voldikss/vim-floaterm'
-	"pip3 install ranger-fm pynvim
-	"pip3 install ueberzug
-	"nvim +'checkhealth rnvimr'
-	else
-    Plug 'voldikss/vim-floaterm'
-	endif
-"
 call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc
@@ -152,72 +104,6 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 
 
 "-------------------------------------------------------------------------------------------"
-"nvim add
-"-----------------------------------------------------------------------------------------------------------------"
-if has('nvim')
-"vim.g.loade_python_provider=0
-let g:rnvimr_enable_ex = 1
-let g:rnvimr_enable_picker = 1
-let g:rnvimr_draw_border = 0
-let g:rnvimr_hide_gitignore = 1
-let g:rnvimr_border_attr = {'fg': 14, 'bg': -1}
-let g:rnvimr_enable_bw = 1
-let g:rnvimr_shadow_winblend = 50
-let g:rnvimr_ranger_cmd = 'ranger --cmd="set draw_borders both"'
-highlight link RnvimrNormal CursorLine
-let g:ranger_map_keys = 0
-let g:rnvimr_action = {
-            \ '<C-t>': 'NvimEdit tabedit',
-            \ '<C-x>': 'NvimEdit split',
-            \ '<C-v>': 'NvimEdit vsplit',
-            \ 'gw': 'JumpNvimCwd',
-            \ 'yw': 'EmitRangerCwd'
-            \ }
-let g:rnvimr_ranger_views = [
-            \ {'minwidth': 50, 'ratio': []},
-            \ {'minwidth': 30, 'maxwidth': 70, 'ratio': [1,1]},
-            \ {'maxwidth': 25, 'ratio': [1]}
-            \ ]
-let g:rnvimr_layout = {
-            \ 'relative': 'editor',
-            \ 'width': float2nr(round(0.7 * &columns)),
-            \ 'height': float2nr(round(0.7 * &lines)),
-            \ 'col': float2nr(round(0.15 * &columns)),
-            \ 'row': float2nr(round(0.15 * &lines)),
-            \ 'style': 'minimal'
-            \ }
-let g:rnvimr_presets = [
-            \ {'width': 0.600, 'height': 0.600},
-            \ {},
-            \ {'width': 0.800, 'height': 0.800},
-            \ {'width': 0.950, 'height': 0.950},
-            \ {'width': 0.500, 'height': 0.500, 'col': 0, 'row': 0},
-            \ {'width': 0.500, 'height': 0.500, 'col': 0, 'row': 0.5},
-            \ {'width': 0.500, 'height': 0.500, 'col': 0.5, 'row': 0},
-            \ {'width': 0.500, 'height': 0.500, 'col': 0.5, 'row': 0.5},
-            \ {'width': 0.500, 'height': 1.000, 'col': 0, 'row': 0},
-            \ {'width': 0.500, 'height': 1.000, 'col': 0.5, 'row': 0},
-            \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0},
-            \ {'width': 1.000, 'height': 0.500, 'col': 0, 'row': 0.5}
-            \ ]
-else
-let g:floaterm_width=0.6
-let g:floaterm_height=0.6
-au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
-let g:floaterm_title = ''
-let g:floaterm_autoclose = 1
-endif
-"------------------------------------------------------------------------------------------
-
-highlight GitGutterAdd    guifg=#009900 ctermfg=46
-highlight GitGutterChange guifg=#bbbb00 ctermfg=214
-highlight GitGutterDelete guifg=#ff2222 ctermfg=196
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '~'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_removed_above_and_below = '-'
-let g:gitgutter_sign_modified_removed = 'v'
 
 "设置c/cpp高亮
 highlight  LspCxxHlSymTypedef          ctermfg=226
@@ -296,19 +182,12 @@ let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 nnoremap <leader>w :w<CR>
-inoremap <C-e> <Up>
-inoremap <C-d> <Down>
-inoremap <C-s> <Left>
-inoremap <C-f> <Right>
 inoremap <C-l> <Right>
 inoremap <> <><Left>
 inoremap << <<
-inoremap <C-k> <Esc>d$a
 
 nnoremap <C-c> :NERDTreeClose<CR>
 nnoremap <C-o> :NERDTree<CR>
-
-nnoremap <leader>r :RnvimrToggle<CR>
 
 nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>c exit<CR><CR>
@@ -321,13 +200,9 @@ nnoremap d "_d
 vnoremap d "_d
 
 vnoremap q <Esc>
-nnoremap dl d$
-nnoremap dh d^
-nnoremap yl y$
-nnoremap yh y^
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
-nnoremap <C-q> :bd<CR>
+
 nnoremap E ge
 nnoremap s gd
 
