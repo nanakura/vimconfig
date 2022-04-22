@@ -1,17 +1,40 @@
+--linux-~.config/nvim/init.lua
+--git clone --depth 1 https://github.com/wbthomason/packer.nvim\ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+--windows   ~/AppData\Local\nvim\init.lua
+-- git clone https://github.com/wbthomason/packer.nvim "~\AppData\Local\nvim-data\site\pack\packer\start"
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  use 'nvim-lualine/lualine.nvim'
-  use 'neovim/nvim-lspconfig'
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'L3MON4D3/LuaSnip' 
-  use 'mjlbach/onedark.nvim'  
-  use 'max-0406/autoclose.nvim'
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'voldikss/vim-floaterm'
-  use 'onsails/lspkind-nvim'
+ 
+  use 'nvim-lualine/lualine.nvim'--状态栏
   
+  use 'mjlbach/onedark.nvim'  --主题
+  
+  use 'nvim-treesitter/nvim-treesitter'--高亮
 
+  use {--butter插件
+  'romgrk/barbar.nvim',
+  requires = {'kyazdani42/nvim-web-devicons'}
+    }
+
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- 书目录
+    }
+ }
+ use 'b3nj5m1n/kommentary'--注释
+ 
+ --括号补全
+ use {'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end}
+ 
+ --补全
+  use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
+  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'saadparwaiz1/cmp_luasnip'
+  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use 'onsails/lspkind.nvim'
 end)
 
 vim.o.tabstop=4
@@ -20,8 +43,9 @@ vim.o.softtabstop=4
 vim.o.shiftwidth=4
 vim.o.scrolloff=4
 vim.o.sidescrolloff=4
+vim.g.mapleader = ','
+vim.g.maplocalleader = ','
 vim.wo.cursorline=true
-
 vim.o.autoindent=true
 
 
@@ -39,11 +63,7 @@ vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
 vim.cmd [[colorscheme onedark]]
 
--- init.lua
-
-
-
---Set statusbar
+--Set statusbar状态栏
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -73,68 +93,139 @@ require('lualine').setup {
   tabline = {},
   extensions = {}
 }
+------------------------------------------------------------------------------------------------------------
+--nvim-tree
+require'nvim-tree'.setup {
+}
+require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
+  auto_reload_on_write = true,
+  disable_netrw = false,
+  hide_root_folder = false,
+  hijack_cursor = false,
+  hijack_netrw = true,
+  hijack_unnamed_buffer_when_opening = false,
+  ignore_buffer_on_setup = false,
+  open_on_setup = false,
+  open_on_setup_file = false,
+  open_on_tab = false,
+  sort_by = "name",
+  update_cwd = false,
+  view = {
+    width = 30,
+    height = 30,
+    side = "left",
+    preserve_window_proportions = false,
+    number = false,
+    relativenumber = false,
+    signcolumn = "yes",
+    mappings = {
+      custom_only = false,
+      list = {
+        -- user mappings go here
+      },
+    },
+  },
+  renderer = {
+    indent_markers = {
+      enable = false,
+      icons = {
+        corner = "└ ",
+        edge = "│ ",
+        none = "  ",
+      },
+    },
+  },
+  hijack_directories = {
+    enable = true,
+    auto_open = true,
+  },
+  update_focused_file = {
+    enable = false,
+    update_cwd = false,
+    ignore_list = {},
+  },
+  ignore_ft_on_setup = {},
+  system_open = {
+    cmd = nil,
+    args = {},
+  },
+  diagnostics = {
+    enable = false,
+    show_on_dirs = false,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    },
+  },
+  filters = {
+    dotfiles = false,
+    custom = {},
+    exclude = {},
+  },
+  git = {
+    enable = true,
+    ignore = true,
+    timeout = 400,
+  },
+  actions = {
+    use_system_clipboard = true,
+    change_dir = {
+      enable = true,
+      global = false,
+    },
+    open_file = {
+      quit_on_open = false,
+      resize_window = false,
+      window_picker = {
+        enable = true,
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        exclude = {
+          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+          buftype = { "nofile", "terminal", "help" },
+        },
+      },
+    },
+  },
+  trash = {
+    cmd = "trash",
+    require_confirm = true,
+  },
+  log = {
+    enable = false,
+    truncate = false,
+    types = {
+      all = false,
+      config = false,
+      copy_paste = false,
+      git = false,
+      profile = false,
+    },
+  },
+} -- END_DEFAULT_OPTS
+vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
 
--- Highlight on yank
-vim.cmd [[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup end
-]]
+--------------------------------------------------------------------------------------------------------------
+-- Treesitter configuration 高亮
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "c", "go", "cpp" },
+  sync_install = false,
+  ignore_install = { "javascript" },
 
--- Treesitter configuration
--- Parsers must be installed manually via :TSInstall
-require('nvim-treesitter.configs').setup {
   highlight = {
-    enable = true, -- false will disable the whole extension
-  },
-  incremental_selection = {
     enable = true,
-    keymaps = {
-      init_selection = 'gnn',
-      node_incremental = 'grn',
-      scope_incremental = 'grc',
-      node_decremental = 'grm',
-    },
-  },
-  indent = {
-    enable = true,
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
+    disable = { "c", "rust" },
+    additional_vim_regex_highlighting = false,
   },
 }
-
+----------------------------------------
+--注释
+require('kommentary.config').use_extended_mappings()
+vim.api.nvim_set_keymap("n", "<leader>cc", "<Plug>kommentary_line_increase", {})
+vim.api.nvim_set_keymap("x", "<leader>c", "<Plug>kommentary_visual_increase", {})
+vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
+vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {})
 
 
 -- LSP settings
@@ -142,7 +233,7 @@ local lspconfig = require 'lspconfig'
 local on_attach = function(_, bufnr)
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'm', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -160,7 +251,6 @@ end
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
 -- Enable the following language servers
 local servers = { 'clangd','gopls','pyright'}
 for _, lsp in ipairs(servers) do
@@ -169,12 +259,11 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
-
 -------------------------------------------------------------------------------------------
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = 'error', -- Could be '●', '▎', 'x'
+    prefix = '✘', -- Could be '●', '▎', 'x'
   }
 })
 local lspkind = require('lspkind')
@@ -199,6 +288,10 @@ cmp.setup {
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<C-l>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
@@ -235,5 +328,23 @@ cmp.setup {
     })
   },
 }
+---------------------------------------------------------------------------------------
+--自定义快捷键
+vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
+vim.api.nvim_set_keymap("n", "<leader>k", ":bp<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>j", ":bn<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>t", ":vsplit term://cmd<CR>", {})
+vim.api.nvim_set_keymap("t", "<leader>c", "exit<CR><CR>", {})
 
+
+vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
+vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
+
+vim.api.nvim_set_keymap("n", "Y", '"+yy', {})
+vim.api.nvim_set_keymap("n", "P", '"+p', {})
+vim.api.nvim_set_keymap("v", "Y", '"+y', {})
+vim.api.nvim_set_keymap("v", "P", '"+p', {})
+
+vim.api.nvim_set_keymap("n", "zl", "<C-w>3>", {})
 
