@@ -3,18 +3,19 @@
 let mapleader=","
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
-	Plug 'vim-airline/vim-airline'"状态栏
-	Plug 'vim-airline/vim-airline-themes'
+   Plug 'vim-airline/vim-airline'"状态栏
+   Plug 'vim-airline/vim-airline-themes'
 	
-	Plug 'preservim/nerdtree' "目录树
-	Plug 'ryanoasis/vim-devicons'
+    Plug 'preservim/nerdtree' "目录树
+    Plug 'ryanoasis/vim-devicons'
 	
-	Plug 'preservim/nerdcommenter' "注释
-	Plug 'octol/vim-cpp-enhanced-highlight' "高亮
+    Plug 'preservim/nerdcommenter' "注释
+    Plug 'octol/vim-cpp-enhanced-highlight' "高亮
     Plug 'voldikss/vim-floaterm' "终端
     Plug 'bling/vim-bufferline' "butter显示
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-	Plug 'jiangmiao/auto-pairs'"补全括号
+    Plug 'jiangmiao/auto-pairs'"补全括号
+    Plug 'tyrannicaltoucan/vim-quantum'"主题
     
 call plug#end()
 "-------------------------------------------------------------------------------------------"
@@ -31,6 +32,7 @@ function! s:check_back_space() abort
 endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nmap <silent> m <Plug>(coc-definition)
 "-------------------------------------------------------------------------------------------"
 
 "auto-pairs 括号补全
@@ -81,8 +83,8 @@ autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTa
 "autocmd VimEnter * NERDTree
 wincmd w
 "autocmd VimEnter * wincmd w
-nnoremap <C-c> :NERDTreeClose<CR>
-nnoremap <C-o> :NERDTree<CR>
+nnoremap <leader>c :NERDTreeClose<CR>
+nnoremap <leader>e :NERDTree<CR>
 "----------------------------------------------------------------------------------------------------"
 " vim-cpp-enhanced-highlight高亮
 
@@ -104,7 +106,11 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 "------------------------------------------------------------------------------------------------------"
 "vim-airline'"状态栏
-let g:airline_theme='simple'
+let g:airline_theme='quantum'
+"tyrannicaltoucan/vim-quantum "主题\
+set background=dark
+set termguicolors
+colorscheme quantum
 "-----------------------------------------------------------------------------------------------
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
