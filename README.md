@@ -1,6 +1,6 @@
-# vim and neovim settings
-# SauceCodePro NF || Sauce Code Pro
-## vim settings
+# vim and neovim config
+# install SauceCodePro NF || Sauce Code Pro
+## vim config
 1. install plug.vim
 file pos windows ~/vimfiles/autoload/plug.vim  linux ~/.vim/autoload/plug.vim
 linux
@@ -17,7 +17,7 @@ iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
 linux file pos ~/.vimrc
 3. PlugInstall
 
-## nvim setsettings
+## nvim config
 1. install packer.nvim
 2. linux     run `git clone --depth 1 https://github.com/wbthomason/packer.nvim\ ~/.local/share/nvim/site/pack/packer/start/packer.nvim`
 3. windows   run `git clone https://github.com/wbthomason/packer.nvim "~\AppData\Local\nvim-data\site\pack\packer\start"`
