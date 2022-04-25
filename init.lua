@@ -25,9 +25,6 @@ require('packer').startup(function(use)
  }
  use 'b3nj5m1n/kommentary'--注释
  
- --括号补全
- use {'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end}
- 
  --补全
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
