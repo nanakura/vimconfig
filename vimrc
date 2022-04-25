@@ -1,5 +1,8 @@
 "windows ~/_vimrc linux ~/.vimrc
 "windows ~/vimfiles/autoload  linux ~/.vim/autoload
+
+ "{clangd.semanticHighlighting": true, coc.preferences.semanticTokensHighlights": false} 
+   
 let mapleader=","
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
@@ -10,12 +13,20 @@ call plug#begin('~/.vim/plugged')
     Plug 'ryanoasis/vim-devicons'
 	
     Plug 'preservim/nerdcommenter' "注释
+    
     Plug 'octol/vim-cpp-enhanced-highlight' "高亮
+    Plug 'jackguo380/vim-lsp-cxx-highlight'
+    
     Plug 'voldikss/vim-floaterm' "终端
+    
     Plug 'bling/vim-bufferline' "butter显示
+    
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+    
     Plug 'jiangmiao/auto-pairs'"补全括号
+    
     Plug 'tyrannicaltoucan/vim-quantum'"主题
+    
     
 call plug#end()
 "-------------------------------------------------------------------------------------------"
