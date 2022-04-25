@@ -159,9 +159,9 @@ set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 set scrolloff=2
 set ignorecase "搜索忽略大小写
 "autocmd VimEnter * NoMatchParen "取消括号高亮匹配
-set noerrorbells "关闭提示音
-set novisualbell
-set t_vb=
+set noeb
+set vb
+set vb t_vb=
 set tm=500
 set number
 "set relativenumber
