@@ -4,6 +4,7 @@
  "{clangd.semanticHighlighting": true, coc.preferences.semanticTokensHighlights": false} 
    
 let mapleader=","
+set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
    Plug 'vim-airline/vim-airline'"状态栏
