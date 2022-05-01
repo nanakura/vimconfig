@@ -24,6 +24,7 @@ require('packer').startup(function(use)
     }
  }
  use 'b3nj5m1n/kommentary'--注释
+ use "steelsojka/pears.nvim"
  
  --补全
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
@@ -33,7 +34,6 @@ require('packer').startup(function(use)
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use 'onsails/lspkind.nvim'
 end)
-
 vim.o.tabstop=4
 vim.bo.tabstop=4
 vim.o.softtabstop=4
@@ -44,8 +44,6 @@ vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 vim.wo.cursorline=true
 vim.o.autoindent=true
-
-
 vim.o.shiftround=true
 vim.o.hlsearch = false
 vim.wo.number = true
@@ -92,12 +90,9 @@ require('lualine').setup {
 }
 ------------------------------------------------------------------------------------------------------------
 --nvim-tree
-require'nvim-tree'.setup {
-}
 require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
   disable_netrw = false,
-  hide_root_folder = false,
   hijack_cursor = false,
   hijack_netrw = true,
   hijack_unnamed_buffer_when_opening = false,
@@ -206,13 +201,15 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
 --------------------------------------------------------------------------------------------------------------
 -- Treesitter configuration 高亮
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "go", "cpp" },
-  sync_install = false,
-  ignore_install = { "javascript" },
+  ensure_installed = { "c", "cpp", "lua", "rust" },
 
+  sync_install = false,
+
+  ignore_install = { "javascript" },
   highlight = {
     enable = true,
-    disable = { "c", "rust" },
+   -- disable = { "c", "rust" },
+
     additional_vim_regex_highlighting = false,
   },
 }
@@ -326,6 +323,12 @@ cmp.setup {
   },
 }
 ---------------------------------------------------------------------------------------
+require "pears".setup(function(conf)
+  conf.pair("{", "}")
+  conf.expand_on_enter(false)
+end)
+
+
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<leader>b", ":bp<CR>", {})
