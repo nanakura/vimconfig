@@ -27,12 +27,15 @@ require('packer').startup(function(use)
  use "steelsojka/pears.nvim"
  
  --补全
-  use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use 'onsails/lspkind.nvim'
+  use 'neovim/nvim-lspconfig'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/nvim-cmp'
+  use 'L3MON4D3/LuaSnip'
+  use 'saadparwaiz1/cmp_luasnip'
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -221,7 +224,20 @@ vim.api.nvim_set_keymap("x", "<leader>c", "<Plug>kommentary_visual_increase", {}
 vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
 vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {})
 
+------------------------------------------------------------------------------------------
+require("nvim-treesitter.configs").setup {
+  highlight = {
+      -- ...
+  },
+  -- ...
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
+}
 
+-------------------------------------------------------------------------------------------
 -- LSP settings
 local lspconfig = require 'lspconfig'
 local on_attach = function(_, bufnr)
@@ -241,173 +257,94 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
-
--- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 -- Enable the following language servers
-local servers = { 'clangd','gopls','pyright'}
+local servers = { 'clangd', 'rust_analyzer','gopls'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
+-----------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
-
-vim.diagnostic.config({
-  virtual_text = {
-    prefix = '✘', -- Could be '●', '▎', 'x'
-  }
-})
-local lspkind = require('lspkind')
---------------------------------------------------------------------------------------------
-
-
 -- luasnip setup
 local luasnip = require 'luasnip'
 -- nvim-cmp setup
-vim.o.completeopt = 'menuone,noselect'
--- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
--- local cmp = require'cmp'
--- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
-    return
-end
-
-local has_words_before = function()
-    if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then
-        return false
-    end
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line-1, line, true)[1]:sub(col, col):match('%s') == nil
-end
-
--- Add lspkind
-local lspkind = require('lspkind')
--- local luasnip = require('luasnip')
-
-local source_mapping = {
-    -- buffer = "[Buffer]",
-    nvim_lsp = "[LSP]",
-    nvim_lua = "[Lua]",
-    cmp_tabnine = "[TN]",
-    path = "[Path]",
-    emoji = "[Emoji]",
-    look = "[Dict]",
-    calc = "[Calc]",
-    vsnip = "[vsnip]",
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
 }
 
-
-cmp.setup({
-    enabled = function()
-        if require"cmp.config.context".in_treesitter_capture("comment")==true or require"cmp.config.context".in_syntax_group("Comment") then
-            return false
-        else
-            return true
-        end
-    end,
-    snippet = {
-        -- REQUIRED - you must specify a snippet engine
-        expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-        end,
-    },
---   formatting = {
--- format = require'lspkind'.cmp_format({
---   mode = 'symbol_text',
---   maxwidth = 50,
--- })
--- },
-    formatting = {
-            format = lspkind.cmp_format{
-                mode = 'symbol_text', -- show only symbol annotations
-                maxwidth = 100, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-
-                -- The function below will be called before any actual modifications from lspkind
-                -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-                before = function(entry, vim_item)
-                    vim_item.kind = lspkind.presets.default[vim_item.kind]
-                    local menu = source_mapping[entry.source.name]
-                    if entry.source.name == 'cmp_tabnine' then
-                        if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                            menu = entry.completion_item.data.detail .. ' ' .. menu
-                        end
-                        vim_item.kind = ''
-                    end
-                    vim_item.menu = menu
-                    return vim_item
+local lspkind = require('lspkind')
+    cmp.setup {
+        formatting = {
+            format = lspkind.cmp_format({
+                mode = 'symbol',
+                maxwidth = 50, 
+                before = function (entry, vim_item)
+                  return vim_item
                 end
-            }
-    },
-    mapping = {
-        -- ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        -- ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        ['<C-b>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        ['<C-f>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        ['<C-e>'] = cmp.mapping({
-            i = cmp.mapping.abort(),
-            c = cmp.mapping.close(),
-        }),
-        ['<CR>'] = cmp.mapping.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ['<Tab>'] = function(fallback)  -- see GH-231, GH-286
-            if cmp.visible() then cmp.select_next_item()
-            elseif has_words_before() then cmp.complete()
-            else fallback() end
-        end,
-        ['<S-Tab>'] = function(fallback)
-            if cmp.visible() then cmp.select_prev_item()
-            else fallback() end
-        end,
-    },
+            })
+        }
+    }
+    
+  --------------------------------------------------------------------------------------------
+    cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
     sources = {
-        { name = "nvim_lsp", priority = 100}, -- Keep LSP results on top.
-        { name = "nvim_lua" },
-        { name = 'vsnip' }, -- For vsnip users.
-        -- { name = "luasnip" },
-        -- { name = "buffer" ,keyword_pattern = [[\k]] ,priority = 90},
-        { name = "cmp_tabnine" , priority = 15},
-        { name = "path" },
-        {name = 'emoji', insert = true},
-        {
-            name = 'look',
-            priority = 1,
-            keyword_length = 5,
-            option = {
-                convert_case = true,
-                loud = true
-                --dict = '/usr/share/dict/words'
-            }
-        },
-        { name = 'calc' },
-        {name = 'nvim_lsp_signature_help'},
-    },
-  confirm_opts = {
-    behavior = cmp.ConfirmBehavior.Replace,
-    select = false,
-    },
-    preselect = cmp.PreselectMode.Item,
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
+      { name = 'buffer' }
+    }
+  })
 
-    experimental = {
-        ghost_text = true,
-        native_menu = false,
-    },
-})
-
+require "pears".setup(function(conf)
+  conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua"}})
+end)
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
