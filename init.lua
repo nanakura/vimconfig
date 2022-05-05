@@ -27,7 +27,6 @@ require('packer').startup(function(use)
  use "steelsojka/pears.nvim"
  
  --补全
-  use 'onsails/lspkind.nvim'
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
@@ -36,6 +35,7 @@ require('packer').startup(function(use)
   use 'hrsh7th/nvim-cmp'
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
+  use 'onsails/lspkind.nvim'
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -225,17 +225,9 @@ vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
 vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {})
 
 ------------------------------------------------------------------------------------------
-require("nvim-treesitter.configs").setup {
-  highlight = {
-      -- ...
-  },
-  -- ...
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-    max_file_lines = nil,
-  }
-}
+require "pears".setup(function(conf)
+  conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua"}})
+end)
 
 -------------------------------------------------------------------------------------------
 -- LSP settings
@@ -267,11 +259,68 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+local function goto_definition(split_cmd)
+  local util = vim.lsp.util
+  local log = require("vim.lsp.log")
+  local api = vim.api
+
+  -- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
+  local handler = function(_, result, ctx)
+    if result == nil or vim.tbl_isempty(result) then
+      local _ = log.info() and log.info(ctx.method, "No location found")
+      return nil
+    end
+
+    if split_cmd then
+      vim.cmd(split_cmd)
+    end
+
+    if vim.tbl_islist(result) then
+      util.jump_to_location(result[1])
+
+      if #result > 1 then
+        util.set_qflist(util.locations_to_items(result))
+        api.nvim_command("copen")
+        api.nvim_command("wincmd p")
+      end
+    else
+      util.jump_to_location(result)
+    end
+  end
+
+  return handler
+end
+
+--在悬停窗口中自动显示线路诊断
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+vim.lsp.handlers["textDocument/definition"] = goto_definition('split')
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●', -- Could be '', '▎', 'x'
+  }
+})
+
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+})
 
 -----------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
 -- luasnip setup
 local luasnip = require 'luasnip'
+
+
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
@@ -280,6 +329,10 @@ cmp.setup {
       luasnip.lsp_expand(args.body)
     end,
   },
+   window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
   mapping = cmp.mapping.preset.insert({
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -314,17 +367,17 @@ cmp.setup {
 }
 
 local lspkind = require('lspkind')
-    cmp.setup {
-        formatting = {
-            format = lspkind.cmp_format({
-                mode = 'symbol',
-                maxwidth = 50, 
-                before = function (entry, vim_item)
-                  return vim_item
-                end
-            })
-        }
-    }
+cmp.setup {
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol',
+      maxwidth = 50, 
+      before = function (entry, vim_item)
+        return vim_item
+      end
+    })
+  }
+}
     
   --------------------------------------------------------------------------------------------
     cmp.setup.filetype('gitcommit', {
@@ -342,9 +395,6 @@ local lspkind = require('lspkind')
     }
   })
 
-require "pears".setup(function(conf)
-  conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua"}})
-end)
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
