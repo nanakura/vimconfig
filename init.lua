@@ -24,7 +24,47 @@ require('packer').startup(function(use)
     }
  }
  use 'b3nj5m1n/kommentary'--注释
- use "steelsojka/pears.nvim"
+ use 'steelsojka/pears.nvim'
+ use 'numToStr/FTerm.nvim'
+ 
+   use({--ui
+    'CosmicNvim/cosmic-ui',
+    requires = { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('cosmic-ui').setup()
+      {
+		 -- 'single', 'double', 'rounded', 'solid', 'shadow'
+  border_style = 'single',
+
+  -- rename popup settings
+  rename = {
+    border = {
+      highlight = 'FloatBorder',
+      style = 'single',
+      title = ' Rename ',
+      title_align = 'left',
+      title_hl = 'FloatBorder',
+    },
+    prompt = '> ',
+    prompt_hl = 'Comment',
+  },
+
+  code_actions = {
+    min_width = nil,
+    border = {
+      bottom_hl = 'FloatBorder',
+      highlight = 'FloatBorder',
+      style = 'single',
+      title = 'Code Actions',
+      title_align = 'center',
+      title_hl = 'FloatBorder',
+    },
+  }
+      }
+    end,
+  })
+ 
+ use 'lukas-reineke/indent-blankline.nvim'
  
  --补全
   use 'neovim/nvim-lspconfig'
@@ -229,6 +269,37 @@ require "pears".setup(function(conf)
   conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua"}})
 end)
 
+---------------------------------------------------------------------------------------------------
+-------------------------blankline
+require('indent_blankline').setup {
+  char = '┊',
+  show_trailing_blankline_indent = false,
+}
+--Fterm
+require'FTerm'.setup({
+    border = 'double',
+    dimensions  = {
+        height = 0.5,
+        width = 0.5,
+    },
+})
+-- Example keybindings
+vim.keymap.set('n', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
+vim.keymap.set('t', '<C-c>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+-------------------------------------------------------------------------------------------
+function map(mode, lhs, rhs, opts)
+  local options = { noremap = true, silent = true }
+  if opts then
+    options = vim.tbl_extend('force', options, opts)
+  end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+map('n', 'gn', '<cmd>lua require("cosmic-ui").rename()<cr>')
+map('n', '<leader>g', '<cmd>lua require("cosmic-ui").code_actions()<cr>')
+map('v', '<leader>g', '<cmd>lua require("cosmic-ui").range_code_actions()<cr>')
+
+
 -------------------------------------------------------------------------------------------
 -- LSP settings
 local lspconfig = require 'lspconfig'
@@ -394,6 +465,12 @@ cmp.setup {
       { name = 'buffer' }
     }
   })
+  
+  require'cmp'.setup.cmdline(':', {
+  sources = {
+    { name = 'cmdline' }
+  }
+})
 
 
 --自定义快捷键
@@ -401,8 +478,8 @@ vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<leader>b", ":bp<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>f", ":bn<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>t", ":vsplit term://cmd<CR>", {})
-vim.api.nvim_set_keymap("t", "<leader>c", "exit<CR><CR>", {})
+--vim.api.nvim_set_keymap("n", "<leader>t", ":vsplit term://cmd<CR>", {})
+--vim.api.nvim_set_keymap("t", "<leader>c", "exit<CR><CR>", {})
 
 
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
