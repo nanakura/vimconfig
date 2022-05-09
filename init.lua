@@ -482,7 +482,7 @@ require('gitsigns').setup {
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<leader>b", ":bp<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>f", ":bn<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>d", ":bp | bd<CR>", {})
 --vim.api.nvim_set_keymap("n", "<leader>t", ":vsplit term://cmd<CR>", {})
 --vim.api.nvim_set_keymap("t", "<leader>c", "exit<CR><CR>", {})
 
