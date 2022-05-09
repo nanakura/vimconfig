@@ -202,7 +202,7 @@ vnoremap q <Esc>
 
 nnoremap <leader>f :bn<CR>
 nnoremap <leader>b :bp<CR>
-nnoremap <leader>d :bp | bd<CR>
+nnoremap <leader>d :bd<CR>
 
 nnoremap Y "+yy
 nnoremap P "+p
