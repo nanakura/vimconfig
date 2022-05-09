@@ -126,7 +126,7 @@ colorscheme quantum
 "-----------------------------------------------------------------------------------------------
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
-tnoremap <leader>c exit<CR><CR>
+tnoremap <leader>d exit<CR><CR>
 
 "设置c/cpp高亮
 
@@ -170,10 +170,10 @@ set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 set scrolloff=2
 set ignorecase "搜索忽略大小写
-"autocmd VimEnter * NoMatchParen "取消括号高亮匹配
-set noeb
-set vb
-set vb t_vb=
+autocmd VimEnter * NoMatchParen "取消括号高亮匹配
+" set noeb
+" set vb
+" set vb t_vb=
 set tm=500
 set number
 "set relativenumber

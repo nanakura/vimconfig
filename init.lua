@@ -26,46 +26,9 @@ require('packer').startup(function(use)
  use 'b3nj5m1n/kommentary'--注释
  use 'steelsojka/pears.nvim'
  use 'numToStr/FTerm.nvim'
- 
-   use({--ui
-    'CosmicNvim/cosmic-ui',
-    requires = { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' },
-    config = function()
-      require('cosmic-ui').setup()
-      {
-		 -- 'single', 'double', 'rounded', 'solid', 'shadow'
-  border_style = 'single',
-
-  -- rename popup settings
-  rename = {
-    border = {
-      highlight = 'FloatBorder',
-      style = 'single',
-      title = ' Rename ',
-      title_align = 'left',
-      title_hl = 'FloatBorder',
-    },
-    prompt = '> ',
-    prompt_hl = 'Comment',
-  },
-
-  code_actions = {
-    min_width = nil,
-    border = {
-      bottom_hl = 'FloatBorder',
-      highlight = 'FloatBorder',
-      style = 'single',
-      title = 'Code Actions',
-      title_align = 'center',
-      title_hl = 'FloatBorder',
-    },
-  }
-      }
-    end,
-  })
- 
  use 'lukas-reineke/indent-blankline.nvim'
- 
+ use 'lewis6991/gitsigns.nvim'
+
  --补全
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -244,7 +207,7 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
 --------------------------------------------------------------------------------------------------------------
 -- Treesitter configuration 高亮
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "cpp", "lua", "rust" },
+  ensure_installed = { "c", "cpp", "lua", "rust","go","html","python","cmake" },
 
   sync_install = false,
 
@@ -266,7 +229,7 @@ vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {}
 
 ------------------------------------------------------------------------------------------
 require "pears".setup(function(conf)
-  conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua"}})
+  conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua","json","cmake","sh"}})
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -275,17 +238,17 @@ require('indent_blankline').setup {
   char = '┊',
   show_trailing_blankline_indent = false,
 }
+-----------------------------------------------------------------------------------------------------
 --Fterm
 require'FTerm'.setup({
     border = 'double',
     dimensions  = {
-        height = 0.5,
-        width = 0.5,
+        height = 0.7,
+        width = 0.7,
     },
 })
--- Example keybindings
-vim.keymap.set('n', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
-vim.keymap.set('t', '<C-c>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
+vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 -------------------------------------------------------------------------------------------
 function map(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
@@ -322,8 +285,8 @@ local on_attach = function(_, bufnr)
 end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
--- Enable the following language servers
-local servers = { 'clangd', 'rust_analyzer','gopls'}
+-- Enable the following language servers lua-language-servers
+local servers = { 'clangd' , 'rust_analyzer' , 'gopls'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -471,6 +434,48 @@ cmp.setup {
     { name = 'cmdline' }
   }
 })
+----------------------------------------------------------------------------------------------
+require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '|', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '|', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '|', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000,
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+  yadm = {
+    enable = false
+  },
+}
 
 
 --自定义快捷键
