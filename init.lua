@@ -29,6 +29,12 @@ require('packer').startup(function(use)
  use 'lukas-reineke/indent-blankline.nvim'
  use 'lewis6991/gitsigns.nvim'
 
+ use {
+	 'nvim-telescope/telescope.nvim',
+	 requires = {'nvim-lua/plenary.nvim'}
+ }
+
+
  --补全
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -229,7 +235,7 @@ vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {}
 
 ------------------------------------------------------------------------------------------
 require "pears".setup(function(conf)
-  conf.pair("{", {filetypes = {"c", "javascript","cpp","go","python","html","css","lua","json","cmake","sh"}})
+  conf.pair("{", {filetypes = {"c", "javascript","cpp","python","html","css","lua","json","cmake","sh"}})
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -476,7 +482,12 @@ require('gitsigns').setup {
     enable = false
   },
 }
-
+--------------------------------------------------------------------------------------------------
+vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]] , {})
+vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fh", [[<cmd>lua require('telescope.builtin').help_tags()<cr>]],{})
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
