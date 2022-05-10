@@ -204,7 +204,7 @@ nnoremap <leader>f :bn<CR>
 nnoremap <leader>b :bp<CR>
 nnoremap <leader>d :bd<CR>
 
-nnoremap <leader>y "+y
+nnoremap <leader>y "+yy
 vnoremap <leader>y "+y
 vnoremap <leader>p "+p
 
