@@ -483,11 +483,9 @@ require('gitsigns').setup {
   },
 }
 --------------------------------------------------------------------------------------------------
-vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]] , {})
 vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fh", [[<cmd>lua require('telescope.builtin').help_tags()<cr>]],{})
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
@@ -499,7 +497,7 @@ vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
-vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})
+vim.api.nvim_set_keymap("n", "<leader>y", '"+yy', {})
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {})
 vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {})
 
