@@ -35,6 +35,9 @@
 	"diagnostic.refreshOnInsertMode": false,
 	"diagnostic.checkCurrentLine": true,
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
+	
+        "clangd.semanticHighlighting": true,
+        "coc.preferences.semanticTokensHighlights": false
 
 "languageserver":{
         "clangd":{
