@@ -27,10 +27,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'"补全括号
     
     Plug 'tyrannicaltoucan/vim-quantum'"主题
+    Plug 'rakr/vim-one'
     
     Plug 'mcchrish/nnn.vim'
     Plug 'airblade/vim-gitgutter'
-    
 call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc-nvim 补全
@@ -101,7 +101,6 @@ nnoremap <leader>c :NERDTreeClose<CR>
 nnoremap <leader>e :NERDTree<CR>
 "----------------------------------------------------------------------------------------------------"
 " vim-cpp-enhanced-highlight高亮
-
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_posix_standard = 1
@@ -120,11 +119,15 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 "------------------------------------------------------------------------------------------------------"
 "vim-airline'"状态栏
-let g:airline_theme='quantum'
+
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#left_alt_sep='|'
+let g:airline#extensions#tabline#formatter='default'
+let g:airline_theme='papercolor'
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-colorscheme quantum
+colorscheme one
 "-----------------------------------------------------------------------------------------------
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
@@ -145,36 +148,12 @@ let g:gitgutter_sign_removed_first_line='|'
 let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
 
-"设置c/cpp高亮
-" 
-" highlight  Function                    ctermfg=155
-" highlight  cppNumber                   ctermfg=123
-" highlight  cNumber                     ctermfg=123
-" highlight  cppBoolean                  ctermfg=123
-" highlight  Constant                    ctermfg=123
-" highlight  cInclude                    ctermfg=172
-" highlight cStatement                   ctermfg=40
-" highlight cLabl                        ctermfg=40
-" highlight cConditional                 ctermfg=40
-" highlight cRepeat ctermfg=40
-
-"highlight cppSTLnamespace ctermfg=226
-"highlight cppSTLconstant ctermfg=155
-"highlight Comment        ctermfg=159
-"
-
-
 hi PMenu              ctermfg=240 ctermbg=243
 hi PMenuSel           ctermfg=240    ctermbg=243
 
 set cursorline
 hi CursorLine                           ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold,italic ctermfg=240 ctermbg=243
-"hi SignColumn ctermbg=none
-
-"highlight MatchParen ctermbg=000 guibg=lightblue
-"highlight Search ctermfg=000 ctermbg=33FF33
-"highlight Visual ctermfg=000    ctermbg=239
 
 set bg=dark
 set viminfo='1000,<500
