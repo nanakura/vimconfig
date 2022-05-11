@@ -7,8 +7,8 @@ let mapleader=","
 set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
-   Plug 'vim-airline/vim-airline'"状态栏
-   Plug 'vim-airline/vim-airline-themes'
+    Plug 'vim-airline/vim-airline'"状态栏
+    Plug 'vim-airline/vim-airline-themes'
 	
     Plug 'preservim/nerdtree' "目录树
     Plug 'ryanoasis/vim-devicons'
@@ -121,9 +121,9 @@ let g:NERDToggleCheckAllLines = 1
 "vim-airline'"状态栏
 
 let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#left_alt_sep='|'
-let g:airline#extensions#tabline#formatter='default'
-let g:airline_theme='papercolor'
+" let g:airline_statusline_ontop=1
+let g:airline_theme='one'
+
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
@@ -178,7 +178,7 @@ set tabstop=4
 set cindent
 set expandtab "设置tab=space
 "set noexpandtab "设置spce=tab
-set mouse=a
+set mouse-=a
 set nocompatible"不兼容vi模式
 set cmdheight=1
 set hlsearch
