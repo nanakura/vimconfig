@@ -28,6 +28,8 @@ call plug#begin('~/.vim/plugged')
     
     Plug 'tyrannicaltoucan/vim-quantum'"主题
     
+    Plug 'mcchrish/nnn.vim'
+    Plug 'airblade/vim-gitgutter'
     
 call plug#end()
 "-------------------------------------------------------------------------------------------"
@@ -127,15 +129,27 @@ colorscheme quantum
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>d exit<CR><CR>
+"
+let g:nnn#layout="new"
+let g:nnn#layout={'left':'~20'}
+let g:nnn#layout={'window': {'width': 0.5,'height': 0.5, 'highlight':'comment'}}
+nnoremap <leader>ff :NnnPicker<CR>
+
+highlight GitgutterAdd guifg=#009900 ctermfg=10
+highlight GitgutterChange guifg=#bbbb00 ctermfg=11
+highlight GitgutterDelete guifg=#ff2222 ctermfg=9
+let g:gitgutter_sign_added='|'
+let g:gitgutter_sign_modified='|'
+let g:gitgutter_sign_removed='|'
+let g:gitgutter_sign_removed_first_line='|'
+let g:gitgutter_sign_removed_above_and_below='|'
+let g:gitgutter_sign_modified_removed='|'
 
 "设置c/cpp高亮
-
 " 
 " highlight  Function                    ctermfg=155
 " highlight  cppNumber                   ctermfg=123
 " highlight  cNumber                     ctermfg=123
- highlight  cppString                   ctermfg=172
- highlight  cString                     ctermfg=172
 " highlight  cppBoolean                  ctermfg=123
 " highlight  Constant                    ctermfg=123
 " highlight  cInclude                    ctermfg=172
