@@ -508,30 +508,28 @@ require('gitsigns').setup {
   },
 }
 --------------------------------------------------------------------------------------------------
-vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]] , {})
 vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
+<<<<<<< HEAD
 vim.api.nvim_set_keymap("n", "<leader>fh", [[<cmd>lua require('telescope.builtin').help_tags()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fd", ":q!<CR>", {})
+=======
+>>>>>>> 65c1c42788d9f47e94901d54e5cca9a8135f8ad0
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<leader>b", ":bp<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>f", ":bn<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
---vim.api.nvim_set_keymap("n", "<leader>t", ":vsplit term://cmd<CR>", {})
---vim.api.nvim_set_keymap("t", "<leader>c", "exit<CR><CR>", {})
 
 
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
-vim.api.nvim_set_keymap("n", "Y", '"+yy', {})
-vim.api.nvim_set_keymap("n", "P", '"+p', {})
-vim.api.nvim_set_keymap("v", "Y", '"+y', {})
-vim.api.nvim_set_keymap("v", "P", '"+p', {})
-
+vim.api.nvim_set_keymap("n", "<leader>y", '"+yy', {})
+vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {})
+vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {})
 
 vim.api.nvim_set_keymap("n", "zl", "<C-w>3>", {})
 

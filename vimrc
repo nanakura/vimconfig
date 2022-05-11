@@ -204,10 +204,9 @@ nnoremap <leader>f :bn<CR>
 nnoremap <leader>b :bp<CR>
 nnoremap <leader>d :bd<CR>
 
-nnoremap Y "+yy
-nnoremap P "+p
-vnoremap Y "+y
-vnoremap P "+p
+nnoremap <leader>y "+yy
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
 
 nnoremap zh <C-w>3>
 nnoremap zl <C-w>3<
