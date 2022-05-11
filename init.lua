@@ -511,11 +511,7 @@ require('gitsigns').setup {
 vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
-<<<<<<< HEAD
-vim.api.nvim_set_keymap("n", "<leader>fh", [[<cmd>lua require('telescope.builtin').help_tags()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fd", ":q!<CR>", {})
-=======
->>>>>>> 65c1c42788d9f47e94901d54e5cca9a8135f8ad0
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
