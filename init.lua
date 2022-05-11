@@ -304,6 +304,31 @@ local function goto_definition(split_cmd)
   local log = require("vim.lsp.log")
   local api = vim.api
 
+require'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
+
   -- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
   local handler = function(_, result, ctx)
     if result == nil or vim.tbl_isempty(result) then
@@ -488,6 +513,7 @@ vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin
 vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fh", [[<cmd>lua require('telescope.builtin').help_tags()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fd", ":q!<CR>", {})
 
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
