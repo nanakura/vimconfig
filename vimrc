@@ -4,14 +4,17 @@
  "{clangd.semanticHighlighting": true, coc.preferences.semanticTokensHighlights": false} 
    
 let mapleader=","
+let g:maplocalleader=","
 set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'"状态栏
     Plug 'vim-airline/vim-airline-themes'
 	
-    Plug 'preservim/nerdtree' "目录树
-    Plug 'ryanoasis/vim-devicons'
+    Plug 'Shougo/defx.nvim'"目录树"
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'kristijanhusak/defx-icons'
 	
     Plug 'preservim/nerdcommenter' "注释
     
@@ -61,63 +64,78 @@ let g:rainbow_load_separately = [
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 "------------------------------------------------------------------------------------------------------------"
-"nerdtree 目录树
-set encoding=UTF-8
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
-"autocmd vimenter * if !argc()|NERDTree|
-"autocmd vimenter * NERDTree
-let g:NERDTreeDirArrowExpandable = '+'
-let g:NERDTreeDirArrowCollapsible = '-'
-" 显示行号
-let NERDTreeShowLineNumbers=1
-let NERDTreeAutoCenter=1
-" 是否显示隐藏文件
-let NERDTreeShowHidden=1
-" 设置宽度
-let g:NERDTreeWinSize=17
-let NERDTreeWinSize=25
-let g:NERDTreeWinPos='left'
-let g:NERDTreeSize=30
-" 在终端启动vim时，共享NERDTree
-let g:nerdtree_tabs_open_on_console_startup=1
-" 忽略一下文件的显示
-let NERDTreeIgnore=['\.pyc','\~$','\.swp']
-" 显示书签列表
-let NERDTreeShowBookmarks=1
-autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"autocmd VimEnter * NERDTree
-wincmd w
-"autocmd VimEnter * wincmd w
-nnoremap <leader>c :NERDTreeClose<CR>
-nnoremap <leader>e :NERDTree<CR>
-"----------------------------------------------------------------------------------------------------"
-" vim-cpp-enhanced-highlight高亮
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_posix_standard = 1
-let g:cpp_experimental_simple_template_highlight = 1
-let g:cpp_concepts_highlight = 1
-"------------------------------------------------------------------------------------------------------"
-" nerdcommenter注释插件
-let g:NERDCreateDefaultMappings = 1
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDAltDelims_java = 1
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDToggleCheckAllLines = 1
+"Defx 目录树
+
+let g:defx_icons_enable_syntax_highlight = 1
+let g:defx_icons_column_length = 1
+let g:defx_icons_directory_icon = ''
+let g:defx_icons_mark_icon = '*'
+let g:defx_icons_copy_icon = ''
+let g:defx_icons_link_icon = ''
+let g:defx_icons_move_icon = ''
+let g:defx_icons_parent_icon = ''
+let g:defx_icons_default_icon = ''
+let g:defx_icons_directory_symlink_icon = ''
+" Options below are applicable only when using "tree" feature
+let g:defx_icons_root_opened_tree_icon = ''
+let g:defx_icons_nested_opened_tree_icon = ''
+let g:defx_icons_nested_closed_tree_icon = ''
+
+	call defx#custom#column('icon', {
+	      \ 'directory_icon': '▸ ',
+	      \ 'file_icon': '  ',
+	      \ 'opened_icon': '▾ ',
+	      \ 'root_icon': '  ',
+	      \ })
+
+	call defx#custom#column('mark', {
+	      \ 'readonly_icon': '✗',
+	      \ 'selected_icon': '✓',
+	      \ })
+
+    call defx#custom#option('_', {
+            \ 'columns': 'indent:git:icons:filename',
+            \ 'winwidth': 25,
+            \ 'split': 'vertical',
+            \ 'direction': 'topleft',
+            \ 'show_ignored_files': 0,
+            \ 'root_marker': '≡ ',
+            \ 'ignored_files':
+            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.stversions'
+            \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
+            \ })
+
+    nnoremap <silent> <LocalLeader>e
+            \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
+
+nnoremap <silent> <LocalLeader>a
+            \ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
+
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+    nnoremap <silent><buffer><expr> l
+                \ defx#is_directory() ?
+                \ defx#do_action('open_tree') :
+                \ defx#do_action('multi', ['drop']) 
+
+   nnoremap <silent><buffer><expr> <CR>
+                \ defx#is_directory() ?
+                \ defx#do_action('open_or_close_tree') :
+                \ defx#do_action('multi', ['drop'])
+
+    nnoremap <silent><buffer><expr> a
+                \ defx#do_action('new_file')
+
+    nnoremap <silent><buffer><expr> d
+                \ defx#do_action('remove')
+
+    nnoremap <silent><buffer><expr> r
+                \ defx#do_action('rename')
+
+    nnoremap <silent><buffer><expr> c
+            \ defx#do_action('close_tree')
+endfunction
+
 "------------------------------------------------------------------------------------------------------"
 "vim-airline'"状态栏
 "vim-airline'"状态栏
@@ -125,9 +143,6 @@ let b:airline_whitespace_disabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
-"let g:airline_symbols.branch = '⎇'
-"let g:airline_symbols.readonly = ''
-"let g:airline_symbols.linenr = '☰'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
@@ -135,17 +150,17 @@ let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline_theme='solarized'
 "let g:airline_theme='dracula'
-
+"-------------------------------------------------------------------------------------------------------
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-"colorscheme one
- colorscheme dracula
+colorscheme one
+ "colorscheme dracula
 "-----------------------------------------------------------------------------------------------
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>d exit<CR><CR>
-"
+"--------------------------------------------------------------------------------------------------------
 let g:nnn#layout="new"
 let g:nnn#layout={'left':'~20'}
 let g:nnn#layout={'window': {'width': 0.5,'height': 0.5, 'highlight':'comment'}}
@@ -161,9 +176,9 @@ let g:gitgutter_sign_removed_first_line='|'
 let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
 
+
 hi PMenu              ctermfg=240 ctermbg=243
 hi PMenuSel           ctermfg=240    ctermbg=243
-
 set cursorline
 hi CursorLine                           ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold,italic ctermfg=240 ctermbg=243
@@ -171,12 +186,12 @@ hi CursorLineNr       cterm=bold,italic ctermfg=240 ctermbg=243
 set bg=dark
 set viminfo='1000,<500
 set clipboard=unnamed
-set numberwidth=3
+set numberwidth=5
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 set scrolloff=2
 set ignorecase "搜索忽略大小写
-autocmd VimEnter * NoMatchParen "取消括号高亮匹配
+" autocmd VimEnter * NoMatchParen "取消括号高亮匹配
 " set noeb
 " set vb
 " set vb t_vb=
