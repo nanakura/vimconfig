@@ -28,6 +28,7 @@ call plug#begin('~/.vim/plugged')
     
     Plug 'tyrannicaltoucan/vim-quantum'"主题
     Plug 'rakr/vim-one'
+    Plug 'dracula/vim'
     
     Plug 'mcchrish/nnn.vim'
     Plug 'airblade/vim-gitgutter'
@@ -127,7 +128,8 @@ let g:airline_theme='one'
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-colorscheme one
+"colorscheme one
+ colorscheme dracula
 "-----------------------------------------------------------------------------------------------
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
