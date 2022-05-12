@@ -35,21 +35,28 @@
 	"diagnostic.refreshOnInsertMode": false,
 	"diagnostic.checkCurrentLine": true,
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
-	
-        "clangd.semanticHighlighting": true,
-        "coc.preferences.semanticTokensHighlights": false
-
-"languageserver":{
-        "clangd":{
-            "command":"clangd",
-            "rootPatterns": ["compile_flags.txt","compile_commands.json"],
-            "filetypes": ["c","cpp","c++","objc","objcpp"],
-
-        "gopls":{
-            "command": "gopls",
-            "rootPatterns": ["go.mod"],
-            "filetypes": ["go"] }
+    "languageserver": {
+    "golang": {
+        "command": "go-langserver",
+        "filetypes": [ "go" ],
+        "initializationOptions": {
+            "gocodeCompletionEnabled": true,
+            "diagnosticsEnabled": true,
+            "lintTool": "golint"
         }
-
+    }
+    },
+    "clangd": {
+        "command": "clangd",
+        "rootPatterns": [ "compile_flags.txt", "compile_commands.json" ],
+        "filetypes": [ "c", "cc", "cpp", "c++", "objc", "objcpp" ]
+    },
+    "lua": {
+        "command": "~/.vscode/extensions/sumneko.lua-2.3.7/server/bin/macOS/lua-language-server",
+        "args": [ "-E", "~/.vscode/extensions/sumneko.lua-2.3.7/server/main.lua" ],
+        "rootPatterns": [ ".git" ],
+        "filetypes": [
+        "lua"
+        ]
     }
 }
