@@ -161,13 +161,8 @@ colorscheme one
 nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
-"let g:nnn#layout="new"
-"let g:nnn#layout={'left':'~20'}
-"let g:nnn#layout={'window': {'width': 0.5,'height': 0.5, 'highlight':'comment'}}
-"nnoremap <leader>ff :NnnPicker<CR>
-
-let g:fzf_preview_window = ['right:30%', 'ctrl-/']
-let g:fzf_preview_window = ['up:20%:hidden', 'ctrl-/']
+"fzf
+let g:fzf_layout = { 'window': { 'width': 0.5, 'height': 0.6, 'relative': v:true } }
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
