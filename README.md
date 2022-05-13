@@ -1,5 +1,8 @@
 # vim and neovim config
 # install SauceCodePro NF || Sauce Code Pro
+# install ripgrep fzf 
+# pip3 install pynvim  msgpack-python  
+
 ## vim config
 1. install plug.vim
 file pos windows ~/vimfiles/autoload/plug.vim  linux ~/.vim/autoload/plug.vim
