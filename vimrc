@@ -2,6 +2,7 @@
 "windows ~/vimfiles/autoload  linux ~/.vim/autoload
 
  "{clangd.semanticHighlighting": true, coc.preferences.semanticTokensHighlights": false} 
+ "--with-features=huge --enable-python3interp --enable-luainterp --enable-multibyte --enable-cscope --prefix=/usr/local/vim8
    
 let mapleader=","
 let g:maplocalleader=","
@@ -33,8 +34,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'rakr/vim-one'
     Plug 'dracula/vim'
     
-    Plug 'mcchrish/nnn.vim'
+    "Plug 'mcchrish/nnn.vim'
     Plug 'airblade/vim-gitgutter'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc-nvim 补全
@@ -52,7 +55,6 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <silent> m <Plug>(coc-definition)
 "-------------------------------------------------------------------------------------------"
-
 "auto-pairs 括号补全
 let g:rainbow_active = 1
 let g:rainbow_load_separately = [
@@ -65,7 +67,6 @@ let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 "------------------------------------------------------------------------------------------------------------"
 "Defx 目录树
-
 let g:defx_icons_enable_syntax_highlight = 1
 let g:defx_icons_column_length = 1
 let g:defx_icons_directory_icon = ''
@@ -113,12 +114,12 @@ nnoremap <silent> <LocalLeader>a
 
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
-    nnoremap <silent><buffer><expr> l
+    nnoremap <silent><buffer><expr> <CR>
                 \ defx#is_directory() ?
                 \ defx#do_action('open_tree') :
                 \ defx#do_action('multi', ['drop']) 
 
-   nnoremap <silent><buffer><expr> <CR>
+   nnoremap <silent><buffer><expr> l
                 \ defx#is_directory() ?
                 \ defx#do_action('open_or_close_tree') :
                 \ defx#do_action('multi', ['drop'])
@@ -137,7 +138,6 @@ function! s:defx_my_settings() abort
 endfunction
 
 "------------------------------------------------------------------------------------------------------"
-"vim-airline'"状态栏
 "vim-airline'"状态栏
 let b:airline_whitespace_disabled = 1
 let g:airline_powerline_fonts = 1
@@ -161,11 +161,19 @@ colorscheme one
 nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
-let g:nnn#layout="new"
-let g:nnn#layout={'left':'~20'}
-let g:nnn#layout={'window': {'width': 0.5,'height': 0.5, 'highlight':'comment'}}
-nnoremap <leader>ff :NnnPicker<CR>
+"let g:nnn#layout="new"
+"let g:nnn#layout={'left':'~20'}
+"let g:nnn#layout={'window': {'width': 0.5,'height': 0.5, 'highlight':'comment'}}
+"nnoremap <leader>ff :NnnPicker<CR>
 
+let g:fzf_preview_window = ['right:30%', 'ctrl-/']
+let g:fzf_preview_window = ['up:20%:hidden', 'ctrl-/']
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fg :Rg<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fl :BLines<CR>
+"-----------------------------------------------------------------------------------------------------------------------
+"git setting
 highlight GitgutterAdd guifg=#009900 ctermfg=10
 highlight GitgutterChange guifg=#bbbb00 ctermfg=11
 highlight GitgutterDelete guifg=#ff2222 ctermfg=9
@@ -184,7 +192,7 @@ hi CursorLine                           ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold,italic ctermfg=240 ctermbg=243
 
 set bg=dark
-set viminfo='1000,<500
+set viminfo='1000,<666
 set clipboard=unnamed
 set numberwidth=5
 set fileencodings=ucs-bom,utf-8,gb18030,default
