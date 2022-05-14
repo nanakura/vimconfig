@@ -31,6 +31,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tyrannicaltoucan/vim-quantum'"主题
     Plug 'rakr/vim-one'
     Plug 'dracula/vim'
+    Plug 'mhinz/vim-startify'
     
     "Plug 'mcchrish/nnn.vim'
     Plug 'airblade/vim-gitgutter'
