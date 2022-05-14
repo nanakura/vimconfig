@@ -40,12 +40,13 @@ call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc-nvim 补全
 let g:coc_global_extensions = [
-	\ 'coc-css',
-	\ 'coc-html',
-	\ 'coc-json',
-	\ 'coc-snippets',
-	\ 'coc-tsserver',
-	\ 'coc-vetur',
+	"\ 'coc-css',
+	"\ 'coc-html',
+	"\ 'coc-json',
+	"\ 'coc-snippets',
+	"\ 'coc-tsserver',
+	"\ 'coc-vetur',
+	\ 'coc-pyright',
     \ 'coc-clangd',
     \ 'coc-go',
     \ 'coc-sumneko-lua', ]
