@@ -1,7 +1,5 @@
 "windows ~/_vimrc linux ~/.vimrc
 "windows ~/vimfiles/autoload  linux ~/.vim/autoload
-
- "{clangd.semanticHighlighting": true, coc.preferences.semanticTokensHighlights": false} 
  "--with-features=huge --enable-python3interp --enable-luainterp --enable-multibyte --enable-cscope --prefix=/usr/local/vim8
    
 let mapleader=","
@@ -24,10 +22,10 @@ call plug#begin('~/.vim/plugged')
     
     Plug 'voldikss/vim-floaterm' "终端
     
-    Plug 'bling/vim-bufferline' "butter显示
+    "Plug 'bling/vim-bufferline' "butter显示
     
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-    
+    Plug 'honza/vim-snippets'
     Plug 'jiangmiao/auto-pairs'"补全括号
     
     Plug 'tyrannicaltoucan/vim-quantum'"主题
@@ -41,6 +39,18 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 "-------------------------------------------------------------------------------------------"
 "coc-nvim 补全
+let g:coc_global_extensions = [
+	\ 'coc-css',
+	\ 'coc-html',
+	\ 'coc-json',
+	\ 'coc-snippets',
+	\ 'coc-tsserver',
+	\ 'coc-vetur',
+    \ 'coc-clangd',
+    \ 'coc-go',
+    \ 'coc-sumneko-lua', ]
+
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -96,7 +106,7 @@ let g:defx_icons_nested_closed_tree_icon = ''
 
     call defx#custom#option('_', {
             \ 'columns': 'indent:git:icons:filename',
-            \ 'winwidth': 25,
+            \ 'winwidth': 30,
             \ 'split': 'vertical',
             \ 'direction': 'topleft',
             \ 'show_ignored_files': 0,
@@ -133,8 +143,8 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer><expr> r
                 \ defx#do_action('rename')
 
-    nnoremap <silent><buffer><expr> c
-            \ defx#do_action('close_tree')
+    "nnoremap <silent><buffer><expr> q
+            "\ defx#do_action('close_tree')
 endfunction
 
 "------------------------------------------------------------------------------------------------------"
@@ -144,11 +154,11 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#tabs_label = ''
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline_theme='solarized'
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline_theme='alduin'
 "let g:airline_theme='dracula'
 "-------------------------------------------------------------------------------------------------------
 "tyrannicaltoucan/vim-quantum "主题\
@@ -223,6 +233,7 @@ inoremap <C-l> <Right>
 
 nnoremap q :nohl<CR>
 vnoremap q <Esc>
+nnoremap ; :
 
 nnoremap <leader>f :bn<CR>
 nnoremap <leader>b :bp<CR>

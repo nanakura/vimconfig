@@ -43,11 +43,6 @@
       "filetypes": ["go"]
     }
   },
-  "clangd": {
-    "command": "clangd",
-    "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
-  },
   "lua": {
       "command": "lua-language-server",
       "args": ["-E", "~/.vscode/extensions/sumneko.lua-2.3.7/server/main.lua"],
