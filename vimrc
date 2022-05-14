@@ -47,10 +47,11 @@ let g:coc_global_extensions = [
 	"\ 'coc-snippets',
 	"\ 'coc-tsserver',
 	"\ 'coc-vetur',
-	\ 'coc-pyright',
-    \ 'coc-clangd',
-    \ 'coc-go',
-    \ 'coc-sumneko-lua', ]
+	"\ 'coc-pyright',
+	\ 'coc-json',
+    	\ 'coc-clangd',
+   	\ 'coc-go',
+   	\ 'coc-sumneko-lua', ]
 
 
 inoremap <silent><expr> <TAB>
