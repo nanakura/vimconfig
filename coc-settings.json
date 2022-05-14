@@ -35,6 +35,9 @@
 	"diagnostic.refreshOnInsertMode": false,
 	"diagnostic.checkCurrentLine": true,
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
+	"suggest.labelMaxLength": 50,
+        "suggest.floatEnable": false,
+        "suggest.detailMaxLength": 50,
   "languageserver": {
     "go": {
       "command": "gopls",
@@ -45,7 +48,7 @@
   },
   "lua": {
       "command": "lua-language-server",
-      "args": ["-E", "~/.vscode/extensions/sumneko.lua-2.3.7/server/main.lua"],
+      "args": ["-E", "~/.lsp/lua/main.lua"],
       "rootPatterns": [".git"],
       "filetypes": ["lua"]
     }
