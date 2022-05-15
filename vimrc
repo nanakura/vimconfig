@@ -8,7 +8,7 @@ set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'"状态栏
-    Plug 'vim-airline/vim-airline-themes'
+    Plug 'sainnhe/sonokai' 
 	
     Plug 'Shougo/defx.nvim'"目录树"
     Plug 'roxma/nvim-yarp'
@@ -161,8 +161,9 @@ let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_tab_type = 1
-let g:airline_theme='alduin'
-"let g:airline_theme='dracula'
+let g:lightline.colorscheme = 'sonokai'
+let g:lightline = {'colorscheme' : 'sonokai'}
+let g:airline_theme='sonokai'
 "-------------------------------------------------------------------------------------------------------
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
