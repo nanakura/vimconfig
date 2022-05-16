@@ -22,8 +22,6 @@ call plug#begin('~/.vim/plugged')
     
     Plug 'voldikss/vim-floaterm' "终端
     
-    "Plug 'bling/vim-bufferline' "butter显示
-    
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
     Plug 'honza/vim-snippets'
     Plug 'jiangmiao/auto-pairs'"补全括号
@@ -164,6 +162,10 @@ let g:airline#extensions#tabline#show_tab_type = 1
 let g:lightline.colorscheme = 'sonokai'
 let g:lightline = {'colorscheme' : 'sonokai'}
 let g:airline_theme='sonokai'
+
+
+
+
 "-------------------------------------------------------------------------------------------------------
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
