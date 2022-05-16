@@ -35,9 +35,9 @@
 	"diagnostic.refreshOnInsertMode": false,
 	"diagnostic.checkCurrentLine": true,
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
-	"suggest.labelMaxLength": 50,
+	"suggest.labelMaxLength": 30,
         "suggest.floatEnable": false,
-        "suggest.detailMaxLength": 50,
+        "suggest.detailMaxLength": 30,
   "languageserver": {
     "go": {
       "command": "gopls",
