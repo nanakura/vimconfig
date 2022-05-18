@@ -37,6 +37,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
 call plug#end()
 "-------------------------------------------------------------------------------------------"
+
 "coc-nvim 补全
 let g:coc_global_extensions = [
 	"\ 'coc-css',
@@ -66,6 +67,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <silent> m <Plug>(coc-definition)
 "-------------------------------------------------------------------------------------------"
+
 "auto-pairs 括号补全
 let g:rainbow_active = 1
 let g:rainbow_load_separately = [
@@ -76,7 +78,9 @@ let g:rainbow_load_separately = [
     \ ]
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------------------------------"
+
 "Defx 目录树
 let g:defx_icons_enable_syntax_highlight = 1
 let g:defx_icons_column_length = 1
@@ -162,21 +166,20 @@ let g:airline#extensions#tabline#show_tab_type = 1
 let g:lightline.colorscheme = 'sonokai'
 let g:lightline = {'colorscheme' : 'sonokai'}
 let g:airline_theme='sonokai'
-
-
-
-
 "-------------------------------------------------------------------------------------------------------
+
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
 colorscheme one
  "colorscheme dracula
 "-----------------------------------------------------------------------------------------------
+
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew<CR>
 tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
+
 "fzf
 let g:fzf_layout = { 'window': { 'width': 0.5, 'height': 0.6, 'relative': v:true, 'border':'sharp'} }
 nnoremap <leader>ff :Files<CR>
@@ -184,6 +187,7 @@ nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fl :BLines<CR>
 "-----------------------------------------------------------------------------------------------------------------------
+
 "git setting
 highlight GitgutterAdd guifg=#009900 ctermfg=10
 highlight GitgutterChange guifg=#bbbb00 ctermfg=11
