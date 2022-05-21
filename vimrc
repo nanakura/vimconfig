@@ -163,7 +163,6 @@ let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_tab_type = 1
-let g:lightline.colorscheme = 'sonokai'
 let g:lightline = {'colorscheme' : 'sonokai'}
 let g:airline_theme='sonokai'
 "-------------------------------------------------------------------------------------------------------
