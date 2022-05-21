@@ -241,7 +241,8 @@ let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 inoremap <C-l> <Right>
 
-nnoremap <leader>s :%s/<C-r><C-w>//g<left><left>
+nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
+nnoremap <leader>s :s/<C-r><C-w>//g<left><left>
 nnoremap q :nohl<CR>
 vnoremap q <Esc>
 nnoremap ; :
