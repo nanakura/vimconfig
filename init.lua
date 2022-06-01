@@ -12,25 +12,24 @@ require('packer').startup(function(use)
   
   use 'nvim-treesitter/nvim-treesitter'--高亮
 
-  use {--butter插件
-  'romgrk/barbar.nvim',
+  use {
+  'romgrk/barbar.nvim',--butter插件
   requires = {'kyazdani42/nvim-web-devicons'}
     }
 
   use {
-    'kyazdani42/nvim-tree.lua',
+    'kyazdani42/nvim-tree.lua',-- 树目录
     requires = {
-      'kyazdani42/nvim-web-devicons', -- 书目录
+      'kyazdani42/nvim-web-devicons', 
     }
  }
  use 'b3nj5m1n/kommentary'--注释
- --use 'steelsojka/pears.nvim'
- use 'numToStr/FTerm.nvim'
- use 'lukas-reineke/indent-blankline.nvim'
- use 'lewis6991/gitsigns.nvim'
-use 'max-0406/autoclose.nvim'
+ use 'numToStr/FTerm.nvim'--终端
+ use 'lukas-reineke/indent-blankline.nvim'--对齐线
+ use 'lewis6991/gitsigns.nvim'--git修改
+ use 'jiangmiao/auto-pairs'--括号补全
  use {
-	 'nvim-telescope/telescope.nvim',
+	 'nvim-telescope/telescope.nvim',--模糊搜索
 	 requires = {'nvim-lua/plenary.nvim'}
  }
 
