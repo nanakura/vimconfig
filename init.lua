@@ -521,7 +521,7 @@ vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>a", ":%s/<C-r><C-w>//g<left><left>", {})
 vim.api.nvim_set_keymap("n", "<leader>s", ":s/<C-r><C-w>//g<left><left>", {})
-vim.api.nvim_set_keymap("n", "zf", ":zfa{", {})
+
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
