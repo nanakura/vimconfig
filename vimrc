@@ -161,15 +161,19 @@ let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_tab_type = 1
+let g:lightline = {}
+let g:lightline.colorscheme = 'sonokai'
 let g:lightline = {'colorscheme' : 'sonokai'}
 let g:airline_theme='sonokai'
+let g:sonokai_better_performance = 1
+"let g:airline_theme='dracula'
 "-------------------------------------------------------------------------------------------------------
 
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-colorscheme one
- "colorscheme dracula
+"colorscheme one
+colorscheme dracula
 "-----------------------------------------------------------------------------------------------
 
 "vim-floaterm终端
@@ -209,7 +213,7 @@ set clipboard=unnamed
 set numberwidth=5
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
-set scrolloff=2
+
 set ignorecase "搜索忽略大小写
 " autocmd VimEnter * NoMatchParen "取消括号高亮匹配
 " set noeb
@@ -223,6 +227,7 @@ set ts=4
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
+set scrolloff=5
 set cindent
 set expandtab "设置tab=space
 "set noexpandtab "设置spce=tab
