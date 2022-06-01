@@ -256,8 +256,6 @@ set cmdheight=1
 set hlsearch
 set backspace=indent,eol,start "设置back键
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-au BufWinLeave * silent mkview
-au BufWinEnter * silent loadview
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
