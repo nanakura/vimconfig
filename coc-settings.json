@@ -38,20 +38,26 @@
 	"suggest.labelMaxLength": 30,
         "suggest.floatEnable": false,
         "suggest.detailMaxLength": 30,
+	
   "languageserver": {
+   "clangd": {
+    "command": "clangd",
+    "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+    "clangd.semanticHighlighting": true,
+    "coc.preferences.semanticTokensHighlights": false
+  },
     "go": {
       "command": "gopls",
       "rootPatterns": ["go.mod"],
       "trace.server": "verbose",
       "filetypes": ["go"]
-    }
-  },
-  "lua": {
+    },
+     "lua": {
       "command": "lua-language-server",
       "args": ["-E", "~/.lsp/lua/main.lua"],
       "rootPatterns": [".git"],
       "filetypes": ["lua"]
     }
-  
-
+  }
 }
