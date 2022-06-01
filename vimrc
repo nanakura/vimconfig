@@ -242,7 +242,6 @@ inoremap <C-l> <Right>
 
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 nnoremap <leader>s :s/<C-r><C-w>//g<left><left>
-nnoremap zf zfa{
 nnoremap q :nohl<CR>
 vnoremap q <Esc>
 nnoremap ; :
