@@ -26,14 +26,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'honza/vim-snippets'
     Plug 'jiangmiao/auto-pairs'"补全括号
     
-    Plug 'tyrannicaltoucan/vim-quantum'"主题
-    Plug 'rakr/vim-one'
+    Plug 'rakr/vim-one'"主题
     Plug 'dracula/vim'
-    Plug 'mhinz/vim-startify'
+    Plug 'mhinz/vim-startify'"启动界面
     
-    "Plug 'mcchrish/nnn.vim'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'airblade/vim-gitgutter'"git修改
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"模糊查找
     Plug 'junegunn/fzf.vim'
 call plug#end()
 "-------------------------------------------------------------------------------------------"
