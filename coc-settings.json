@@ -35,16 +35,11 @@
 	"diagnostic.refreshOnInsertMode": false,
 	"diagnostic.checkCurrentLine": true,
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
-	"suggest.labelMaxLength": 30,
+	"suggest.labelMaxLength": 20,
         "suggest.floatEnable": false,
-        "suggest.detailMaxLength": 30,
+        "suggest.detailMaxLength": 20,
 	
 	"languageserver": {
-	 	"clangd": {
-	  		"command": "clangd",
-	  		"rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-	  		"filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
-		},
 	  	"go": {
 	   		"command": "gopls",
 	    		"rootPatterns": ["go.mod"],
