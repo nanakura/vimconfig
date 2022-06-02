@@ -93,7 +93,7 @@ local on_attach = function(_, bufnr)
 end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-local servers = { 'clangd', 'gopls', 'lua-language-server' }
+local servers = { 'clangd', 'gopls', 'sumneko_lua' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -122,23 +122,17 @@ vim.diagnostic.config({
   }
 })
 
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
-lspconfig.sumneko_lua.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+require'lspconfig'.sumneko_lua.setup {
   settings = {
     Lua = {
       runtime = {
         version = 'LuaJIT',
-        path = runtime_path,
       },
       diagnostics = {
-        globals = { 'vim' },
+        globals = {'vim'},
       },
       workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
+        library = vim.api.nvim_get_runtime_file("", true),
       },
       telemetry = {
         enable = false,
