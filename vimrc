@@ -25,6 +25,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
     Plug 'honza/vim-snippets'
     Plug 'jiangmiao/auto-pairs'"补全括号
+    Plug 'Yggdroot/indentLine'
     
     Plug 'rakr/vim-one'"主题
     Plug 'dracula/vim'
@@ -183,6 +184,10 @@ let g:airline_theme='sonokai'
 let g:sonokai_better_performance = 1
 "let g:airline_theme='dracula'
 "-------------------------------------------------------------------------------------------------------
+" Vim
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#A4E57E'
+let g:indentLine_char_list = ['┆']
 
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
@@ -206,7 +211,7 @@ tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
 
 "fzf
-let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.8, 'relative': v:true, 'border':'sharp'} }
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.9, 'relative': v:true, 'border':'sharp'} }
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
