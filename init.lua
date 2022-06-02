@@ -93,13 +93,40 @@ local on_attach = function(_, bufnr)
 end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-local servers = { 'clangd', 'gopls', 'sumneko_lua', 'rust_analyzer'}
+local servers = { 'clangd', 'gopls', 'sumneko_lua'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
+require'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        globals = {'vim'},
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
+
+require'lspconfig'.rust_analyzer.setup{
+	{ "rust_analyzer" }
+}
+require'lspconfig'.cmake.setup{
+	{ "cmake-language-server" }
+}
+
 
 --在悬停窗口中自动显示线路诊断
 vim.o.updatetime = 250
@@ -121,25 +148,6 @@ vim.diagnostic.config({
    severity_sort = false,		
   }
 })
-
-require'lspconfig'.sumneko_lua.setup {
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        globals = {'vim'},
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-}
 
 -------------------------------------------------------------------------------------------------
 -- luasnip setup
