@@ -58,7 +58,16 @@
 	    		"args": ["-E", "~/.lsp/lua/main.lua"],
 	    		"rootPatterns": [".git"],
 	    		"filetypes": ["lua"]
-	  	}
+	  	},
+		"cmake": {
+     			 "command": "cmake-language-server",
+      			"filetypes": ["cmake"],
+      			"rootPatterns": [
+       			 "build/"
+     			],
+      			"initializationOptions": {
+        		"buildDirectory": "build"
+     			 }
+    		}
 	}
-	
 }
