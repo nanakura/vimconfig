@@ -408,7 +408,7 @@ vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
 vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 -------------------------------------------------------------------------------------------
 require('indent_blankline').setup {
-  char = '┊',
+  char = '┆',
   show_trailing_blankline_indent = false,
 }
 -------------------------------------------------------------------------------------------
