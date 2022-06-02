@@ -400,8 +400,8 @@ vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {}
 require'FTerm'.setup({
     border = 'double',
     dimensions  = {
-        height = 0.7,
-        width = 0.7,
+        height = 0.9,
+        width = 0.9,
     },
 })
 vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
