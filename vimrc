@@ -70,9 +70,16 @@ let g:coc_global_extensions = [
 	"\ 'coc-vetur',
 	"\ 'coc-pyright',
 	\ 'coc-snippets',
+	\ 'coc-lightbulb',
+	\ 'coc-sh',
+	\ 'coc-cmake',
+	\ 'coc-sql',
+	\ 'coc-lightbulb',
 	\ 'coc-json',
+	\ 'coc-pyright',
 	\ 'coc-rust-analyzer',
    	\ 'coc-go',
+	\ 'coc-clangd',
    	\ 'coc-sumneko-lua', ]
 "-------------------------------------------------------------------------------------------"
 
