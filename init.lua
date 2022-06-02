@@ -93,7 +93,7 @@ local on_attach = function(_, bufnr)
 end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-local servers = { 'clangd', 'gopls' }
+local servers = { 'clangd', 'gopls', 'lua-language-server' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -110,19 +110,17 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '●', 
+    prefix = '●',
+    virtual_text = true,
+    signs = true,
+    underline = true,
+   update_in_insert = false,
+   severity_sort = false,		
   }
 })
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = false,
-})
-
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
