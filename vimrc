@@ -124,7 +124,7 @@ let g:defx_icons_nested_closed_tree_icon = ''
 
     call defx#custom#option('_', {
             \ 'columns': 'indent:git:icons:filename',
-            \ 'winwidth': 30,
+            \ 'winwidth': 22,
             \ 'split': 'vertical',
             \ 'direction': 'topleft',
             \ 'show_ignored_files': 0,
