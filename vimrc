@@ -206,7 +206,7 @@ tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
 
 "fzf
-let g:fzf_layout = { 'window': { 'width': 0.5, 'height': 0.6, 'relative': v:true, 'border':'sharp'} }
+let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.8, 'relative': v:true, 'border':'sharp'} }
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
