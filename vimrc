@@ -18,7 +18,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdcommenter' "注释
     
     Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-    Plug 'jackguo380/vim-lsp-cxx-highlight'
+    "Plug 'jackguo380/vim-lsp-cxx-highlight'
     
     Plug 'voldikss/vim-floaterm' "终端
     
