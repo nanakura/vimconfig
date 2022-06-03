@@ -277,7 +277,7 @@ nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 nnoremap <leader>s :s/<C-r><C-w>//g<left><left>
 nnoremap q :nohl<CR>
 vnoremap q <Esc>
-nnoremap <leader>h :source ~/.vimrc
+nnoremap <leader>h :source ~/.vimrc<CR>
 
 nnoremap <leader>f :bn<CR>
 nnoremap <leader>b :bp<CR>
