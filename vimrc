@@ -193,8 +193,8 @@ let g:indentLine_char_list = ['┆']
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-"colorscheme one
-colorscheme dracula
+colorscheme one
+"colorscheme dracula
 "-----------------------------------------------------------------------------------------------
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
