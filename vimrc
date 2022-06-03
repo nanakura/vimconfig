@@ -279,9 +279,9 @@ nnoremap q :nohl<CR>
 vnoremap q <Esc>
 nnoremap <leader>h :source ~/.vimrc<CR>
 
-nnoremap <leader>f :bn<CR>
-nnoremap <leader>b :bp<CR>
-nnoremap <leader>d :bd<CR>
+nnoremap <leader>d :bn<CR>
+nnoremap <leader>u :bp<CR>
+nnoremap <leader>c :bd<CR>
 
 nnoremap <leader>yy "+yy
 vnoremap <leader>y "+y
