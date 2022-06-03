@@ -26,7 +26,7 @@ require('packer').startup(function(use)
  use 'b3nj5m1n/kommentary'--注释
  use 'numToStr/FTerm.nvim'--终端
  use 'lukas-reineke/indent-blankline.nvim'--对齐线
- use 'mg979/vim-visual-multi', {'branch': 'master'} --多光标
+ use 'mg979/vim-visual-multi' --多光标
  use 'rhysd/clever-f.vim' --f查找
  use 'lewis6991/gitsigns.nvim'--git修改
  use 'jiangmiao/auto-pairs'--括号补全
