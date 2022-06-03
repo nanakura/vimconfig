@@ -23,9 +23,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'voldikss/vim-floaterm' "终端
     
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-    Plug 'honza/vim-snippets'
+    Plug 'honza/vim-snippets'"片段
     Plug 'jiangmiao/auto-pairs'"补全括号
-    Plug 'Yggdroot/indentLine'
+    Plug 'Yggdroot/indentLine'"对其线
+    Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
+    Plug 'rhysd/clever-f.vim' "f查找
     
     Plug 'rakr/vim-one'"主题
     Plug 'dracula/vim'
