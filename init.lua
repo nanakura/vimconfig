@@ -30,6 +30,7 @@ require('packer').startup(function(use)
  use 'rhysd/clever-f.vim' --f查找
  use 'lewis6991/gitsigns.nvim'--git修改
  use 'jiangmiao/auto-pairs'--括号补全
+ --use 'windwp/nvim-autopairs'
 
  use {
 	 'nvim-telescope/telescope.nvim',--模糊搜索
@@ -397,6 +398,7 @@ vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
 vim.api.nvim_set_keymap("x", "<leader>u", "<Plug>kommentary_visual_decrease", {})
 
 ------------------------------------------------------------------------------------------
+--require('nvim-autopairs').setup({})
 
 -----------------------------------------------------------------------------------------------------
 --Fterm终端
