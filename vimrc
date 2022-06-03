@@ -280,8 +280,8 @@ vnoremap q <Esc>
 nnoremap <leader>h :source ~/.vimrc<CR>
 
 nnoremap <leader>d :bn<CR>
-nnoremap <leader>u :bp<CR>
-nnoremap <leader>c :bd<CR>
+nnoremap <leader>b :bp<CR>
+nnoremap <leader>x :bd<CR>
 
 nnoremap <leader>yy "+yy
 vnoremap <leader>y "+y
