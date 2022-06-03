@@ -271,16 +271,15 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-inoremap <C-l> <Right>
-
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 nnoremap <leader>s :s/<C-r><C-w>//g<left><left>
 nnoremap q :nohl<CR>
 vnoremap q <Esc>
-nnoremap <leader>h :source ~/.vimrc<CR>
 
-nnoremap <leader>l :bn<CR>
-nnoremap <leader>h :bp<CR>
+
+inoremap <C-l> <Right>
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
 nnoremap <leader>d :bd<CR>
 
 nnoremap <leader>yy "+yy
