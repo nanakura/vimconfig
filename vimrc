@@ -173,7 +173,14 @@ set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
+      \ },
+      \ 'component': {
+      \   'helloworld': 'Monody-x'
+      \ },
       \ }
 "-------------------------------------------------------------------------------------------------------
 " Vim
