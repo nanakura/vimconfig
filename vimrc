@@ -172,16 +172,13 @@ endfunction
 set laststatus=2
 set hidden
 set noshowmode
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
-      \ },
-      \ 'component': {
-      \   'helloworld': 'Life does not have to be perfect to be wonderful.'
-      \ },
-      \ }
+let g:lightline = {                                            
+    \ 'colorscheme': 'one',                                  
+    \ }                                                               
+let g:lightline.separator = { 'left': '', 'right': '' }      
+let g:lightline.subseparator = { 'left': '', 'right': '' }   
+let g:lightline.tabline_separator = g:lightline.separator      
+let g:lightline.tabline_subseparator = g:lightline.subseparator
 "-------------------------------------------------------------------------------------------------------
 " Vim
 let g:indentLine_color_term = 239
