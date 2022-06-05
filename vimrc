@@ -173,13 +173,13 @@ set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
       \ },
       \ 'component': {
-      \   'helloworld': 'Monody-x'
+      \   'helloworld': '心若没有栖息的地方，到哪里都是在流浪。'
       \ },
       \ }
 "-------------------------------------------------------------------------------------------------------
