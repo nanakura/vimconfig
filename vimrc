@@ -168,22 +168,72 @@ function! s:defx_my_settings() abort
 endfunction
 
 "------------------------------------------------------------------------------------------------------"
-"vim-airline'"状态栏
-let b:airline_whitespace_disabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#tabs_label = ''
-let g:airline#extensions#tabline#show_tab_type = 1
-let g:lightline = {}
-let g:lightline.colorscheme = 'sonokai'
-let g:lightline = {'colorscheme' : 'sonokai'}
-let g:airline_theme='sonokai'
-let g:sonokai_better_performance = 1
-"let g:airline_theme='dracula'
+"状态栏
+set laststatus=2
+let g:lightline = {
+    \ 'colorscheme': 'one',
+    \ 'component_function': {
+    \   'mode': 'LightlineMode',
+    \ },
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
+    \ },
+    \ 'component': {
+    \   'helloworld': 'Monody-x',
+    \   'filename': 'LightlineFilename'
+    \ },
+    \ }
+
+function! LightlineMode()
+  return expand('%:t') =~# '^__Tagbar__' ? 'Tagbar':
+    \ expand('%:t') ==# 'ControlP' ? 'CtrlP' :
+    \ &filetype ==# 'unite' ? 'Unite' :
+    \ &filetype ==# 'vimfiler' ? 'VimFiler' :
+    \ &filetype ==# 'vimshell' ? 'VimShell' :
+    \ lightline#mode()
+endfunction
+
+
+
+"------------------------------------------------------------------------------------------------------------------
+"buffer
+set hidden  " allow buffer switching without saving
+set showtabline=2  " always show tabline
+
+let g:lightline = {
+    \ 'tabline': {
+    \   'left': [ [ 'bufferinfo' ],
+    \             [ 'separator' ],
+    \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+    \   'right': [ [ 'close' ], ],
+    \ },
+    \ 'component_expand': {
+    \   'buffercurrent': 'lightline#buffer#buffercurrent',
+    \   'bufferbefore': 'lightline#buffer#bufferbefore',
+    \   'bufferafter': 'lightline#buffer#bufferafter',
+    \ },
+    \ 'component_type': {
+    \   'buffercurrent': 'tabsel',
+    \   'bufferbefore': 'raw',
+    \   'bufferafter': 'raw',
+    \ },
+    \ 'component_function': {
+    \   'bufferinfo': 'lightline#buffer#bufferinfo',
+    \ },
+    \ 'component': {
+    \   'separator': '',
+    \ },
+    \ }
+
+let g:lightline_buffer_show_bufnr = 1
+let g:lightline_buffer_fname_mod = ':t'
+let g:lightline_buffer_excludes = ['vimfiler']
+let g:lightline_buffer_maxflen = 30
+let g:lightline_buffer_maxfextlen = 3
+let g:lightline_buffer_minflen = 16
+let g:lightline_buffer_minfextlen = 3
+let g:lightline_buffer_reservelen = 20
 "-------------------------------------------------------------------------------------------------------
 " Vim
 let g:indentLine_color_term = 239
