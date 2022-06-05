@@ -1,6 +1,6 @@
 # vim and neovim config
 # install SauceCodePro NF || Sauce Code Pro
-# install ripgrep fzf 
+# install ripgrep fzf bat
 # pip3 install pynvim  msgpack-python  
 
 ## vim config
