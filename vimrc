@@ -179,7 +179,7 @@ let g:lightline = {
       \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
       \ },
       \ 'component': {
-      \   'helloworld': '心若没有栖息的地方，到哪里都是在流浪。'
+      \   'helloworld': 'Life does not have to be perfect to be wonderful.'
       \ },
       \ }
 "-------------------------------------------------------------------------------------------------------
