@@ -7,8 +7,8 @@ let g:maplocalleader=","
 set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
-    Plug 'vim-airline/vim-airline'"状态栏
-    Plug 'sainnhe/sonokai' 
+    Plug 'itchyny/lightline.vim'
+    Plug 'bling/vim-bufferline'
 	
     Plug 'Shougo/defx.nvim'"目录树"
     Plug 'roxma/nvim-yarp'
@@ -170,76 +170,22 @@ endfunction
 "------------------------------------------------------------------------------------------------------"
 "状态栏
 set laststatus=2
+set noshowmode
 let g:lightline = {
-    \ 'colorscheme': 'one',
-    \ 'component_function': {
-    \   'mode': 'LightlineMode',
-    \ },
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
-    \ },
-    \ 'component': {
-    \   'helloworld': 'Monody-x',
-    \   'filename': 'LightlineFilename'
-    \ },
-    \ }
-
-function! LightlineMode()
-  return expand('%:t') =~# '^__Tagbar__' ? 'Tagbar':
-    \ expand('%:t') ==# 'ControlP' ? 'CtrlP' :
-    \ &filetype ==# 'unite' ? 'Unite' :
-    \ &filetype ==# 'vimfiler' ? 'VimFiler' :
-    \ &filetype ==# 'vimshell' ? 'VimShell' :
-    \ lightline#mode()
-endfunction
-
-
-
-"------------------------------------------------------------------------------------------------------------------
-"buffer
-set hidden  " allow buffer switching without saving
-set showtabline=2  " always show tabline
-
-let g:lightline = {
-    \ 'tabline': {
-    \   'left': [ [ 'bufferinfo' ],
-    \             [ 'separator' ],
-    \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-    \   'right': [ [ 'close' ], ],
-    \ },
-    \ 'component_expand': {
-    \   'buffercurrent': 'lightline#buffer#buffercurrent',
-    \   'bufferbefore': 'lightline#buffer#bufferbefore',
-    \   'bufferafter': 'lightline#buffer#bufferafter',
-    \ },
-    \ 'component_type': {
-    \   'buffercurrent': 'tabsel',
-    \   'bufferbefore': 'raw',
-    \   'bufferafter': 'raw',
-    \ },
-    \ 'component_function': {
-    \   'bufferinfo': 'lightline#buffer#bufferinfo',
-    \ },
-    \ 'component': {
-    \   'separator': '',
-    \ },
-    \ }
-
-let g:lightline_buffer_show_bufnr = 1
-let g:lightline_buffer_fname_mod = ':t'
-let g:lightline_buffer_excludes = ['vimfiler']
-let g:lightline_buffer_maxflen = 30
-let g:lightline_buffer_maxfextlen = 3
-let g:lightline_buffer_minflen = 16
-let g:lightline_buffer_minfextlen = 3
-let g:lightline_buffer_reservelen = 20
+      \ 'colorscheme': 'one',
+      \ }
+-----------------------------------------------------------------------------------------------
+let g:bufferline_echo = 1
+let g:bufferline_active_buffer_left = '<'
+let g:bufferline_active_buffer_right = '>'
+let g:bufferline_modified = '+'
+let g:bufferline_show_bufnr = 0
 "-------------------------------------------------------------------------------------------------------
 " Vim
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#A4E57E'
 let g:indentLine_char_list = ['┆']
-
+"----------------------------------------------------------------------------------------------------------
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
