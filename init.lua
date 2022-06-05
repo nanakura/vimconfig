@@ -469,8 +469,8 @@ vim.api.nvim_set_keymap("n", "<leader>fd", ":q!<CR>", {})
 --------------------------------------------------------------------------------------------------
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
-vim.api.nvim_set_keymap("n", "<C-h>", ":bp<CR>", {})
-vim.api.nvim_set_keymap("n", "<C-l>", ":bn<CR>", {})
+vim.api.nvim_set_keymap("n", "<C-k>", ":bp<CR>", {})
+vim.api.nvim_set_keymap("n", "<C-j>", ":bn<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>a", ":%s/<C-r><C-w>//g<left><left>", {})
