@@ -8,7 +8,7 @@ set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
     Plug 'itchyny/lightline.vim'
-    Plug 'bling/vim-bufferline'
+    Plug 'vim-buftabline'
 	
     Plug 'Shougo/defx.nvim'"目录树"
     Plug 'roxma/nvim-yarp'
@@ -170,16 +170,11 @@ endfunction
 "------------------------------------------------------------------------------------------------------"
 "状态栏
 set laststatus=2
+set hidden
 set noshowmode
 let g:lightline = {
       \ 'colorscheme': 'one',
       \ }
-"-----------------------------------------------------------------------------------------------
-let g:bufferline_echo = 1
-let g:bufferline_active_buffer_left = '<'
-let g:bufferline_active_buffer_right = '>'
-let g:bufferline_modified = '+'
-let g:bufferline_show_bufnr = 0
 "-------------------------------------------------------------------------------------------------------
 " Vim
 let g:indentLine_color_term = 239
