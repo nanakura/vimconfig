@@ -269,8 +269,8 @@ vnoremap q <Esc>
 
 
 inoremap <C-l> <Right>
-nnoremap <C-l> :bn<CR>
-nnoremap <C-h> :bp<CR>
+nnoremap <C-j> :bn<CR>
+nnoremap <C-k> :bp<CR>
 nnoremap <leader>d :bd<CR>
 
 nnoremap <leader>yy "+yy
