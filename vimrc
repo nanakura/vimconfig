@@ -8,7 +8,7 @@ set guifont=SauceCodePro\ NF
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
     Plug 'itchyny/lightline.vim'
-    Plug 'vim-buftabline'
+    Plug 'ap/vim-buftabline'
 	
     Plug 'Shougo/defx.nvim'"目录树"
     Plug 'roxma/nvim-yarp'
