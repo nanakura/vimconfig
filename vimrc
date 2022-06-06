@@ -175,8 +175,8 @@ set noshowmode
 let g:lightline = {                                            
     \ 'colorscheme': 'one',                                  
     \ }                                                               
-let g:lightline.separator = { 'left': '', 'right': '' }      
-let g:lightline.subseparator = { 'left': '', 'right': '' }   
+let g:lightline.separator = { 'left': '', 'right': '' }      
+let g:lightline.subseparator = { 'left': '', 'right': '' }   
 let g:lightline.tabline_separator = g:lightline.separator      
 let g:lightline.tabline_subseparator = g:lightline.subseparator
 "-------------------------------------------------------------------------------------------------------
