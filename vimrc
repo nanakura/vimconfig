@@ -202,7 +202,7 @@ let g:cpp_no_function_highlight = 1
 "-----------------------------------------------------------------------------------------------
 
 "vim-floaterm终端
-nnoremap <leader>t :FloatermNew --height=0.7 --width=0.8<CR>
+nnoremap <leader>t :FloatermNew --height=0.8 --width=0.7<CR>
 tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
 
