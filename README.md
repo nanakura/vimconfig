@@ -2,7 +2,8 @@
 # install SauceCodePro NF || Sauce Code Pro
 # install ripgrep fzf bat
 # pip3 install pynvim  msgpack-python  
-
+# build vim
+./configure --with-features=huge --enable-python3interp --enable-luainterp --enable-multibyte --enable-cscope --prefix=/usr/local/vim8
 ## vim config
 1. install plug.vim
 file pos windows ~/vimfiles/autoload/plug.vim  linux ~/.vim/autoload/plug.vim
