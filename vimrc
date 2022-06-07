@@ -4,7 +4,7 @@
    
 let mapleader=","
 let g:maplocalleader=","
-set guifont=SauceCodePro\ NF
+
 "--------------------------------------------------------------------------------------"
 call plug#begin('~/.vim/plugged')
     Plug 'itchyny/lightline.vim'
@@ -30,11 +30,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'rhysd/clever-f.vim' "f查找
     
     Plug 'rakr/vim-one'"主题
-    Plug 'dracula/vim'
-    Plug 'mhinz/vim-startify'"启动界面
+    "Plug 'dracula/vim'
+    "Plug 'mhinz/vim-startify'"启动界面
     
-    Plug 'airblade/vim-gitgutter'"git修改
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"模糊查找
+    Plug 'airblade/vim-gitgutter' "git修改
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
     Plug 'junegunn/fzf.vim'
 call plug#end()
 "-------------------------------------------------------------------------------------------"
@@ -181,8 +181,8 @@ let g:lightline.tabline_separator = g:lightline.separator
 let g:lightline.tabline_subseparator = g:lightline.subseparator
 "-------------------------------------------------------------------------------------------------------
 " Vim
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#A4E57E'
+let g:indentLine_color_term = 111
+let g:indentLine_char = '┆'
 let g:indentLine_char_list = ['┆']
 "----------------------------------------------------------------------------------------------------------
 "tyrannicaltoucan/vim-quantum "主题\
@@ -202,12 +202,12 @@ let g:cpp_no_function_highlight = 1
 "-----------------------------------------------------------------------------------------------
 
 "vim-floaterm终端
-nnoremap <leader>t :FloatermNew --height=0.9 --width=0.9<CR>
+nnoremap <leader>t :FloatermNew --height=0.7 --width=0.8<CR>
 tnoremap <leader>d exit<CR><CR>
 "--------------------------------------------------------------------------------------------------------
 
 "fzf
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.9, 'relative': v:true, 'border':'sharp'} }
+let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.8, 'relative': v:true, 'border':'sharp'} }
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
