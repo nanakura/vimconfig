@@ -76,6 +76,7 @@ let g:coc_global_extensions = [
 	"\ 'coc-cmake',
 	"\ 'coc-sql',
 	\ 'coc-json',
+	\ 'coc-glslx',
 	\ 'coc-snippets',
 	\ 'coc-rust-analyzer',
    	\ 'coc-go',
@@ -233,6 +234,7 @@ hi CursorLine                           ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold,italic ctermfg=240 ctermbg=243
 
 set bg=dark
+set filetype=glslx
 set viminfo='1000,<666
 set clipboard=unnamed
 set numberwidth=5
