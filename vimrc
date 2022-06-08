@@ -280,8 +280,9 @@ nnoremap <C-k> :bp<CR>
 nnoremap <leader>d :bd<CR>
 
 nnoremap <leader>yy "+yy
+nnoremap <leader>p "+p
 vnoremap <leader>y "+y
-vnoremap <leader>p "+p
+
 
 nnoremap zh <C-w>3>
 nnoremap zl <C-w>3<
