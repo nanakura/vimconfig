@@ -29,6 +29,7 @@ require('packer').startup(function(use)
  use 'mg979/vim-visual-multi' --多光标
  use 'rhysd/clever-f.vim' --f查找
  use 'lewis6991/gitsigns.nvim'--git修改
+ use 'vim-autoformat/vim-autoformat'--代码格式化
  use 'jiangmiao/auto-pairs'--括号补全
  --use 'windwp/nvim-autopairs'
 
