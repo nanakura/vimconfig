@@ -28,6 +28,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'Yggdroot/indentLine'"对其线
     Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
     Plug 'rhysd/clever-f.vim' "f查找
+    Plug 'vim-autoformat/vim-autoformat'
     
     Plug 'rakr/vim-one'"主题
     "Plug 'dracula/vim'
