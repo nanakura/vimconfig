@@ -40,6 +40,7 @@ require('packer').startup(function(use)
 
 
  --补全
+  use 'ray-x/lsp_signature.nvim'
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
@@ -131,7 +132,7 @@ require'lspconfig'.rust_analyzer.setup{
 require'lspconfig'.cmake.setup{
 	{ "cmake-language-server" }
 }
-
+require "lsp_signature".setup(cfg)
 
 --在悬停窗口中自动显示线路诊断
 vim.o.updatetime = 250
