@@ -168,7 +168,7 @@ function! s:defx_my_settings() abort
     "nnoremap <silent><buffer><expr> q
             "\ defx#do_action('close_tree')
 endfunction
-
+let g:python3_host_prog=('python')
 "------------------------------------------------------------------------------------------------------"
 "状态栏
 set laststatus=2
@@ -244,9 +244,11 @@ set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
 
 set ignorecase "搜索忽略大小写
 " autocmd VimEnter * NoMatchParen "取消括号高亮匹配
-" set noeb
-" set vb
-" set vb t_vb=
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+set belloff=all
+
 set tm=500
 set number
 "set relativenumber
