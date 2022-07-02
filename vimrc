@@ -292,6 +292,6 @@ vnoremap <leader>y "+y
 nnoremap zh <C-w>3>
 nnoremap zl <C-w>3<
 
-syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
-syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-hi cFunctions ctermfg=75
+autocmd vimenter * syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
+autocmd vimenter * syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
+autocmd vimenter * hi cFunctions ctermfg=75
