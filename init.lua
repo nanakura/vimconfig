@@ -55,8 +55,8 @@ vim.o.tabstop=4
 vim.bo.tabstop=4
 vim.o.softtabstop=4
 vim.o.shiftwidth=4
-vim.o.scrolloff=4
-vim.o.sidescrolloff=4
+vim.o.scrolloff=5
+vim.o.sidescrolloff=5
 vim.wo.numberwidth=1
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
@@ -75,6 +75,7 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
 vim.cmd [[colorscheme onedark]]
+vim.cmd [[ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]]
 ------------------------------------------------------------------------------------------------------------------------------------------
 -- LSP settings
 local lspconfig = require 'lspconfig'
