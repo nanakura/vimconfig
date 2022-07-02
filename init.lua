@@ -31,6 +31,7 @@ require('packer').startup(function(use)
  use 'lewis6991/gitsigns.nvim'--git修改
  use 'vim-autoformat/vim-autoformat'--代码格式化
  use 'jiangmiao/auto-pairs'--括号补全
+ use 'Pocco81/AutoSave.nvim'
  --use 'windwp/nvim-autopairs'
 
  use {
@@ -460,6 +461,25 @@ require('indent_blankline').setup {
   char = '┆',
   show_trailing_blankline_indent = false,
 }
+-------------------------------------------------------------------------------------------
+local autosave = require("autosave")
+autosave.setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = false,
+        on_off_commands = true,
+        clean_command_line_interval = 0,
+        debounce_delay = 135
+    }
+)
 -------------------------------------------------------------------------------------------
 
 --git支持
