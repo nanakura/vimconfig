@@ -22,6 +22,7 @@ call plug#begin('~/.vim/plugged')
     
     Plug 'voldikss/vim-floaterm' "终端
     
+    Plug '907th/vim-auto-save'
     Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
     Plug 'honza/vim-snippets'"片段
     Plug 'jiangmiao/auto-pairs'"补全括号
@@ -206,6 +207,7 @@ let g:cpp_no_function_highlight = 1
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew --height=0.8 --width=0.7<CR>
 tnoremap <leader>d exit<CR><CR>
+let g:auto_save = 1
 "--------------------------------------------------------------------------------------------------------
 
 "fzf
