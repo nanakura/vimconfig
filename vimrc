@@ -291,6 +291,8 @@ nnoremap <leader>yy "+yy
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
+nnoremap <C-w>j <C-w>t<C-w>K
+nnoremap <C-w>k <C-w>t<C-w>H
 
 nnoremap zh <C-w>3>
 nnoremap zl <C-w>3<
