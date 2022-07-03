@@ -219,6 +219,7 @@ nnoremap <leader>fl :BLines<CR>
 "-----------------------------------------------------------------------------------------------------------------------
 
 "git setting
+set updatetime=100
 highlight GitgutterAdd guifg=#009900 ctermfg=10
 highlight GitgutterChange guifg=#bbbb00 ctermfg=11
 highlight GitgutterDelete guifg=#ff2222 ctermfg=9
