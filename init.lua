@@ -548,5 +548,8 @@ vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {})
 vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {})
 
+vim.api.nvim_set_keymap("n", "<C-w>j", "<C-w>t<C-w>K", {})
+vim.api.nvim_set_keymap("n", "<C-w>k", "<C-w>t<C-w>H", {})
+
 vim.api.nvim_set_keymap("n", "zl", "<C-w>3>", {})
 
