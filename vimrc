@@ -153,7 +153,7 @@ function! s:defx_my_settings() abort
     "nnoremap <silent><buffer><expr> q
                 "\ defx#do_action('close_tree')
 endfunction
-"let g:python3_host_prog=('python3')
+let g:python3_host_prog=('python3')
 "-----------------------------------------------------------------------------------
 "主题
 "tyrannicaltoucan/vim-quantum "主题\
