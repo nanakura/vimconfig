@@ -35,6 +35,7 @@ call plug#begin('~/.vim/plugged')
     "Plug 'dracula/vim'
     "Plug 'mhinz/vim-startify'"启动界面
     
+    Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter' "git修改
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
     Plug 'junegunn/fzf.vim'
