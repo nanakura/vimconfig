@@ -1,44 +1,42 @@
 "windows ~/_vimrc linux ~/.vimrc
 "windows ~/vimfiles/autoload  linux ~/.vim/autoload
- "--with-features=huge --enable-python3interp --enable-luainterp --enable-multibyte --enable-cscope --prefix=/usr/local/vim8
-   
+"--with-features=huge --enable-python3interp --enable-luainterp --enable-multibyte --enable-cscope --prefix=/usr/local/vim8
 let mapleader=","
 let g:maplocalleader=","
-
-"--------------------------------------------------------------------------------------"
+"--------------------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
-    Plug 'itchyny/lightline.vim'
-    Plug 'ap/vim-buftabline'
-	
+
+    Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+    Plug 'honza/vim-snippets'"片段
+    
     Plug 'Shougo/defx.nvim'"目录树"
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'kristijanhusak/defx-icons'
-	
-    Plug 'preservim/nerdcommenter' "注释
     
+    Plug 'itchyny/lightline.vim'
+    Plug 'ap/vim-buftabline'
+	Plug 'rakr/vim-one'"主题
     Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-    "Plug 'jackguo380/vim-lsp-cxx-highlight'
-    
-    Plug 'voldikss/vim-floaterm' "终端
-    
-    Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-    Plug 'honza/vim-snippets'"片段
-    Plug 'jiangmiao/auto-pairs'"补全括号
-    Plug 'Yggdroot/indentLine'"对其线
-    Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
-    Plug 'rhysd/clever-f.vim' "f查找
-    Plug 'vim-autoformat/vim-autoformat'
-    
-    Plug 'rakr/vim-one'"主题
     "Plug 'dracula/vim'
     "Plug 'mhinz/vim-startify'"启动界面
     
-    Plug 'airblade/vim-gitgutter' "git修改
+    Plug 'voldikss/vim-floaterm' "终端
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
     Plug 'junegunn/fzf.vim'
+    Plug 'rhysd/clever-f.vim' "f查找
+    
+    Plug 'jiangmiao/auto-pairs'"补全括号
+    Plug '907th/vim-auto-save'
+    Plug 'Yggdroot/indentLine'"对其线
+    Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
+    Plug 'preservim/nerdcommenter' "注释
+    Plug 'vim-autoformat/vim-autoformat'
+    
+    Plug 'airblade/vim-gitgutter' "git修改
+    Plug 'tpope/vim-fugitive'
 call plug#end()
-"-------------------------------------------------------------------------------------------"
+"------------------------------------------------------------------------------------
 "coc-nvim 补全
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -83,20 +81,7 @@ let g:coc_global_extensions = [
    	\ 'coc-go',
 	\ 'coc-clangd',
    	\ 'coc-sumneko-lua', ]
-"-------------------------------------------------------------------------------------------"
-
-"auto-pairs 括号补全
-let g:rainbow_active = 1
-let g:rainbow_load_separately = [
-    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
-    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
-    \ ]
-let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
-let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
-let g:AutoPairsShortcutFastWrap = '<C-e>'
-"------------------------------------------------------------------------------------------------------------"
+"-----------------------------------------------------------------------------------
 
 "Defx 目录树
 let g:defx_icons_enable_syntax_highlight = 1
@@ -169,7 +154,14 @@ function! s:defx_my_settings() abort
             "\ defx#do_action('close_tree')
 endfunction
 let g:python3_host_prog=('python')
-"------------------------------------------------------------------------------------------------------"
+"-----------------------------------------------------------------------------------
+"主题
+"tyrannicaltoucan/vim-quantum "主题\
+set background=dark
+set termguicolors
+colorscheme one
+"colorscheme dracula
+"------------------------------------------------------------------------------------
 "状态栏
 set laststatus=2
 set hidden
@@ -181,18 +173,9 @@ let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }   
 let g:lightline.tabline_separator = g:lightline.separator      
 let g:lightline.tabline_subseparator = g:lightline.subseparator
-"-------------------------------------------------------------------------------------------------------
-" Vim
-let g:indentLine_color_term = 111
-let g:indentLine_char = '┆'
-let g:indentLine_char_list = ['┆']
-"----------------------------------------------------------------------------------------------------------
-"tyrannicaltoucan/vim-quantum "主题\
-set background=dark
-set termguicolors
-colorscheme one
-"colorscheme dracula
-"-----------------------------------------------------------------------------------------------
+
+"------------------------------------------------------------------------------------
+"高亮
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -201,24 +184,48 @@ let g:cpp_experimental_simple_template_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 let g:cpp_no_function_highlight = 1
-"-----------------------------------------------------------------------------------------------
 
-"vim-floaterm终端
-nnoremap <leader>t :FloatermNew --height=0.8 --width=0.7<CR>
-tnoremap <leader>d exit<CR><CR>
-"--------------------------------------------------------------------------------------------------------
-
+"------------------------------------------------------------------------------------
 "fzf
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.8, 'relative': v:true, 'border':'sharp'} }
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fl :BLines<CR>
-"-----------------------------------------------------------------------------------------------------------------------
-
+"------------------------------------------------------------------------------------
+"vim-floaterm终端
+nnoremap <leader>t :FloatermNew --height=0.8 --width=0.7<CR>
+tnoremap <leader>d exit<CR><CR>
+"-----------------------------------------------------------------------------------
+"indentLine
+let g:indentLine_color_term = 111
+let g:indentLine_char = '┆'
+let g:indentLine_char_list = ['┆']
+"------------------------------------------------------------------------------------
+"vim-visual-multi
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+"------------------------------------------------------------------------------------
+"nerdcommenter
+let g:auto_save = 1 
+"------------------------------------------------------------------------------------
+"auto-pairs 括号补全
+let g:rainbow_active = 1
+let g:rainbow_load_separately = [
+    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+    \ ]
+let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
+let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+"-----------------------------------------------------------------------------------
 "git setting
+set updatetime=100
+let g:gitgutter_max_signs = 500
+let g:gitgutter_max_signs = -1 
 highlight GitgutterAdd guifg=#009900 ctermfg=10
-highlight GitgutterChange guifg=#bbbb00 ctermfg=11
+highlight GitgutterChange guifg=#bbbb00 ctermfg=9
 highlight GitgutterDelete guifg=#ff2222 ctermfg=9
 let g:gitgutter_sign_added='|'
 let g:gitgutter_sign_modified='|'
@@ -226,6 +233,7 @@ let g:gitgutter_sign_removed='|'
 let g:gitgutter_sign_removed_first_line='|'
 let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
+"--------------------------------------------------------------------------------
 
 
 hi PMenu              ctermfg=240 ctermbg=243
@@ -240,15 +248,11 @@ set viminfo='1000,<666
 set clipboard=unnamed
 set numberwidth=5
 set fileencodings=ucs-bom,utf-8,gb18030,default
-set shortmess=atI " 启动的时候不显示那个援助索马里儿童的提示
-
 set ignorecase "搜索忽略大小写
 " autocmd VimEnter * NoMatchParen "取消括号高亮匹配
-
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 set belloff=all
-
 set tm=500
 set number
 "set relativenumber
@@ -271,27 +275,26 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
-nnoremap <leader>s :s/<C-r><C-w>//g<left><left>
-
-nnoremap <leader>z :w<CR>
-nnoremap q :nohl<CR>
-vnoremap q <Esc>
-
 
 inoremap <C-l> <Right>
 nnoremap <C-j> :bn<CR>
 nnoremap <C-k> :bp<CR>
 nnoremap <leader>d :bd<CR>
 
+nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
+
+nnoremap q :nohl<CR>
+vnoremap q <Esc>
+
 nnoremap <leader>yy "+yy
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
-
+nnoremap <C-w>j <C-w>t<C-w>K
+nnoremap <C-w>k <C-w>t<C-w>H
 nnoremap zh <C-w>3>
 nnoremap zl <C-w>3<
 
-syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
-syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-hi cFunctions ctermfg=75
+autocmd vimenter * syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
+autocmd vimenter * syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
+autocmd vimenter * hi cFunctions ctermfg=75
