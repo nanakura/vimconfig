@@ -6,53 +6,53 @@ let g:maplocalleader=","
 "--------------------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
 
-    Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-    Plug 'honza/vim-snippets'"片段
-    
-    Plug 'Shougo/defx.nvim'"目录树"
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'kristijanhusak/defx-icons'
-    
-    Plug 'itchyny/lightline.vim'
-    Plug 'ap/vim-buftabline'
-	Plug 'rakr/vim-one'"主题
-    Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-    "Plug 'dracula/vim'
-    "Plug 'mhinz/vim-startify'"启动界面
-    
-    Plug 'voldikss/vim-floaterm' "终端
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
-    Plug 'junegunn/fzf.vim'
-    Plug 'rhysd/clever-f.vim' "f查找
-    
-    Plug 'jiangmiao/auto-pairs'"补全括号
-    Plug '907th/vim-auto-save'
-    Plug 'Yggdroot/indentLine'"对其线
-    Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
-    Plug 'preservim/nerdcommenter' "注释
-    Plug 'vim-autoformat/vim-autoformat'
-    
-    Plug 'airblade/vim-gitgutter' "git修改
-    Plug 'tpope/vim-fugitive'
+Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+Plug 'honza/vim-snippets'"片段
+
+Plug 'Shougo/defx.nvim'"目录树"
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'kristijanhusak/defx-icons'
+
+Plug 'itchyny/lightline.vim'
+Plug 'ap/vim-buftabline'
+Plug 'rakr/vim-one'"主题
+Plug 'octol/vim-cpp-enhanced-highlight' "高亮
+"Plug 'dracula/vim'
+"Plug 'mhinz/vim-startify'"启动界面
+
+Plug 'voldikss/vim-floaterm' "终端
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
+Plug 'junegunn/fzf.vim'
+Plug 'rhysd/clever-f.vim' "f查找
+
+Plug 'jiangmiao/auto-pairs'"补全括号
+Plug '907th/vim-auto-save'
+Plug 'Yggdroot/indentLine'"对其线
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
+Plug 'preservim/nerdcommenter' "注释
+Plug 'vim-autoformat/vim-autoformat'
+
+Plug 'airblade/vim-gitgutter' "git修改
+Plug 'tpope/vim-fugitive'
 call plug#end()
 "------------------------------------------------------------------------------------
 "coc-nvim 补全
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ CheckBackspace() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ CheckBackspace() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -65,22 +65,22 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 let g:coc_global_extensions = [
-	"\ 'coc-css',
-	"\ 'coc-html',
-	"\ 'coc-json',
-	"\ 'coc-tsserver',
-	"\ 'coc-vetur',
-	"\ 'coc-pyright',
-	"\ 'coc-sh',
-	"\ 'coc-cmake',
-	"\ 'coc-sql',
-	\ 'coc-json',
-	\ 'coc-glslx',
-	\ 'coc-snippets',
-	\ 'coc-rust-analyzer',
-   	\ 'coc-go',
-	\ 'coc-clangd',
-   	\ 'coc-sumneko-lua', ]
+            "\ 'coc-css',
+            "\ 'coc-html',
+            "\ 'coc-json',
+            "\ 'coc-tsserver',
+            "\ 'coc-vetur',
+            "\ 'coc-pyright',
+            "\ 'coc-sh',
+            "\ 'coc-cmake',
+            "\ 'coc-sql',
+            \ 'coc-json',
+            \ 'coc-glslx',
+            \ 'coc-snippets',
+            \ 'coc-rust-analyzer',
+            \ 'coc-go',
+            \ 'coc-clangd',
+            \ 'coc-sumneko-lua', ]
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
@@ -99,19 +99,19 @@ let g:defx_icons_root_opened_tree_icon = ''
 let g:defx_icons_nested_opened_tree_icon = ''
 let g:defx_icons_nested_closed_tree_icon = ''
 
-	call defx#custom#column('icon', {
-	      \ 'directory_icon': '▸ ',
-	      \ 'file_icon': '  ',
-	      \ 'opened_icon': '▾ ',
-	      \ 'root_icon': '  ',
-	      \ })
+call defx#custom#column('icon', {
+            \ 'directory_icon': '▸ ',
+            \ 'file_icon': '  ',
+            \ 'opened_icon': '▾ ',
+            \ 'root_icon': '  ',
+            \ })
 
-	call defx#custom#column('mark', {
-	      \ 'readonly_icon': '✗',
-	      \ 'selected_icon': '✓',
-	      \ })
+call defx#custom#column('mark', {
+            \ 'readonly_icon': '✗',
+            \ 'selected_icon': '✓',
+            \ })
 
-    call defx#custom#option('_', {
+call defx#custom#option('_', {
             \ 'columns': 'indent:git:icons:filename',
             \ 'winwidth': 22,
             \ 'split': 'vertical',
@@ -123,7 +123,7 @@ let g:defx_icons_nested_closed_tree_icon = ''
             \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
             \ })
 
-    nnoremap <silent> <LocalLeader>e
+nnoremap <silent> <LocalLeader>e
             \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
 
 nnoremap <silent> <LocalLeader>a
@@ -134,9 +134,9 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer><expr> <CR>
                 \ defx#is_directory() ?
                 \ defx#do_action('open_tree') :
-                \ defx#do_action('multi', ['drop']) 
+                \ defx#do_action('multi', ['drop'])
 
-   nnoremap <silent><buffer><expr> l
+    nnoremap <silent><buffer><expr> l
                 \ defx#is_directory() ?
                 \ defx#do_action('open_or_close_tree') :
                 \ defx#do_action('multi', ['drop'])
@@ -151,9 +151,9 @@ function! s:defx_my_settings() abort
                 \ defx#do_action('rename')
 
     "nnoremap <silent><buffer><expr> q
-            "\ defx#do_action('close_tree')
+                "\ defx#do_action('close_tree')
 endfunction
-let g:python3_host_prog=('python')
+"let g:python3_host_prog=('python3')
 "-----------------------------------------------------------------------------------
 "主题
 "tyrannicaltoucan/vim-quantum "主题\
@@ -166,12 +166,12 @@ colorscheme one
 set laststatus=2
 set hidden
 set noshowmode
-let g:lightline = {                                            
-    \ 'colorscheme': 'one',                                  
-    \ }                                                               
-let g:lightline.separator = { 'left': '', 'right': '' }      
-let g:lightline.subseparator = { 'left': '', 'right': '' }   
-let g:lightline.tabline_separator = g:lightline.separator      
+let g:lightline = {
+            \ 'colorscheme': 'one',
+            \ }
+let g:lightline.separator = { 'left': '', 'right': '' }
+let g:lightline.subseparator = { 'left': '', 'right': '' }
+let g:lightline.tabline_separator = g:lightline.separator
 let g:lightline.tabline_subseparator = g:lightline.subseparator
 
 "------------------------------------------------------------------------------------
@@ -206,16 +206,16 @@ let g:indentLine_char_list = ['┆']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------
 "nerdcommenter
-let g:auto_save = 1 
+let g:auto_save = 1
 "------------------------------------------------------------------------------------
 "auto-pairs 括号补全
 let g:rainbow_active = 1
 let g:rainbow_load_separately = [
-    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
-    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
-    \ ]
+            \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+            \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+            \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+            \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+            \ ]
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
@@ -223,7 +223,7 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 "git setting
 set updatetime=100
 let g:gitgutter_max_signs = 500
-let g:gitgutter_max_signs = -1 
+let g:gitgutter_max_signs = -1
 highlight GitgutterAdd guifg=#009900 ctermfg=10
 highlight GitgutterChange guifg=#bbbb00 ctermfg=9
 highlight GitgutterDelete guifg=#ff2222 ctermfg=9

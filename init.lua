@@ -16,9 +16,9 @@ require('packer').startup(function(use)
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
 	use 'onsails/lspkind.nvim'
-    use 'jiangmiao/auto-pairs'--括号补全
+	use 'jiangmiao/auto-pairs'--括号补全
 	--use 'windwp/nvim-autopairs'
-	
+
 	use {
 		'kyazdani42/nvim-tree.lua',-- 树目录
 		requires = {
@@ -40,15 +40,15 @@ require('packer').startup(function(use)
 	}
 	use 'numToStr/FTerm.nvim'--终端
 	use 'rhysd/clever-f.vim' --f查找
-	
+
 	use 'b3nj5m1n/kommentary'--注释
 	use 'lukas-reineke/indent-blankline.nvim'--对齐线
 	use 'mg979/vim-visual-multi' --多光标
 	use "Pocco81/AutoSave.nvim"
 	use 'vim-autoformat/vim-autoformat'--代码格式化
-	
+
 	use 'lewis6991/gitsigns.nvim'--git修改
-    use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+	use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -167,25 +167,25 @@ cfg = {
 	floating_window_above_cur_line = true,
 	floating_window_off_x = 1,
 	floating_window_off_y = -1,
-	fix_pos = false, 
+	fix_pos = false,
 	hint_enable = true,
-	hint_prefix = "💡",  
+	hint_prefix = "💡",
 	hint_scheme = "String",
-	hi_parameter = "LspSignatureActiveParameter", 
-	max_height = 2, 
-	max_width = 50, 
+	hi_parameter = "LspSignatureActiveParameter",
+	max_height = 2,
+	max_width = 50,
 	handler_opts = {
-		border = "rounded"   
+		border = "rounded"
 	},
-	always_trigger = false, 
+	always_trigger = false,
 	auto_close_after = nil,
-	extra_trigger_chars = {}, 
-	zindex = 200, 
-	padding = '', 
+	extra_trigger_chars = {},
+	zindex = 200,
+	padding = '',
 	transparency = nil,
-	shadow_blend = 36, 
-	shadow_guibg = 'Black', 
-	timer_interval = 200, 
+	shadow_blend = 36,
+	shadow_guibg = 'Black',
+	timer_interval = 200,
 	toggle_key = nil
 }
 require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
@@ -463,21 +463,21 @@ require('indent_blankline').setup {
 --自动保存
 local autosave = require("autosave")
 autosave.setup(
-    {
-        enabled = true,
-        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-        events = {"InsertLeave", "TextChanged"},
-        conditions = {
-            exists = true,
-            filename_is_not = {},
-            filetype_is_not = {},
-            modifiable = true
-        },
-        write_all_buffers = false,
-        on_off_commands = true,
-        clean_command_line_interval = 0,
-        debounce_delay = 135
-    }
+{
+	enabled = true,
+	execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+	events = {"InsertLeave", "TextChanged"},
+	conditions = {
+		exists = true,
+		filename_is_not = {},
+		filetype_is_not = {},
+		modifiable = true
+	},
+	write_all_buffers = false,
+	on_off_commands = true,
+	clean_command_line_interval = 0,
+	debounce_delay = 135
+}
 )
 -----------------------------------------------------------------------------------
 --注释
