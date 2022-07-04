@@ -19,8 +19,8 @@ Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
 Plug 'rakr/vim-one'"主题
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-"Plug 'dracula/vim'
-"Plug 'mhinz/vim-startify'"启动界面
+Plug 'dracula/vim'
+Plug 'mhinz/vim-startify'"启动界面
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
@@ -164,8 +164,8 @@ let g:python3_host_prog=('python3')
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-colorscheme one
-"colorscheme dracula
+"colorscheme one
+colorscheme dracula
 "------------------------------------------------------------------------------------
 "状态栏
 set laststatus=2
@@ -263,8 +263,8 @@ let g:gitgutter_sign_modified_removed='|'
 hi PMenu              ctermfg=240 ctermbg=243
 hi PMenuSel           ctermfg=240    ctermbg=243
 set cursorline
-hi CursorLine                           ctermbg=none ctermbg=242
-hi CursorLineNr       cterm=bold,italic ctermfg=240 ctermbg=243
+hi CursorLine         cterm=bold ctermbg=none ctermbg=242
+hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
 
 set bg=dark
 set filetype=glslx
@@ -319,6 +319,12 @@ nnoremap <C-w>k <C-w>t<C-w>H
 nnoremap zh <C-w>3>
 nnoremap zl <C-w>3<
 
-autocmd vimenter * syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
-autocmd vimenter * syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-autocmd vimenter * hi cFunctions ctermfg=75
+autocmd vimenter * :call Myhi()
+nnoremap <leader>h :call Myhi()<CR>
+
+def Myhi()
+syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
+syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
+hi cFunctions ctermfg=75
+enddef
+
