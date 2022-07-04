@@ -34,8 +34,3 @@ linux file pos ~/.vimrc
 4. windows   ~/AppData\Local\nvim\init.lua
 5. linux     ~/.config/nvim/init.lua
 6. PackerSync
-## screenshot
-### vim
-![vim](https://github.com/Monody-x/vimconfig/blob/main/vim.png)
-### nvim
-![nvim](https://github.com/Monody-x/vimconfig/blob/main/nvim1.png)

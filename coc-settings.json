@@ -46,13 +46,7 @@
 	    		"trace.server": "verbose",
 	    		"filetypes": ["go"]
 	  	},
-	   	"lua": {
-	    		"command": "lua-language-server",
-	    		"args": ["-E", "~/.lsp/lua/main.lua"],
-	    		"rootPatterns": [".git"],
-	    		"filetypes": ["lua"]
-	  	},
-		"cmake": {
+        "cmake": {
      			 "command": "cmake-language-server",
       			"filetypes": ["cmake"],
       			"rootPatterns": [

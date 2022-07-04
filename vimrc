@@ -19,7 +19,7 @@ Plug 'ap/vim-buftabline'
 Plug 'rakr/vim-one'"主题
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
 "Plug 'dracula/vim'
-"Plug 'mhinz/vim-startify'"启动界面
+Plug 'mhinz/vim-startify'"启动界面
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
@@ -85,7 +85,7 @@ let g:coc_global_extensions = [
 
 "Defx 目录树
 let g:defx_icons_enable_syntax_highlight = 1
-let g:defx_icons_column_length = 1
+let g:defx_icons_column_length = 2
 let g:defx_icons_directory_icon = ''
 let g:defx_icons_mark_icon = '*'
 let g:defx_icons_copy_icon = ''
@@ -113,7 +113,7 @@ call defx#custom#column('mark', {
 
 call defx#custom#option('_', {
             \ 'columns': 'indent:git:icons:filename',
-            \ 'winwidth': 22,
+            \ 'winwidth': 20,
             \ 'split': 'vertical',
             \ 'direction': 'topleft',
             \ 'show_ignored_files': 0,
