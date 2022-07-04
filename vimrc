@@ -211,14 +211,14 @@ let g:cpp_no_function_highlight = 1
 
 "------------------------------------------------------------------------------------
 "fzf
-let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.8, 'relative': v:true, 'border':'sharp'} }
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.9, 'relative': v:true, 'border':'sharp'} }
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fl :BLines<CR>
 "------------------------------------------------------------------------------------
 "vim-floaterm终端
-nnoremap <leader>t :FloatermNew --height=0.8 --width=0.7<CR>
+nnoremap <leader>t :FloatermNew --height=0.9 --width=0.8<CR>
 tnoremap <leader>d exit<CR><CR>
 "-----------------------------------------------------------------------------------
 "indentLine

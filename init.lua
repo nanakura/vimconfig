@@ -477,8 +477,8 @@ vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin
 require'FTerm'.setup({
 	border = 'double',
 	dimensions  = {
-		height = 0.8,
-		width = 0.7,
+		height = 0.9,
+		width = 0.8,
 	},
 })
 vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
