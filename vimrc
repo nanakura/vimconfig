@@ -120,7 +120,7 @@ call defx#custom#option('_', {
             \ 'show_ignored_files': 0,
             \ 'root_marker': '≡ ',
             \ 'ignored_files':
-            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.stversions'
+            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.*,.stversions'
             \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
             \ })
 
@@ -151,8 +151,12 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer><expr> r
                 \ defx#do_action('rename')
 
+    nnoremap <silent><buffer><expr> . 
+                \ defx#do_action('toggle_ignored_files')
+
     "nnoremap <silent><buffer><expr> q
                 "\ defx#do_action('close_tree')
+
 endfunction
 let g:python3_host_prog=('python3')
 "-----------------------------------------------------------------------------------
