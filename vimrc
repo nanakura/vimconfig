@@ -15,11 +15,12 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'kristijanhusak/defx-icons'
 
 Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
 Plug 'rakr/vim-one'"主题
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
 "Plug 'dracula/vim'
-Plug 'mhinz/vim-startify'"启动界面
+"Plug 'mhinz/vim-startify'"启动界面
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
@@ -167,12 +168,31 @@ set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'one',
-            \ }
-let g:lightline.separator = { 'left': '', 'right': '' }
-let g:lightline.subseparator = { 'left': '', 'right': '' }
-let g:lightline.tabline_separator = g:lightline.separator
-let g:lightline.tabline_subseparator = g:lightline.subseparator
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name'
+      \ },
+      \ }
+
+"let g:lightline = {
+      "\ 'colorscheme': 'one',
+      "\ 'active': {
+      "\   'left': [ [ 'mode', 'paste' ],
+      "\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      "\ },
+      "\ 'component_function': {
+      "\   'gitbranch': 'FugitiveHead'
+      "\ },
+      "\ }
+
+"let g:lightline.separator = { 'left': '', 'right': '' }
+"let g:lightline.subseparator = { 'left': '', 'right': '' }
+"let g:lightline.tabline_separator = g:lightline.separator
+"let g:lightline.tabline_subseparator = g:lightline.subseparator
 
 "------------------------------------------------------------------------------------
 "高亮
