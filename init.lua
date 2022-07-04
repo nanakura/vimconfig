@@ -16,8 +16,7 @@ require('packer').startup(function(use)
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
 	use 'onsails/lspkind.nvim'
-	use 'jiangmiao/auto-pairs'--括号补全
-	--use 'windwp/nvim-autopairs'
+	--use 'jiangmiao/auto-pairs'--括号补全
 
 	use {
 		'kyazdani42/nvim-tree.lua',-- 树目录
@@ -29,10 +28,8 @@ require('packer').startup(function(use)
 	use 'nvim-lualine/lualine.nvim'--状态栏
 	use 'mjlbach/onedark.nvim'  --主题
 	use 'nvim-treesitter/nvim-treesitter'--高亮
-	use {
-		'romgrk/barbar.nvim',--butter插件
-		requires = {'kyazdani42/nvim-web-devicons'}
-	}
+    use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+	use 'windwp/nvim-autopairs'
 
 	use {
 		'nvim-telescope/telescope.nvim',--模糊搜索
@@ -48,7 +45,6 @@ require('packer').startup(function(use)
 	use 'vim-autoformat/vim-autoformat'--代码格式化
 
 	use 'lewis6991/gitsigns.nvim'--git修改
-	use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -388,6 +384,8 @@ log = {
 	},
 },
 } -- END_DEFAULT_OPTS
+
+
 vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
 -----------------------------------------------------------------------------------
 -- Treesitter configuration 高亮
@@ -433,9 +431,40 @@ require('lualine').setup {
 	tabline = {},
 	extensions = {}
 }
+---------------------------------------------------------------------------------
+--bufferline
+vim.opt.termguicolors = true
+require("bufferline").setup{}
 
 -----------------------------------------------------------------------------------
---require('nvim-autopairs').setup({})
+--括号补全
+local npairs=require('nvim-autopairs')
+npairs.setup({
+    fast_wrap = {},
+})
+npairs.setup({
+    fast_wrap = {
+      map = '<M-e>',
+      chars = { '{', '[', '(', '"', "'" },
+      pattern = [=[[%'%"%)%>%]%)%}%,]]=],
+      end_key = '$',
+      keys = 'qwertyuiopzxcvbnmasdfghjkl',
+      check_comma = true,
+      highlight = 'Search',
+      highlight_grey='Comment'
+    },
+})
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp = require('cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
+
+require('nvim-autopairs').setup({
+  enable_check_bracket_line = false
+})
 
 -----------------------------------------------------------------------------------
 --模糊查找
