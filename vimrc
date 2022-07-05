@@ -8,6 +8,10 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
 Plug 'honza/vim-snippets'"片段
+"Plug 'prabirshrestha/asyncomplete.vim'
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
+"Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 Plug 'Shougo/defx.nvim'"目录树"
 Plug 'roxma/nvim-yarp'
@@ -37,6 +41,103 @@ Plug 'vim-autoformat/vim-autoformat'
 Plug 'airblade/vim-gitgutter' "git修改
 Plug 'tpope/vim-fugitive'
 call plug#end()
+"-------------------------------------------------------------------------------------
+"vim-lsp
+"if executable('clangd')
+"au User lsp_setup call lsp#register_server({
+            "\ 'name': 'clangd',
+            "\ 'cmd': {server_info->['clangd', '-background-index']},
+            "\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+            "\ })
+"endif
+
+"if executable('gopls')
+"au User lsp_setup call lsp#register_server({
+            "\ 'name': 'gopls',
+            "\ 'cmd': {server_info->['gopls', '-remote=auto']},
+            "\ 'allowlist': ['go'],
+            "\ })
+"autocmd BufWritePre *.go LspDocumentFormatSync
+"endif
+
+"if executable('vim-language-server')
+"augroup LspVim
+"autocmd!
+"autocmd User lsp_setup call lsp#register_server({
+            "\ 'name': 'vim-language-server',
+            "\ 'cmd': {server_info->['vim-language-server', '--stdio']},
+            "\ 'whitelist': ['vim'],
+            "\ 'initialization_options': {
+            "\   'vimruntime': $VIMRUNTIME,
+            "\   'runtimepath': &rtp,
+            "\ }})
+"augroup END
+"endif
+
+"if executable('lua-language-server')
+"au User lsp_setup call lsp#register_server({
+            "\ 'name': 'lua-language-server',
+            "\ 'cmd': {server_info->[&shell, &shellcmdflag, 'lua-language-server']},
+            "\ 'whitelist': ['lua'],
+            "\ })
+"endif
+
+"function! s:on_lsp_buffer_enabled() abort
+"setlocal omnifunc=lsp#complete
+"setlocal signcolumn=yes
+"if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+"nmap <buffer> gd <plug>(lsp-definition)
+"nmap <buffer> gs <plug>(lsp-document-symbol-search)
+"nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+"nmap <buffer> gr <plug>(lsp-references)
+"nmap <buffer> gi <plug>(lsp-implementation)
+"nmap <buffer> gt <plug>(lsp-type-definition)
+"nmap <buffer> <leader>rn <plug>(lsp-rename)
+"nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+"nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+"nmap <buffer> K <plug>(lsp-hover)
+"nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+"nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+"let g:lsp_format_sync_timeout = 1000
+"autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+"endfunction
+"augroup lsp_install
+"au!
+"autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+"augroup END
+
+"let g:lsp_tree_incoming_prefix = "←"
+"let g:lsp_tree_incoming_prefix = "⬅️"
+"let g:lsp_diagnostics_signs_error = {'text': ''}
+"let g:lsp_diagnostics_signs_warning = {'text': ''} " icons require GUI
+"let g:lsp_diagnostics_signs_hint = {'icon': ''} " icons require GUI
+"let g:lsp_preview_max_width =60
+"let g:lsp_preview_max_height=2
+"let g:lsp_hover_ui = 'float'
+
+
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+"inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<C-e>"
+"inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
+"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+"imap <c-space> <Plug>(asyncomplete_force_refresh)
+"let g:asyncomplete_auto_completeopt = 0
+"set completeopt=menuone,noinsert,noselect,preview
+"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+"function! s:check_back_space() abort
+"let col = col('.') - 1
+"return !col || getline('.')[col - 1]  =~ '\s'
+"endfunction
+"inoremap <silent><expr> <TAB>
+            "\ pumvisible() ? "\<C-n>" :
+            "\ <SID>check_back_space() ? "\<TAB>" :
+            "\ asyncomplete#force_refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 "------------------------------------------------------------------------------------
 "coc-nvim 补全
 inoremap <silent><expr> <TAB>
@@ -152,7 +253,7 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer><expr> r
                 \ defx#do_action('rename')
 
-    nnoremap <silent><buffer><expr> . 
+    nnoremap <silent><buffer><expr> .
                 \ defx#do_action('toggle_ignored_files')
 
     "nnoremap <silent><buffer><expr> q
@@ -173,26 +274,26 @@ set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name'
-      \ },
-      \ }
+            \ 'colorscheme': 'one',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'gitbranch': 'gitbranch#name'
+            \ },
+            \ }
 
 "let g:lightline = {
-      "\ 'colorscheme': 'one',
-      "\ 'active': {
-      "\   'left': [ [ 'mode', 'paste' ],
-      "\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      "\ },
-      "\ 'component_function': {
-      "\   'gitbranch': 'FugitiveHead'
-      "\ },
-      "\ }
+            "\ 'colorscheme': 'one',
+            "\ 'active': {
+            "\   'left': [ [ 'mode', 'paste' ],
+            "\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            "\ },
+            "\ 'component_function': {
+            "\   'gitbranch': 'FugitiveHead'
+            "\ },
+            "\ }
 
 "let g:lightline.separator = { 'left': '', 'right': '' }
 "let g:lightline.subseparator = { 'left': '', 'right': '' }
@@ -267,11 +368,11 @@ set cursorline
 hi CursorLine         cterm=bold ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
 
+set numberwidth=1
 set bg=dark
 set filetype=glslx
 set viminfo='1000,<666
 set clipboard=unnamed
-set numberwidth=5
 set fileencodings=ucs-bom,utf-8,gb18030,default
 set ignorecase "搜索忽略大小写
 " autocmd VimEnter * NoMatchParen "取消括号高亮匹配
@@ -324,8 +425,8 @@ nnoremap <expr>m col(".")==col("$")-1 ? "^" : "$"
 autocmd vimenter * :call Myhi()
 nnoremap <silent><leader>h :call Myhi()<CR>
 def Myhi()
-syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
-syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-hi cFunctions ctermfg=75
+    syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
+    syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
+    hi cFunctions ctermfg=75
 enddef
 
