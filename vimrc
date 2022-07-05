@@ -19,8 +19,8 @@ Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
 Plug 'rakr/vim-one'"主题
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-Plug 'dracula/vim'
-Plug 'mhinz/vim-startify'"启动界面
+"Plug 'dracula/vim'
+"Plug 'mhinz/vim-startify'"启动界面
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
@@ -75,6 +75,7 @@ let g:coc_global_extensions = [
             "\ 'coc-sh',
             "\ 'coc-cmake',
             "\ 'coc-sql',
+            \ 'coc-vimlsp',
             \ 'coc-json',
             \ 'coc-glslx',
             \ 'coc-snippets',
@@ -164,8 +165,8 @@ let g:python3_host_prog=('python3')
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
 set termguicolors
-"colorscheme one
-colorscheme dracula
+colorscheme one
+"colorscheme dracula
 "------------------------------------------------------------------------------------
 "状态栏
 set laststatus=2
@@ -299,29 +300,29 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
-
-inoremap <C-l> <Right>
-nnoremap <C-j> :bn<CR>
-nnoremap <C-k> :bp<CR>
-nnoremap <leader>d :bd<CR>
+inoremap <silent><C-l> <Right>
+nnoremap <silent><C-j> :bn<CR>
+nnoremap <silent><C-k> :bp<CR>
+nnoremap <silent><leader>d :bd<CR>
 
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 
-nnoremap q :nohl<CR>
-vnoremap q <Esc>
+nnoremap <silent>q :nohl<CR>
+vnoremap <silent>q <Esc>
 
-nnoremap <leader>yy "+yy
-nnoremap <leader>p "+p
-vnoremap <leader>y "+y
+nnoremap <silent><leader>yy "+yy
+nnoremap <silent><leader>p "+p
+vnoremap <silent><leader>y "+y
 
-nnoremap <C-w>j <C-w>t<C-w>K
-nnoremap <C-w>k <C-w>t<C-w>H
-nnoremap zh <C-w>3>
-nnoremap zl <C-w>3<
+nnoremap <silent><C-w>j <C-w>t<C-w>K
+nnoremap <silent><C-w>k <C-w>t<C-w>H
+nnoremap <silent>zh <C-w>3>
+nnoremap <silent>zl <C-w>3<
+
+nnoremap <expr>m col(".")==col("$")-1 ? "^" : "$"
 
 autocmd vimenter * :call Myhi()
-nnoremap <leader>h :call Myhi()<CR>
-
+nnoremap <silent><leader>h :call Myhi()<CR>
 def Myhi()
 syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
 syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
