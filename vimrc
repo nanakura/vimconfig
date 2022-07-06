@@ -172,15 +172,6 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 let g:coc_global_extensions = [
-            "\ 'coc-css',
-            "\ 'coc-html',
-            "\ 'coc-json',
-            "\ 'coc-tsserver',
-            "\ 'coc-vetur',
-            "\ 'coc-pyright',
-            "\ 'coc-sh',
-            "\ 'coc-cmake',
-            "\ 'coc-sql',
             \ 'coc-vimlsp',
             \ 'coc-json',
             \ 'coc-glslx',
