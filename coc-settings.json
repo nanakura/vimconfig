@@ -55,6 +55,9 @@
       			"initializationOptions": {
         		"buildDirectory": "build"
      			 }
-    		}
+    		}, "lua": {
+      "command": "lua-language-server",
+      "filetypes": ["lua"]
+    }
 	}
 }

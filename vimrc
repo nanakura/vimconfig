@@ -5,14 +5,13 @@ let mapleader=","
 let g:maplocalleader=","
 "--------------------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
+"Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+"Plug 'honza/vim-snippets'"片段
 
-Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-Plug 'honza/vim-snippets'"片段
-
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 Plug 'Shougo/defx.nvim'"目录树"
 Plug 'roxma/nvim-yarp'
@@ -24,13 +23,10 @@ Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
 Plug 'rakr/vim-one'"主题
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-"Plug 'dracula/vim'
-"Plug 'mhinz/vim-startify'"启动界面
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
 Plug 'junegunn/fzf.vim'
-Plug 'rhysd/clever-f.vim' "f查找
 
 Plug 'jiangmiao/auto-pairs'"补全括号
 Plug '907th/vim-auto-save'
@@ -44,114 +40,113 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 "-------------------------------------------------------------------------------------
 "vim-lsp
-"if executable('clangd')
-"au User lsp_setup call lsp#register_server({
-            "\ 'name': 'clangd',
-            "\ 'cmd': {server_info->['clangd', '-background-index']},
-            "\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-            "\ })
-"endif
+if executable('clangd')
+au User lsp_setup call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->['clangd', '-background-index']},
+            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+            \ })
+endif
 
-"if executable('gopls')
-"au User lsp_setup call lsp#register_server({
-            "\ 'name': 'gopls',
-            "\ 'cmd': {server_info->['gopls', '-remote=auto']},
-            "\ 'allowlist': ['go'],
-            "\ })
-"autocmd BufWritePre *.go LspDocumentFormatSync
-"endif
+if executable('gopls')
+au User lsp_setup call lsp#register_server({
+            \ 'name': 'gopls',
+            \ 'cmd': {server_info->['gopls', '-remote=auto']},
+            \ 'allowlist': ['go'],
+            \ })
+autocmd BufWritePre *.go LspDocumentFormatSync
+endif
 
-"function! s:on_lsp_buffer_enabled() abort
-"setlocal omnifunc=lsp#complete
-"setlocal signcolumn=yes
-"if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-"nmap <buffer> gd <plug>(lsp-definition)
-"nmap <buffer> gs <plug>(lsp-document-symbol-search)
-"nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-"nmap <buffer> gr <plug>(lsp-references)
-"nmap <buffer> gi <plug>(lsp-implementation)
-"nmap <buffer> gt <plug>(lsp-type-definition)
-"nmap <buffer> <leader>rn <plug>(lsp-rename)
-"nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-"nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-"nmap <buffer> K <plug>(lsp-hover)
-"nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-"nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+function! s:on_lsp_buffer_enabled() abort
+setlocal omnifunc=lsp#complete
+setlocal signcolumn=yes
+if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+nmap <buffer> gd <plug>(lsp-definition)
+nmap <buffer> gs <plug>(lsp-document-symbol-search)
+nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+nmap <buffer> gr <plug>(lsp-references)
+nmap <buffer> gi <plug>(lsp-implementation)
+nmap <buffer> gt <plug>(lsp-type-definition)
+nmap <buffer> <leader>rn <plug>(lsp-rename)
+nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+nmap <buffer> K <plug>(lsp-hover)
+nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-"let g:lsp_format_sync_timeout = 1000
-"autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-"endfunction
-"augroup lsp_install
-"au!
-"autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-"augroup END
+let g:lsp_format_sync_timeout = 1000
+autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+endfunction
+augroup lsp_install
+au!
+autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
-"let g:lsp_tree_incoming_prefix = "←"
-"let g:lsp_tree_incoming_prefix = "⬅️"
-"let g:lsp_diagnostics_signs_error = {'text': ''}
-"let g:lsp_diagnostics_signs_warning = {'text': ''} " icons require GUI
-"let g:lsp_diagnostics_signs_hint = {'icon': ''} " icons require GUI
-"let g:lsp_preview_max_width =60
-"let g:lsp_preview_max_height=2
-"let g:lsp_hover_ui = 'float'
+let g:lsp_tree_incoming_prefix = "←"
+let g:lsp_tree_incoming_prefix = "⬅️"
+let g:lsp_diagnostics_signs_error = {'text': ''}
+let g:lsp_diagnostics_signs_warning = {'text': ''} " icons require GUI
+let g:lsp_diagnostics_signs_hint = {'icon': ''} " icons require GUI
+let g:lsp_preview_max_width =60
+let g:lsp_preview_max_height=2
+let g:lsp_hover_ui = 'float'
 
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<C-e>"
+inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+let g:asyncomplete_auto_completeopt = 0
+set completeopt=menuone,noinsert,noselect,preview
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
-"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-"inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<C-e>"
-"inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-"imap <c-space> <Plug>(asyncomplete_force_refresh)
-"let g:asyncomplete_auto_completeopt = 0
-"set completeopt=menuone,noinsert,noselect,preview
-"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-"function! s:check_back_space() abort
-"let col = col('.') - 1
-"return !col || getline('.')[col - 1]  =~ '\s'
-"endfunction
-"inoremap <silent><expr> <TAB>
-            "\ pumvisible() ? "\<C-n>" :
-            "\ <SID>check_back_space() ? "\<TAB>" :
-            "\ asyncomplete#force_refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 "------------------------------------------------------------------------------------
 "coc-nvim 补全
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ CheckBackspace() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB>
+            "\ pumvisible() ? "\<C-n>" :
+            "\ CheckBackspace() ? "\<TAB>" :
+            "\ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! CheckBackspace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+"function! CheckBackspace() abort
+    "let col = col('.') - 1
+    "return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"" Make <CR> auto-select the first completion item and notify coc.nvim to
+"" format on enter, <cr> could be remapped by other vim plugin
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+            "\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+"nmap <silent> [g <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call ShowDocumentation()<CR>
+"" GoTo code navigation.
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
+"nnoremap <silent> K :call ShowDocumentation()<CR>
 
-let g:coc_global_extensions = [
-            \ 'coc-vimlsp',
-            \ 'coc-json',
-            \ 'coc-glslx',
-            \ 'coc-snippets',
-            \ 'coc-go',
-            \ 'coc-clangd',]
+"let g:coc_global_extensions = [
+            "\ 'coc-vimlsp',
+            "\ 'coc-json',
+            "\ 'coc-glslx',
+            "\ 'coc-snippets',
+            "\ 'coc-go',
+            "\ 'coc-clangd',]
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
@@ -273,6 +268,7 @@ nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fl :BLines<CR>
+nnoremap <leader>fa :Ag<CR>
 "------------------------------------------------------------------------------------
 "vim-floaterm终端
 nnoremap <leader>t :FloatermNew --height=0.9 --width=0.8<CR>
@@ -353,7 +349,7 @@ set hlsearch
 set backspace=indent,eol,start "设置back键
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 let &t_SI.="\e[6 q" "SI = INSERT mode
-let &t_SR.="\e[2 q" "SR = REPLACE mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 
 inoremap <silent><C-l> <Right>

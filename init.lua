@@ -9,14 +9,11 @@ require('packer').startup(function(use)
 	use 'ray-x/lsp_signature.nvim'
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/cmp-nvim-lsp'
-	use 'hrsh7th/cmp-buffer'
-	use 'hrsh7th/cmp-path'
-	use 'hrsh7th/cmp-cmdline'
+	--use 'hrsh7th/cmp-cmdline'
 	use 'hrsh7th/nvim-cmp'
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
 	use 'onsails/lspkind.nvim'
-	--use 'jiangmiao/auto-pairs'--括号补全
 
 	use {
 		'kyazdani42/nvim-tree.lua',-- 树目录
@@ -30,19 +27,18 @@ require('packer').startup(function(use)
 	use 'nvim-treesitter/nvim-treesitter'--高亮
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
 	use 'windwp/nvim-autopairs'
+	--use 'jiangmiao/auto-pairs'--括号补全
 
 	use {
 		'nvim-telescope/telescope.nvim',--模糊搜索
 		requires = {'nvim-lua/plenary.nvim'}
 	}
 	use 'numToStr/FTerm.nvim'--终端
-	use 'rhysd/clever-f.vim' --f查找
 
 	use 'b3nj5m1n/kommentary'--注释
 	use 'lukas-reineke/indent-blankline.nvim'--对齐线
 	use 'mg979/vim-visual-multi' --多光标
 	use "Pocco81/AutoSave.nvim"
-	use 'vim-autoformat/vim-autoformat'--代码格式化
 
 	use 'lewis6991/gitsigns.nvim'--git修改
 end)
@@ -61,7 +57,7 @@ vim.o.shiftround=true
 vim.o.hlsearch = false
 vim.wo.number = true
 vim.o.mouse = 'a'
-vim.o.swapfile=treu
+vim.o.swapfile=true
 vim.o.breakindent = true
 vim.opt.undofile = true
 vim.o.ignorecase = true
@@ -96,7 +92,7 @@ local on_attach = function(_, bufnr)
 end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-local servers = { 'clangd', 'gopls', 'sumneko_lua'}
+local servers = { 'clangd', 'gopls', 'sumneko_lua','rust_analyzer'}
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
@@ -126,10 +122,6 @@ require'lspconfig'.sumneko_lua.setup {
 require'lspconfig'.rust_analyzer.setup{
 	{ "rust_analyzer" }
 }
-require'lspconfig'.cmake.setup{
-	{ "cmake-language-server" }
-}
-require'lspconfig'.jdtls.setup{}
 
 -----------------------------------------------------------------------------------
 --在悬停窗口中自动显示线路诊断
@@ -257,25 +249,13 @@ cmp.setup {
 }
 
 cmp.setup.filetype('gitcommit', {
-	sources = cmp.config.sources({
-		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-	}, {
-		{ name = 'buffer' },
-	})
+    sources = cmp.config.sources({
+        { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+        { name = 'buffer' },
+    })
 })
 
-cmp.setup.cmdline('/', {
-	mapping = cmp.mapping.preset.cmdline(),
-	sources = {
-		{ name = 'buffer' }
-	}
-})
-
-require'cmp'.setup.cmdline(':', {
-	sources = {
-		{ name = 'cmdline' }
-	}
-})
 -----------------------------------------------------------------------------------
 --nvim-tree
 require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
@@ -390,10 +370,8 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
 -----------------------------------------------------------------------------------
 -- Treesitter configuration 高亮
 require'nvim-treesitter.configs'.setup {
-	ensure_installed = { "c", "cpp", "lua", "rust","go","html","python","cmake" },
-
+	ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
 	sync_install = false,
-
 	ignore_install = { "javascript" },
 	highlight = {
 		enable = true,
