@@ -14,14 +14,14 @@ Plug 'honza/vim-snippets'"片段
 "Plug 'prabirshrestha/vim-lsp'
 "Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-"Plug 'Shougo/defx.nvim'"目录树"
-"Plug 'roxma/nvim-yarp'
-"Plug 'roxma/vim-hug-neovim-rpc'
-"Plug 'kristijanhusak/defx-icons'
+Plug 'Shougo/defx.nvim'"目录树"
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'kristijanhusak/defx-icons'
 
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/nerdfont.vim'
+"Plug 'lambdalisue/fern.vim'
+"Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+"Plug 'lambdalisue/nerdfont.vim'
 
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
@@ -192,81 +192,80 @@ let g:coc_global_extensions = [
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
-"let g:defx_icons_enable_syntax_highlight = 1
-"let g:defx_icons_column_length = 2
-"let g:defx_icons_directory_icon = ''
-"let g:defx_icons_mark_icon = '*'
-"let g:defx_icons_copy_icon = ''
-"let g:defx_icons_link_icon = ''
-"let g:defx_icons_move_icon = ''
-"let g:defx_icons_parent_icon = ''
-"let g:defx_icons_default_icon = ''
-"let g:defx_icons_directory_symlink_icon = ''
-"" Options below are applicable only when using "tree" feature
-"let g:defx_icons_root_opened_tree_icon = ''
-"let g:defx_icons_nested_opened_tree_icon = ''
-"let g:defx_icons_nested_closed_tree_icon = ''
+let g:defx_icons_enable_syntax_highlight = 1
+let g:defx_icons_column_length = 2
+let g:defx_icons_directory_icon = ''
+let g:defx_icons_mark_icon = '*'
+let g:defx_icons_copy_icon = ''
+let g:defx_icons_link_icon = ''
+let g:defx_icons_move_icon = ''
+let g:defx_icons_parent_icon = ''
+let g:defx_icons_default_icon = ''
+let g:defx_icons_directory_symlink_icon = ''
+let g:defx_icons_root_opened_tree_icon = ''
+let g:defx_icons_nested_opened_tree_icon = ''
+let g:defx_icons_nested_closed_tree_icon = ''
 
-"call defx#custom#column('icon', {
-            "\ 'directory_icon': '▸ ',
-            "\ 'file_icon': '  ',
-            "\ 'opened_icon': '▾ ',
-            "\ 'root_icon': '  ',
-            "\ })
+call defx#custom#column('icon', {
+            \ 'directory_icon': '▸ ',
+            \ 'file_icon': '  ',
+            \ 'opened_icon': '▾ ',
+            \ 'root_icon': '  ',
+            \ })
 
-"call defx#custom#column('mark', {
-            "\ 'readonly_icon': '✗',
-            "\ 'selected_icon': '✓',
-            "\ })
+call defx#custom#column('mark', {
+            \ 'readonly_icon': '✗',
+            \ 'selected_icon': '✓',
+            \ })
 
-"call defx#custom#option('_', {
-            "\ 'columns': 'indent:git:icons:filename',
-            "\ 'winwidth': 20,
-            "\ 'split': 'vertical',
-            "\ 'direction': 'topleft',
-            "\ 'show_ignored_files': 0,
-            "\ 'root_marker': '≡ ',
-            "\ 'ignored_files':
-            "\     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.*,.stversions'
-            "\   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
-            "\ })
+call defx#custom#option('_', {
+            \ 'columns': 'indent:git:icons:filename',
+            \ 'winwidth': 20,
+            \ 'split': 'vertical',
+            \ 'direction': 'topleft',
+            \ 'show_ignored_files': 0,
+            \ 'root_marker': '≡ ',
+            \ 'ignored_files':
+            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.*,.stversions'
+            \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
+            \ })
 
-"nnoremap <silent> <LocalLeader>e
-            "\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
+nnoremap <silent> <LocalLeader>e
+            \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
 
-"nnoremap <silent> <LocalLeader>a
-            "\ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
+nnoremap <silent> <LocalLeader>a
+            \ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
 
-"autocmd FileType defx call s:defx_my_settings()
-"function! s:defx_my_settings() abort
-    "nnoremap <silent><buffer><expr> <CR>
-                "\ defx#is_directory() ?
-                "\ defx#do_action('open_tree') :
-                "\ defx#do_action('multi', ['drop'])
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+                \ defx#is_directory() ?
+                \ defx#do_action('open_tree') :
+                \ defx#do_action('multi', ['drop'])
 
-    "nnoremap <silent><buffer><expr> l
-                "\ defx#is_directory() ?
-                "\ defx#do_action('open_or_close_tree') :
-                "\ defx#do_action('multi', ['drop'])
+    nnoremap <silent><buffer><expr> l
+                \ defx#is_directory() ?
+                \ defx#do_action('open_or_close_tree') :
+                \ defx#do_action('multi', ['drop'])
 
-    "nnoremap <silent><buffer><expr> a
-                "\ defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> a
+                \ defx#do_action('new_file')
 
-    "nnoremap <silent><buffer><expr> d
-                "\ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> d
+                \ defx#do_action('remove')
 
-    "nnoremap <silent><buffer><expr> r
-                "\ defx#do_action('rename')
+    nnoremap <silent><buffer><expr> r
+                \ defx#do_action('rename')
 
-    "nnoremap <silent><buffer><expr> .
-                "\ defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> .
+                \ defx#do_action('toggle_ignored_files')
+endfunction
+let g:python3_host_prog=('python3')
 
-"endfunction
-"let g:python3_host_prog=('python3')
 "-----------------------------------------------------------------------------------
 "fern
-let g:fern#renderer = "nerdfont"
-nnoremap <silent><leader>e :Fern . -drawer -width=20 -toggle<CR>
+"let g:fern#renderer = "nerdfont"
+"nnoremap <silent><leader>e :Fern . -drawer -width=20 -toggle<CR>
 "-----------------------------------------------------------------------------------
 "主题
 "tyrannicaltoucan/vim-quantum "主题\
