@@ -19,10 +19,6 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'kristijanhusak/defx-icons'
 
-"Plug 'lambdalisue/fern.vim'
-"Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-"Plug 'lambdalisue/nerdfont.vim'
-
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
@@ -63,28 +59,6 @@ call plug#end()
             "\ 'allowlist': ['go'],
             "\ })
 "autocmd BufWritePre *.go LspDocumentFormatSync
-"endif
-
-"if executable('vim-language-server')
-"augroup LspVim
-"autocmd!
-"autocmd User lsp_setup call lsp#register_server({
-            "\ 'name': 'vim-language-server',
-            "\ 'cmd': {server_info->['vim-language-server', '--stdio']},
-            "\ 'whitelist': ['vim'],
-            "\ 'initialization_options': {
-            "\   'vimruntime': $VIMRUNTIME,
-            "\   'runtimepath': &rtp,
-            "\ }})
-"augroup END
-"endif
-
-"if executable('lua-language-server')
-"au User lsp_setup call lsp#register_server({
-            "\ 'name': 'lua-language-server',
-            "\ 'cmd': {server_info->[&shell, &shellcmdflag, 'lua-language-server']},
-            "\ 'whitelist': ['lua'],
-            "\ })
 "endif
 
 "function! s:on_lsp_buffer_enabled() abort
@@ -176,10 +150,8 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-glslx',
             \ 'coc-snippets',
-            \ 'coc-rust-analyzer',
             \ 'coc-go',
-            \ 'coc-clangd',
-            \ 'coc-sumneko-lua', ]
+            \ 'coc-clangd',]
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
@@ -254,10 +226,7 @@ endfunction
 let g:python3_host_prog=('python3')
 
 "-----------------------------------------------------------------------------------
-"fern
-"let g:fern#renderer = "nerdfont"
-"nnoremap <silent><leader>e :Fern . -drawer -width=20 -toggle<CR>
-"-----------------------------------------------------------------------------------
+
 "主题
 "tyrannicaltoucan/vim-quantum "主题\
 set background=dark
@@ -279,22 +248,12 @@ let g:lightline = {
             \   'gitbranch': 'gitbranch#name'
             \ },
             \ }
-
-"let g:lightline = {
-            "\ 'colorscheme': 'one',
-            "\ 'active': {
-            "\   'left': [ [ 'mode', 'paste' ],
-            "\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-            "\ },
-            "\ 'component_function': {
-            "\   'gitbranch': 'FugitiveHead'
-            "\ },
-            "\ }
-
-"let g:lightline.separator = { 'left': '', 'right': '' }
-"let g:lightline.subseparator = { 'left': '', 'right': '' }
-"let g:lightline.tabline_separator = g:lightline.separator
-"let g:lightline.tabline_subseparator = g:lightline.subseparator
+let g:lightline.separator = { 'left': '', 'right': '' }
+let g:lightline.subseparator = { 'left': '', 'right': '' }
+let g:lightline.tabline_separator = g:lightline.separator
+let g:lightline.tabline_subseparator = g:lightline.subseparator
+let g:buftabline_separators=1
+let g:buftabline_indicators=1
 
 "------------------------------------------------------------------------------------
 "高亮
