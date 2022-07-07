@@ -5,13 +5,8 @@ let mapleader=","
 let g:maplocalleader=","
 "--------------------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
-"Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
-"Plug 'honza/vim-snippets'"片段
-
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+Plug 'honza/vim-snippets'"片段
 
 Plug 'Shougo/defx.nvim'"目录树"
 Plug 'roxma/nvim-yarp'
@@ -39,110 +34,34 @@ Plug 'airblade/vim-gitgutter' "git修改
 Plug 'tpope/vim-fugitive'
 call plug#end()
 "-------------------------------------------------------------------------------------
-"vim-lsp
-if executable('clangd')
-au User lsp_setup call lsp#register_server({
-            \ 'name': 'clangd',
-            \ 'cmd': {server_info->['clangd', '-background-index']},
-            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-            \ })
-endif
-
-if executable('gopls')
-au User lsp_setup call lsp#register_server({
-            \ 'name': 'gopls',
-            \ 'cmd': {server_info->['gopls', '-remote=auto']},
-            \ 'allowlist': ['go'],
-            \ })
-autocmd BufWritePre *.go LspDocumentFormatSync
-endif
-
-function! s:on_lsp_buffer_enabled() abort
-setlocal omnifunc=lsp#complete
-setlocal signcolumn=yes
-if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-nmap <buffer> gd <plug>(lsp-definition)
-nmap <buffer> gs <plug>(lsp-document-symbol-search)
-nmap <buffer> K <plug>(lsp-hover)
-
-let g:lsp_format_sync_timeout = 1000
-autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-endfunction
-augroup lsp_install
-au!
-autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-let g:lsp_document_code_action_signs_hint = {'text': '✗'}
-let g:lsp_diagnostics_signs_error = {'text': '✗'}
-let g:lsp_diagnostics_signs_warning = {'text': ''} "
-let g:lsp_diagnostics_signs_hint = {'icon': ''} "
-
-let g:lsp_diagnostics_highlights_insert_mode_enabled=1
-let g:lsp_diagnostics_enabled=1
-let g:lsp_completion_documentation_enabled=1
-let g:lsp_preview_float=1
-let g:lsp_preview_max_width =60
-let g:lsp_preview_max_height=2
-let g:lsp_hover_ui = 'float'
-
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<C-e>"
-inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-let g:asyncomplete_auto_completeopt = 0
-set completeopt=menuone,noinsert,noselect,preview
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-function! s:check_back_space() abort
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+"coc-nvim 补全
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ asyncomplete#force_refresh()
+            \ CheckBackspace() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-"------------------------------------------------------------------------------------
-"coc-nvim 补全
-"inoremap <silent><expr> <TAB>
-            "\ pumvisible() ? "\<C-n>" :
-            "\ CheckBackspace() ? "\<TAB>" :
-            "\ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-"function! CheckBackspace() abort
-    "let col = col('.') - 1
-    "return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-"" Make <CR> auto-select the first completion item and notify coc.nvim to
-"" format on enter, <cr> could be remapped by other vim plugin
-"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            "\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-"nmap <silent> [g <Plug>(coc-diagnostic-prev)
-"nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-"" GoTo code navigation.
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gi <Plug>(coc-implementation)
-"nmap <silent> gr <Plug>(coc-references)
-"nnoremap <silent> K :call ShowDocumentation()<CR>
-
-"let g:coc_global_extensions = [
-            "\ 'coc-vimlsp',
-            "\ 'coc-json',
-            "\ 'coc-glslx',
-            "\ 'coc-snippets',
-            "\ 'coc-go',
-            "\ 'coc-clangd',]
+let g:coc_global_extensions = [
+            \ 'coc-json',
+            \ 'coc-glslx',
+            \ 'coc-snippets',
+            \ 'coc-go', ]
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
@@ -279,7 +198,7 @@ let g:indentLine_char_list = ['┆']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------
 "nerdcommenter
-"let g:auto_save = 1
+let g:auto_save = 1
 "------------------------------------------------------------------------------------
 "auto-pairs 括号补全
 let g:rainbow_active = 1
