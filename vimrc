@@ -63,16 +63,7 @@ setlocal signcolumn=yes
 if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
 nmap <buffer> gd <plug>(lsp-definition)
 nmap <buffer> gs <plug>(lsp-document-symbol-search)
-nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-nmap <buffer> gr <plug>(lsp-references)
-nmap <buffer> gi <plug>(lsp-implementation)
-nmap <buffer> gt <plug>(lsp-type-definition)
-nmap <buffer> <leader>rn <plug>(lsp-rename)
-nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-nmap <buffer> ]g <plug>(lsp-next-diagnostic)
 nmap <buffer> K <plug>(lsp-hover)
-nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
 let g:lsp_format_sync_timeout = 1000
 autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -82,14 +73,19 @@ au!
 autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-let g:lsp_tree_incoming_prefix = "←"
-let g:lsp_tree_incoming_prefix = "⬅️"
-let g:lsp_diagnostics_signs_error = {'text': ''}
-let g:lsp_diagnostics_signs_warning = {'text': ''} " icons require GUI
-let g:lsp_diagnostics_signs_hint = {'icon': ''} " icons require GUI
+let g:lsp_document_code_action_signs_hint = {'text': '✗'}
+let g:lsp_diagnostics_signs_error = {'text': '✗'}
+let g:lsp_diagnostics_signs_warning = {'text': ''} "
+let g:lsp_diagnostics_signs_hint = {'icon': ''} "
+
+let g:lsp_diagnostics_highlights_insert_mode_enabled=1
+let g:lsp_diagnostics_enabled=1
+let g:lsp_completion_documentation_enabled=1
+let g:lsp_preview_float=1
 let g:lsp_preview_max_width =60
 let g:lsp_preview_max_height=2
 let g:lsp_hover_ui = 'float'
+
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -283,7 +279,7 @@ let g:indentLine_char_list = ['┆']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------
 "nerdcommenter
-let g:auto_save = 1
+"let g:auto_save = 1
 "------------------------------------------------------------------------------------
 "auto-pairs 括号补全
 let g:rainbow_active = 1
@@ -315,6 +311,7 @@ let g:gitgutter_sign_modified_removed='|'
 
 hi PMenu              ctermfg=240 ctermbg=243
 hi PMenuSel           ctermfg=240    ctermbg=243
+hi MatchParen ctermbg=gray guibg=gray
 set cursorline
 hi CursorLine         cterm=bold ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
@@ -379,5 +376,6 @@ def Myhi()
     syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
     syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
     hi cFunctions ctermfg=75
+set numberwidth=1
 enddef
 
