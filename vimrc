@@ -186,8 +186,12 @@ nnoremap <leader>fl :BLines<CR>
 nnoremap <leader>fa :Ag<CR>
 "------------------------------------------------------------------------------------
 "vim-floaterm终端
-nnoremap <leader>t :FloatermNew --height=0.9 --width=0.8<CR>
-tnoremap <leader>d exit<CR><CR>
+let g:floaterm_title=''
+let g:floaterm_width=0.8
+let g:floaterm_height=0.9
+nnoremap <silent><leader>t :FloatermNew --height=0.9 --width=0.8<CR>
+nnoremap <silent><leader>g :FloatermNew lazygit<CR>
+tnoremap <silent><leader>d exit<CR>
 "-----------------------------------------------------------------------------------
 "indentLine
 let g:indentLine_color_term = 111

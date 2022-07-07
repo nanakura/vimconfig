@@ -459,6 +459,21 @@ require'FTerm'.setup({
 		width = 0.8,
 	},
 })
+
+local fterm = require("FTerm")
+local btop = fterm:new({
+    ft = 'fterm_lazygit',
+    cmd = "lazygit",
+        dimensions = {
+        height = 0.9,
+        width = 0.8
+    }
+})
+
+vim.keymap.set('n', '<leader>g', function()
+    btop:toggle()
+end)
+
 vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
 vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 -----------------------------------------------------------------------------------
