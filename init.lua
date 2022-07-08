@@ -14,6 +14,7 @@ require('packer').startup(function(use)
 
     use  'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
+	use 'rafamadriz/friendly-snippets'
 
 
     use {
@@ -42,6 +43,7 @@ require('packer').startup(function(use)
 
 
     use 'lewis6991/gitsigns.nvim'--git修改
+	use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -89,8 +91,11 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
     vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
 end
+
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 local servers = { 'clangd', 'gopls', 'sumneko_lua','rust_analyzer'}
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
@@ -121,6 +126,7 @@ require'lspconfig'.sumneko_lua.setup {
 require'lspconfig'.rust_analyzer.setup{
     { "rust_analyzer" }
 }
+
 
 -----------------------------------------------------------------------------------
 --在悬停窗口中自动显示线路诊断
@@ -187,6 +193,7 @@ require "lsp_signature".setup({
 -- luasnip setup
 local luasnip = require 'luasnip'
 local lspkind = require('lspkind')
+require("luasnip.loaders.from_vscode").lazy_load()
 ------------------------------------------------------------------------------------
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -426,7 +433,7 @@ npairs.setup({
 })
 
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local cmp = require('cmp')
+cmp = require('cmp')
 cmp.event:on(
 'confirm_done',
 cmp_autopairs.on_confirm_done()
@@ -545,6 +552,7 @@ require('gitsigns').setup {
         enable = false
     },
 }
+----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
