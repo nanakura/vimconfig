@@ -25,7 +25,8 @@ require('packer').startup(function(use)
     }
 
     use 'nvim-lualine/lualine.nvim'--状态栏
-    use 'mjlbach/onedark.nvim'  --主题
+	use 'mjlbach/onedark.nvim'
+	use ({ 'projekt0n/github-nvim-theme' })
     use 'nvim-treesitter/nvim-treesitter'--高亮
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
 
@@ -38,12 +39,13 @@ require('packer').startup(function(use)
     use 'b3nj5m1n/kommentary'--注释
     use 'lukas-reineke/indent-blankline.nvim'--对齐线
     use 'mg979/vim-visual-multi' --多光标
-    use "Pocco81/AutoSave.nvim"
-	use 'windwp/nvim-autopairs'
+    use "Pocco81/AutoSave.nvim"--自动保存
+	use 'windwp/nvim-autopairs'--括号补全
+	use 'ethanholz/nvim-lastplace'--打开上一次位置
 
 
     use 'lewis6991/gitsigns.nvim'--git修改
-	use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+	use 'tveskag/nvim-blame-line'
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -70,7 +72,6 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
 vim.cmd [[colorscheme onedark]]
-vim.cmd [[ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]]
 
 -----------------------------------------------------------------------------------
 -- LSP settings
@@ -363,10 +364,10 @@ log = {
     },
 },
 } -- END_DEFAULT_OPTS
-
-
 vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
 -----------------------------------------------------------------------------------
+--theme
+-----------------------------------------------------------------------------------------------
 -- Treesitter configuration 高亮
 require'nvim-treesitter.configs'.setup {
     ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
@@ -509,6 +510,13 @@ vim.api.nvim_set_keymap("x", "<leader>cc", "<Plug>kommentary_visual_increase", {
 
 vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
 vim.api.nvim_set_keymap("x", "<leader>cu", "<Plug>kommentary_visual_decrease", {})
+----------------------------------------------------------------------------------
+--
+require'nvim-lastplace'.setup {
+    lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+    lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
+    lastplace_open_folds = true
+}
 ------------------------------------------------------------------------------------
 --git支持
 require('gitsigns').setup {
