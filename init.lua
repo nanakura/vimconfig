@@ -25,7 +25,7 @@ require('packer').startup(function(use)
     }
 
     use 'nvim-lualine/lualine.nvim'--状态栏
-	use 'mjlbach/onedark.nvim'
+	-- use 'mjlbach/onedark.nvim'
 	use ({ 'projekt0n/github-nvim-theme' })
     use 'nvim-treesitter/nvim-treesitter'--高亮
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
@@ -71,7 +71,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme github_dimmed]]
 
 -----------------------------------------------------------------------------------
 -- LSP settings
