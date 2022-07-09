@@ -92,11 +92,11 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
     vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
 end
-
-
+-----------------------------------------------------------------------------------------------
+--完成函数参数
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
+--------------------------------------------------------------------------------------------------
 local servers = { 'clangd', 'gopls', 'sumneko_lua','rust_analyzer'}
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
@@ -104,6 +104,10 @@ for _, lsp in ipairs(servers) do
         capabilities = capabilities,
     }
 end
+
+local lsp_flags = {
+  debounce_text_changes = 150,
+}
 
 require'lspconfig'.sumneko_lua.setup {
     settings = {
@@ -124,10 +128,33 @@ require'lspconfig'.sumneko_lua.setup {
     },
 }
 
-require'lspconfig'.rust_analyzer.setup{
-    { "rust_analyzer" }
+require('lspconfig')['rust_analyzer'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    { "rust-analyzer" },
+    { "rust" },
 }
 
+require'lspconfig'.clangd.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    { "clangd" },
+    { "c", "cpp", "objc", "objcpp", "cuda" },
+}
+
+require'lspconfig'.gopls.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    { "gopls" },
+    { "go", "gomod", "gotmpl" }
+}
+
+require'lspconfig'.sqls.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    { "sqls" },
+    { "sql", "mysql" },
+}
 
 -----------------------------------------------------------------------------------
 --在悬停窗口中自动显示线路诊断
