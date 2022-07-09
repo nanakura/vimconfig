@@ -105,9 +105,6 @@ for _, lsp in ipairs(servers) do
     }
 end
 
-local lsp_flags = {
-  debounce_text_changes = 150,
-}
 
 require'lspconfig'.sumneko_lua.setup {
     settings = {
@@ -129,31 +126,8 @@ require'lspconfig'.sumneko_lua.setup {
 }
 
 require('lspconfig')['rust_analyzer'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
     { "rust-analyzer" },
     { "rust" },
-}
-
-require'lspconfig'.clangd.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    { "clangd" },
-    { "c", "cpp", "objc", "objcpp", "cuda" },
-}
-
-require'lspconfig'.gopls.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    { "gopls" },
-    { "go", "gomod", "gotmpl" }
-}
-
-require'lspconfig'.sqls.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    { "sqls" },
-    { "sql", "mysql" },
 }
 
 -----------------------------------------------------------------------------------
