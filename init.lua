@@ -25,9 +25,10 @@ require('packer').startup(function(use)
     }
 
     use 'nvim-lualine/lualine.nvim'--状态栏
-	-- use 'mjlbach/onedark.nvim'
-	use ({ 'projekt0n/github-nvim-theme' })
+    --use 'mjlbach/onedark.nvim'--主题
+    use({'glepnir/zephyr-nvim',requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
     use 'nvim-treesitter/nvim-treesitter'--高亮
+    use 'stevearc/aerial.nvim'--函数列表
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
 
     use {
@@ -71,7 +72,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
-vim.cmd [[colorscheme github_dimmed]]
+vim.cmd [[colorscheme zephyr]]
 
 -----------------------------------------------------------------------------------
 -- LSP settings
@@ -380,6 +381,86 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 ---------------------------------------------------------------------------------------
+--函数列表
+require("aerial").setup({
+  on_attach = function(bufnr)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>AerialToggle!<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+  end,
+    backends = { "treesitter", "lsp", "markdown" },
+  close_behavior = "auto",
+  default_bindings = true,
+  default_direction = "prefer_right",
+  disable_max_lines = 10000,
+  disable_max_size = 2000000, -- Default 2MB
+  filter_kind = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Function",
+    "Interface",
+    "Module",
+    "Method",
+    "Struct",
+  },
+  highlight_mode = "split_width",
+  highlight_closest = true,
+  highlight_on_hover = false,
+  highlight_on_jump = 300,
+  icons = {},
+  ignore = {
+    unlisted_buffers = true,
+    filetypes = {},
+    buftypes = "special",
+    wintypes = "special",
+  },
+  link_folds_to_tree = false,
+  link_tree_to_folds = true,
+  manage_folds = false,
+  max_width = { 30, 0.2 },
+  width = nil,
+  min_width = 20,
+  nerd_font = "auto",
+  on_attach = nil,
+  on_first_symbols = nil,
+  open_automatic = false,
+  placement_editor_edge = false,
+  post_jump_cmd = "normal! zz",
+  close_on_select = false,
+  show_guides = false,
+  update_events = "TextChanged,InsertLeave",
+  guides = {
+    mid_item = "├─",
+    last_item = "└─",
+    nested_top = "│ ",
+    whitespace = "  ",
+  },
+  float = {
+    border = "rounded",
+    relative = "cursor",
+    max_height = 0.9,
+    height = nil,
+    min_height = { 8, 0.1 },
+
+    override = function(conf)
+      return conf
+    end,
+  },
+
+  lsp = {
+    diagnostics_trigger_update = true,
+    update_when_errors = true,
+    update_delay = 300,
+  },
+
+  treesitter = {
+    update_delay = 300,
+  },
+})
+----------------------------------------------------------------------------------------
 --Set statusbar状态栏
 require('lualine').setup {
     options = {
