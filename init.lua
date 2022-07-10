@@ -10,11 +10,13 @@ require('packer').startup(function(use)
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/nvim-cmp'
-    use 'onsails/lspkind.nvim'
+    use 'onsails/lspkind.nvim'--图标
 
     use  'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
-	use 'rafamadriz/friendly-snippets'
+    use 'rafamadriz/friendly-snippets'--片段
+    use 'hrsh7th/cmp-path'
+    use 'onsails/lspkind.nvim'
 
 
     use {
@@ -240,6 +242,8 @@ cmp.setup {
     sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = 'path'},
+        { name = 'buffer'},
     },
     view = {
         entries = {name = 'custom' }
@@ -248,11 +252,11 @@ cmp.setup {
         format = lspkind.cmp_format({
             mode = "symbol",
             menu = ({
-                buffer = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                luasnip = "[LuaSnip]",
+                buffer = "[Buf]",
+                nvim_lsp = "[Lsp]",
+                luasnip = "[Snp]",
                 nvim_lua = "[Lua]",
-                latex_symbols = "[Latex]",
+                latex_symbols = "[Lat]",
             })
         }),
     },
@@ -493,6 +497,7 @@ require('lualine').setup {
 }
 -------------------------------------------------------------------------------
 --onedark主题
+--[[
 require("onedarkpro").setup({
     theme = "onedark_vivid", -- Or onedark onelight onedark_vivid onedark_dark
     options = {--启用透明
@@ -501,10 +506,10 @@ require("onedarkpro").setup({
 colors = {--当前行高亮颜色
   cursorline = "#808080" 
 },
---options = {
-  --cursorline = true
-  --}
-})
+options = {
+  cursorline = true
+  }
+})]]
 ---------------------------------------------------------------------------------
 --bufferline
 vim.opt.termguicolors = true
