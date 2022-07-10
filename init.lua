@@ -25,7 +25,7 @@ require('packer').startup(function(use)
     }
 
     use 'nvim-lualine/lualine.nvim'--状态栏
-    --use 'mjlbach/onedark.nvim'--主题
+    use 'olimorris/onedarkpro.nvim'
     use({'glepnir/zephyr-nvim',requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
     use 'nvim-treesitter/nvim-treesitter'--高亮
     use 'stevearc/aerial.nvim'--函数列表
@@ -491,6 +491,20 @@ require('lualine').setup {
     tabline = {},
     extensions = {}
 }
+-------------------------------------------------------------------------------
+--onedark主题
+require("onedarkpro").setup({
+    theme = "onedark_vivid", -- Or onedark onelight onedark_vivid onedark_dark
+    options = {--启用透明
+  transparency = true
+},
+colors = {--当前行高亮颜色
+  cursorline = "#808080" 
+},
+--options = {
+  --cursorline = true
+  --}
+})
 ---------------------------------------------------------------------------------
 --bufferline
 vim.opt.termguicolors = true
