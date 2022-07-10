@@ -24,29 +24,29 @@ require('packer').startup(function(use)
     use {'nvim-telescope/telescope.nvim',
     requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
     use 'lewis6991/gitsigns.nvim'--git修改
-	use 'tveskag/nvim-blame-line'--显示git修改
-	
-	
+    use 'tveskag/nvim-blame-line'--显示git修改
+
+
     use {'kyazdani42/nvim-tree.lua',requires = {
-         'kyazdani42/nvim-web-devicons',}}-- 树目录
-    
+        'kyazdani42/nvim-web-devicons',}}-- 树目录
+
     use 'stevearc/aerial.nvim'--函数列表
     use 'nvim-treesitter/nvim-treesitter'--高亮
-    --use 'olimorris/onedarkpro.nvim'--主题
+    use "EdenEast/nightfox.nvim" -- 主题
     use({'glepnir/zephyr-nvim',
     requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
     use 'nvim-lualine/lualine.nvim'--状态栏
     
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}--缓冲区状态栏
     
-	use 'lukas-reineke/indent-blankline.nvim'--对齐线
-
-
-	use 'b3nj5m1n/kommentary'--注释
+    use 'lukas-reineke/indent-blankline.nvim'--对齐线
+    
+    
+    use 'b3nj5m1n/kommentary'--注释
     use 'mg979/vim-visual-multi' --多光标
     use "Pocco81/AutoSave.nvim"--自动保存
-	use 'windwp/nvim-autopairs'--括号补全
-	use 'ethanholz/nvim-lastplace'--打开上一次位置
+    use 'windwp/nvim-autopairs'--括号补全
+    use 'ethanholz/nvim-lastplace'--打开上一次位置
 
 
 end)
@@ -262,29 +262,29 @@ cmp.setup {
     },
 }
 
- cmp.setup.filetype('gitcommit', {
+cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
-      { name = 'cmp_git' },
+        { name = 'cmp_git' },
     }, {
-      { name = 'buffer' },
+        { name = 'buffer' },
     })
-  })
+})
 
-  cmp.setup.cmdline('/', {
+cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
-      { name = 'buffer' }
+        { name = 'buffer' }
     }
-  })
+})
 
-  cmp.setup.cmdline(':', {
+cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-      { name = 'path' }
+        { name = 'path' }
     }, {
-      { name = 'cmdline' }
+        { name = 'cmdline' }
     })
-  })
+})
 -----------------------------------------------------------------------------------
 --Fterm 终端
 require'FTerm'.setup({
@@ -357,315 +357,304 @@ require('gitsigns').setup {
     yadm = {
         enable = false
     },
-  
-	  on_attach = function(bufnr)
-    local gs = package.loaded.gitsigns
 
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
+    on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
+			if vim.wo.diff then return ']c' end
+			vim.schedule(function() gs.next_hunk() end)
+			return '<Ignore>'
+    end, {expr=true})
+
+		map('n', '[c', function()
+			if vim.wo.diff then return '[c' end
+			vim.schedule(function() gs.prev_hunk() end)
+			return '<Ignore>'
+		end, {expr=true})
+
+        --map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+        --map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+        --map('n', '<leader>hS', gs.stage_buffer)
+        --map('n', '<leader>hu', gs.undo_stage_hunk)
+        --map('n', '<leader>hR', gs.reset_buffer)
+        map('n', '<leader>hp', gs.preview_hunk)
+        map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+        map('n', '<leader>tb', gs.toggle_current_line_blame)
+        map('n', '<leader>hd', gs.diffthis)
+        map('n', '<leader>td', gs.toggle_deleted)
     end
-
-    -- Navigation
-    map('n', ']c', function()
-      if vim.wo.diff then return ']c' end
-      vim.schedule(function() gs.next_hunk() end)
-      return '<Ignore>'
-    end, {expr=true})
-
-    map('n', '[c', function()
-      if vim.wo.diff then return '[c' end
-      vim.schedule(function() gs.prev_hunk() end)
-      return '<Ignore>'
-    end, {expr=true})
-
-    --map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    --map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
-    --map('n', '<leader>hS', gs.stage_buffer)
-    --map('n', '<leader>hu', gs.undo_stage_hunk)
-    --map('n', '<leader>hR', gs.reset_buffer)
-    map('n', '<leader>hp', gs.preview_hunk)
-    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-    map('n', '<leader>tb', gs.toggle_current_line_blame)
-    map('n', '<leader>hd', gs.diffthis)
-    map('n', '<leader>td', gs.toggle_deleted)
-  end
 
 }
 -----------------------------------------------------------------------------------
 --nvim-tree 树目录
 require'nvim-tree'.setup {
-auto_reload_on_write = true,
-disable_netrw = false,
-hijack_cursor = false,
-hijack_netrw = true,
-hijack_unnamed_buffer_when_opening = false,
-ignore_buffer_on_setup = false,
-open_on_setup = false,
-open_on_setup_file = false,
-open_on_tab = false,
-sort_by = "name",
-update_cwd = false,
-view = {
-    width = 22,
-    height = 22,
-    side = "left",
-    preserve_window_proportions = false,
-    number = false,
-    relativenumber = false,
-    signcolumn = "yes",
-    mappings = {
-        custom_only = false,
-        list = {
-            -- user mappings go here
-        },
-    },
-},
-renderer = {
-    indent_markers = {
-        enable = false,
-        icons = {
-            corner = "└ ",
-            edge = "│ ",
-            none = "  ",
-        },
-    },
-},
-hijack_directories = {
-    enable = true,
-    auto_open = true,
-},
-update_focused_file = {
-    enable = false,
+    auto_reload_on_write = true,
+    disable_netrw = false,
+    hijack_cursor = false,
+    hijack_netrw = true,
+    hijack_unnamed_buffer_when_opening = false,
+    ignore_buffer_on_setup = false,
+    open_on_setup = false,
+    open_on_setup_file = false,
+    open_on_tab = false,
+    sort_by = "name",
     update_cwd = false,
-    ignore_list = {},
-},
-ignore_ft_on_setup = {},
-system_open = {
-    cmd = nil,
-    args = {},
-},
-diagnostics = {
-    enable = false,
-    show_on_dirs = false,
-    icons = {
-        hint = "",
-        info = "",
-        warning = "",
-        error = "",
-    },
-},
-filters = {
-    dotfiles = false,
-    custom = {},
-    exclude = {},
-},
-git = {
-    enable = true,
-    ignore = true,
-    timeout = 400,
-},
-actions = {
-    use_system_clipboard = true,
-    change_dir = {
-        enable = true,
-        global = false,
-    },
-    open_file = {
-        quit_on_open = false,
-        resize_window = false,
-        window_picker = {
-            enable = true,
-            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-            exclude = {
-                filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-                buftype = { "nofile", "terminal", "help" },
+    view = {
+        width = 22,
+        height = 22,
+        side = "left",
+        preserve_window_proportions = false,
+        number = false,
+        relativenumber = false,
+        signcolumn = "yes",
+        mappings = {
+            custom_only = false,
+            list = {
+                -- user mappings go here
             },
         },
     },
-},
-trash = {
-    cmd = "trash",
-    require_confirm = true,
-},
-log = {
-    enable = false,
-    truncate = false,
-    types = {
-        all = false,
-        config = false,
-        copy_paste = false,
-        git = false,
-        profile = false,
+    renderer = {
+        indent_markers = {
+            enable = false,
+            icons = {
+                corner = "└ ",
+                edge = "│ ",
+                none = "  ",
+            },
+        },
     },
-},
+    hijack_directories = {
+        enable = true,
+        auto_open = true,
+    },
+    update_focused_file = {
+        enable = false,
+        update_cwd = false,
+        ignore_list = {},
+    },
+    ignore_ft_on_setup = {},
+    system_open = {
+        cmd = nil,
+        args = {},
+    },
+    diagnostics = {
+        enable = false,
+        show_on_dirs = false,
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        },
+    },
+    filters = {
+        dotfiles = false,
+        custom = {},
+        exclude = {},
+    },
+    git = {
+        enable = true,
+        ignore = true,
+        timeout = 400,
+    },
+    actions = {
+        use_system_clipboard = true,
+        change_dir = {
+            enable = true,
+            global = false,
+        },
+        open_file = {
+            quit_on_open = false,
+            resize_window = false,
+            window_picker = {
+                enable = true,
+                chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+                exclude = {
+                    filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+                    buftype = { "nofile", "terminal", "help" },
+                },
+            },
+        },
+    },
+    trash = {
+        cmd = "trash",
+        require_confirm = true,
+    },
+    log = {
+        enable = false,
+        truncate = false,
+        types = {
+            all = false,
+            config = false,
+            copy_paste = false,
+            git = false,
+            profile = false,
+        },
+    },
 } -- END_DEFAULT_OPTS
 vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
 --------------------------------------------------------------------------------
 --aerial 函数列表
-require("aerial").setup({
-  on_attach = function(bufnr)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>AerialToggle!<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
-  end,
-    backends = { "treesitter", "lsp", "markdown" },
-  close_behavior = "auto",
-  default_bindings = true,
-  default_direction = "prefer_right",
-  disable_max_lines = 10000,
-  disable_max_size = 2000000, -- Default 2MB
-  filter_kind = {
-    "Class",
-    "Constructor",
-    "Enum",
-    "Function",
-    "Interface",
-    "Module",
-    "Method",
-    "Struct",
-  },
-  highlight_mode = "split_width",
-  highlight_closest = true,
-  highlight_on_hover = false,
-  highlight_on_jump = 300,
-  icons = {},
-  ignore = {
-    unlisted_buffers = true,
-    filetypes = {},
-    buftypes = "special",
-    wintypes = "special",
-  },
-  link_folds_to_tree = false,
-  link_tree_to_folds = true,
-  manage_folds = false,
-  max_width = { 30, 0.2 },
-  width = nil,
-  min_width = 20,
-  nerd_font = "auto",
-  on_attach = nil,
-  on_first_symbols = nil,
-  open_automatic = false,
-  placement_editor_edge = false,
-  post_jump_cmd = "normal! zz",
-  close_on_select = false,
-  show_guides = false,
-  update_events = "TextChanged,InsertLeave",
-  guides = {
-    mid_item = "├─",
-    last_item = "└─",
-    nested_top = "│ ",
-    whitespace = "  ",
-  },
-  float = {
-    border = "rounded",
-    relative = "cursor",
-    max_height = 0.9,
-    height = nil,
-    min_height = { 8, 0.1 },
+ require("aerial").setup({
+     on_attach = function(bufnr)
+         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>AerialToggle!<CR>', {})
+         vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
+         vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
+         vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+         vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+     end,
+     backends = { "treesitter", "lsp", "markdown" },
+     close_behavior = "auto",
+     default_bindings = true,
+     default_direction = "prefer_right",
+     disable_max_lines = 10000,
+     disable_max_size = 2000000, -- Default 2MB
+     filter_kind = {
+         "Class",
+         "Constructor",
+         "Enum",
+         "Function",
+         "Interface",
+         "Module",
+         "Method",
+         "Struct",
+     },
+     highlight_mode = "split_width",
+     highlight_closest = true,
+     highlight_on_hover = false,
+     highlight_on_jump = 300,
+     icons = {},
+     ignore = {
+         unlisted_buffers = true,
+         filetypes = {},
+         buftypes = "special",
+         wintypes = "special",
+     },
+     link_folds_to_tree = false,
+     link_tree_to_folds = true,
+     manage_folds = false,
+     max_width = { 30, 0.2 },
+     width = nil,
+     min_width = 20,
+     nerd_font = "auto",
+     on_attach = nil,
+     on_first_symbols = nil,
+     open_automatic = false,
+     placement_editor_edge = false,
+     post_jump_cmd = "normal! zz",
+     close_on_select = false,
+     show_guides = false,
+     update_events = "TextChanged,InsertLeave",
+     guides = {
+         mid_item = "├─",
+         last_item = "└─",
+         nested_top = "│ ",
+         whitespace = "  ",
+     },
+     float = {
+         border = "rounded",
+         relative = "cursor",
+         max_height = 0.9,
+         height = nil,
+         min_height = { 8, 0.1 },
 
-    override = function(conf)
-      return conf
-    end,
-  },
+         override = function(conf)
+             return conf
+         end,
+     },
 
-  lsp = {
-    diagnostics_trigger_update = true,
-    update_when_errors = true,
-    update_delay = 300,
-  },
+     lsp = {
+         diagnostics_trigger_update = true,
+         update_when_errors = true,
+         update_delay = 300,
+     },
 
-  treesitter = {
-    update_delay = 300,
-  },
-})
-----------------------------------------------------------------------------------
--- Treesitter 高亮
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
-    sync_install = false,
-    --ignore_install = { "javascript" },
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-}
--------------------------------------------------------------------------------
---onedarkpro 主题
---[[require("onedarkpro").setup({
-theme = "onedark_vivid",-- onedark_vivid onedark onedark_dark onelight
-colors = {
-  cursorline = "#303030"
-},
-options = {
-  cursorline = true,
-  --transparency = true,
-},
-})]]
------------------------------------------------------------------------------------
---statusbar 状态栏
+     treesitter = {
+         update_delay = 300,
+     },
+ })
+ ----------------------------------------------------------------------------------
+ -- Treesitter 高亮
+ require'nvim-treesitter.configs'.setup {
+     ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
+     sync_install = false,
+     --ignore_install = { "javascript" },
+     highlight = {
+         enable = true,
+         additional_vim_regex_highlighting = false,
+     },
+ }
+ -------------------------------------------------------------------------------
+
+ -----------------------------------------------------------------------------------
+ --statusbar 状态栏
 local colors = {
-  blue   = '#80a0ff',
-  cyan   = '#79dac8',
-  black  = '#303030',
-  white  = '#c6c6c6',
-  red    = '#ff5189',
-  violet = '#d183e8',
-  grey   = '#080808',
+    blue   = '#80a0ff',
+    cyan   = '#79dac8',
+    black  = '#303030',
+    white  = '#c6c6c6',
+    red    = '#ff5189',
+    violet = '#d183e8',
+    grey   = '#080808',
 }
 
 local bubbles_theme = {
-  normal = {
-    a = { fg = colors.black, bg = colors.violet },
-    b = { fg = colors.white, bg = colors.grey },
-    c = { fg = colors.black, bg = colors.black },
-  },
+    normal = {
+        a = { fg = colors.black, bg = colors.violet },
+        b = { fg = colors.white, bg = colors.grey },
+        c = { fg = colors.black, bg = colors.black },
+    },
 
-  insert = { a = { fg = colors.black, bg = colors.blue } },
-  visual = { a = { fg = colors.black, bg = colors.cyan } },
-  replace = { a = { fg = colors.black, bg = colors.red } },
+    insert = { a = { fg = colors.black, bg = colors.blue } },
+    visual = { a = { fg = colors.black, bg = colors.cyan } },
+    replace = { a = { fg = colors.black, bg = colors.red } },
 
-  inactive = {
-    a = { fg = colors.white, bg = colors.black },
-    b = { fg = colors.white, bg = colors.black },
-    c = { fg = colors.black, bg = colors.black },
-  },
+    inactive = {
+        a = { fg = colors.white, bg = colors.black },
+        b = { fg = colors.white, bg = colors.black },
+        c = { fg = colors.black, bg = colors.black },
+    },
 }
 
 require('lualine').setup {
-  options = {
-    theme = bubbles_theme,
-    component_separators = '|',
-    section_separators = { left = '', right = '' },
-  },
-  sections = {
-    lualine_a = {
-      { 'mode', separator = { left = '' }, right_padding = 2 },
+    options = {
+        theme = bubbles_theme,
+        component_separators = '|',
+        section_separators = { left = '', right = '' },
     },
-    lualine_b = { 'filename', 'branch' },
-    lualine_c = { 'fileformat' },
-    lualine_x = {},
-    lualine_y = { 'filetype', 'progress' },
-    lualine_z = {
-      { 'location', separator = { right = '' }, left_padding = 2 },
+    sections = {
+        lualine_a = {
+            { 'mode', separator = { left = '' }, right_padding = 2 },
+        },
+        lualine_b = { 'filename', 'branch' },
+        lualine_c = { 'fileformat' },
+        lualine_x = {},
+        lualine_y = { 'filetype', 'progress' },
+        lualine_z = {
+            { 'location', separator = { right = '' }, left_padding = 2 },
+        },
     },
-  },
-  inactive_sections = {
-    lualine_a = { 'filename' },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { 'location' },
-  },
-  tabline = {},
-  extensions = {},
+    inactive_sections = {
+        lualine_a = { 'filename' },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { 'location' },
+    },
+    tabline = {},
+    extensions = {},
 }
 ---------------------------------------------------------------------------------
---bufferline 缓冲区状态栏 
+--bufferline 缓冲区状态栏
 vim.opt.termguicolors = true
 require("bufferline").setup{}
 -----------------------------------------------------------------------------------
