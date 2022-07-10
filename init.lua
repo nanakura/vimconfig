@@ -305,7 +305,7 @@ local btop = fterm:new({
     }
 })
 
-vim.keymap.set('n', '<leader>tg', function()
+vim.keymap.set('n', '<leader>g', function()
     btop:toggle()
 end)
 
