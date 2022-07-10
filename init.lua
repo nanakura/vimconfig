@@ -20,36 +20,35 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-cmdline'
 
 
-    use {
-        'kyazdani42/nvim-tree.lua',-- 树目录
-        requires = {
-            'kyazdani42/nvim-web-devicons',
-        }
-    }
-
-    use 'nvim-lualine/lualine.nvim'--状态栏
-    use 'olimorris/onedarkpro.nvim'
-    use({'glepnir/zephyr-nvim',requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
-    use 'nvim-treesitter/nvim-treesitter'--高亮
-    use 'stevearc/aerial.nvim'--函数列表
-    use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
-
-    use {
-        'nvim-telescope/telescope.nvim',--模糊搜索
-        requires = {'nvim-lua/plenary.nvim'}
-    }
     use 'numToStr/FTerm.nvim'--终端
+    use {'nvim-telescope/telescope.nvim',
+    requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
+    use 'lewis6991/gitsigns.nvim'--git修改
+	use 'tveskag/nvim-blame-line'--显示git修改
+	
+	
+    use {'kyazdani42/nvim-tree.lua',requires = {
+         'kyazdani42/nvim-web-devicons',}}-- 树目录
+    
+    use 'stevearc/aerial.nvim'--函数列表
+    use 'nvim-treesitter/nvim-treesitter'--高亮
+    --use 'olimorris/onedarkpro.nvim'--主题
+    use({'glepnir/zephyr-nvim',
+    requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
+    use 'nvim-lualine/lualine.nvim'--状态栏
+    
+    use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}--缓冲区状态栏
+    
+	use 'lukas-reineke/indent-blankline.nvim'--对齐线
 
-    use 'b3nj5m1n/kommentary'--注释
-    use 'lukas-reineke/indent-blankline.nvim'--对齐线
+
+	use 'b3nj5m1n/kommentary'--注释
     use 'mg979/vim-visual-multi' --多光标
     use "Pocco81/AutoSave.nvim"--自动保存
 	use 'windwp/nvim-autopairs'--括号补全
 	use 'ethanholz/nvim-lastplace'--打开上一次位置
 
 
-    use 'lewis6991/gitsigns.nvim'--git修改
-	use 'tveskag/nvim-blame-line'
 end)
 vim.o.tabstop=4
 vim.bo.tabstop=4
@@ -58,6 +57,7 @@ vim.o.shiftwidth=4
 vim.o.scrolloff=4
 vim.o.sidescrolloff=4
 vim.wo.numberwidth=1
+vim.transparent_window = true
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 vim.wo.cursorline=true
@@ -71,11 +71,11 @@ vim.o.breakindent = true
 vim.opt.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.updatetime = 250
+vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
-vim.cmd [[colorscheme zephyr]]
+vim.cmd[[ colorscheme zephyr ]]
 
 -----------------------------------------------------------------------------------
 -- LSP settings
@@ -96,11 +96,11 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
     vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
 end
------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 --完成函数参数
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 local servers = { 'clangd', 'gopls', 'sumneko_lua','rust_analyzer'}
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
@@ -108,7 +108,6 @@ for _, lsp in ipairs(servers) do
         capabilities = capabilities,
     }
 end
-
 
 require'lspconfig'.sumneko_lua.setup {
     settings = {
@@ -286,10 +285,117 @@ cmp.setup {
       { name = 'cmdline' }
     })
   })
-
 -----------------------------------------------------------------------------------
---nvim-tree
-require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
+--Fterm 终端
+require'FTerm'.setup({
+    border = 'double',
+    dimensions  = {
+        height = 0.9,
+        width = 0.8,
+    },
+})
+
+local fterm = require("FTerm")
+local btop = fterm:new({
+    ft = 'fterm_lazygit',
+    cmd = "lazygit",
+    dimensions = {
+        height = 0.9,
+        width = 0.8
+    }
+})
+
+vim.keymap.set('n', '<leader>tg', function()
+    btop:toggle()
+end)
+
+vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
+vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+----------------------------------------------------------------------------------
+--telescope 模糊查找
+vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
+------------------------------------------------------------------------------------
+--gitsigns 支持
+require('gitsigns').setup {
+    signs = {
+        add          = {hl = 'GitSignsAdd'   , text = '|', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+        change       = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+        delete       = {hl = 'GitSignsDelete', text = '|', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+        topdelete    = {hl = 'GitSignsDelete', text = '|', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+        changedelete = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    },
+    signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+    numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+    linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+    word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+    watch_gitdir = {
+        interval = 1000,
+        follow_files = true
+    },
+    attach_to_untracked = true,
+    current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+        ignore_whitespace = false,
+    },
+    current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+    sign_priority = 6,
+    update_debounce = 100,
+    status_formatter = nil, -- Use default
+    max_file_length = 40000,
+    preview_config = {
+        border = 'single',
+        style = 'minimal',
+        relative = 'cursor',
+        row = 0,
+        col = 1
+    },
+    yadm = {
+        enable = false
+    },
+  
+	  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    --map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    --map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    --map('n', '<leader>hS', gs.stage_buffer)
+    --map('n', '<leader>hu', gs.undo_stage_hunk)
+    --map('n', '<leader>hR', gs.reset_buffer)
+    map('n', '<leader>hp', gs.preview_hunk)
+    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>tb', gs.toggle_current_line_blame)
+    map('n', '<leader>hd', gs.diffthis)
+    map('n', '<leader>td', gs.toggle_deleted)
+  end
+
+}
+-----------------------------------------------------------------------------------
+--nvim-tree 树目录
+require'nvim-tree'.setup {
 auto_reload_on_write = true,
 disable_netrw = false,
 hijack_cursor = false,
@@ -396,21 +502,8 @@ log = {
 },
 } -- END_DEFAULT_OPTS
 vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
------------------------------------------------------------------------------------
---theme
------------------------------------------------------------------------------------------------
--- Treesitter configuration 高亮
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
-    sync_install = false,
-    ignore_install = { "javascript" },
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-}
----------------------------------------------------------------------------------------
---函数列表
+--------------------------------------------------------------------------------
+--aerial 函数列表
 require("aerial").setup({
   on_attach = function(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>AerialToggle!<CR>', {})
@@ -489,59 +582,109 @@ require("aerial").setup({
     update_delay = 300,
   },
 })
-----------------------------------------------------------------------------------------
---Set statusbar状态栏
-require('lualine').setup {
-    options = {
-        icons_enabled = true,
-        theme = 'auto',
-        component_separators = { left = '', right = ''},
-        section_separators = { left = '', right = ''},
-        disabled_filetypes = {},
-        always_divide_middle = true,
-        globalstatus = false,
+----------------------------------------------------------------------------------
+-- Treesitter 高亮
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
+    sync_install = false,
+    --ignore_install = { "javascript" },
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
     },
-    sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename'},
-        lualine_x = {'encoding', 'fileformat', 'filetype'},
-        lualine_y = {'progress'},
-        lualine_z = {'location'}
-    },
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {'filename'},
-        lualine_x = {'location'},
-        lualine_y = {},
-        lualine_z = {}
-    },
-    tabline = {},
-    extensions = {}
 }
 -------------------------------------------------------------------------------
---onedark主题
---[[
-require("onedarkpro").setup({
-    theme = "onedark_vivid", -- Or onedark onelight onedark_vivid onedark_dark
-    options = {--启用透明
-  transparency = true
-},
-colors = {--当前行高亮颜色
-  cursorline = "#808080" 
+--onedarkpro 主题
+--[[require("onedarkpro").setup({
+theme = "onedark_vivid",-- onedark_vivid onedark onedark_dark onelight
+colors = {
+  cursorline = "#303030"
 },
 options = {
-  cursorline = true
-  }
+  cursorline = true,
+  --transparency = true,
+},
 })]]
+-----------------------------------------------------------------------------------
+--statusbar 状态栏
+local colors = {
+  blue   = '#80a0ff',
+  cyan   = '#79dac8',
+  black  = '#303030',
+  white  = '#c6c6c6',
+  red    = '#ff5189',
+  violet = '#d183e8',
+  grey   = '#080808',
+}
+
+local bubbles_theme = {
+  normal = {
+    a = { fg = colors.black, bg = colors.violet },
+    b = { fg = colors.white, bg = colors.grey },
+    c = { fg = colors.black, bg = colors.black },
+  },
+
+  insert = { a = { fg = colors.black, bg = colors.blue } },
+  visual = { a = { fg = colors.black, bg = colors.cyan } },
+  replace = { a = { fg = colors.black, bg = colors.red } },
+
+  inactive = {
+    a = { fg = colors.white, bg = colors.black },
+    b = { fg = colors.white, bg = colors.black },
+    c = { fg = colors.black, bg = colors.black },
+  },
+}
+
+require('lualine').setup {
+  options = {
+    theme = bubbles_theme,
+    component_separators = '|',
+    section_separators = { left = '', right = '' },
+  },
+  sections = {
+    lualine_a = {
+      { 'mode', separator = { left = '' }, right_padding = 2 },
+    },
+    lualine_b = { 'filename', 'branch' },
+    lualine_c = { 'fileformat' },
+    lualine_x = {},
+    lualine_y = { 'filetype', 'progress' },
+    lualine_z = {
+      { 'location', separator = { right = '' }, left_padding = 2 },
+    },
+  },
+  inactive_sections = {
+    lualine_a = { 'filename' },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = { 'location' },
+  },
+  tabline = {},
+  extensions = {},
+}
 ---------------------------------------------------------------------------------
---bufferline
+--bufferline 缓冲区状态栏 
 vim.opt.termguicolors = true
 require("bufferline").setup{}
+-----------------------------------------------------------------------------------
+--blankline 对齐线
+require('indent_blankline').setup {
+    char = '┆',
+    show_trailing_blankline_indent = false,
+}
+-----------------------------------------------------------------------------------
+--commentary 注释
+require('kommentary.config').use_extended_mappings()
+vim.api.nvim_set_keymap("n", "<leader>cc", "<Plug>kommentary_line_increase", {})
+vim.api.nvim_set_keymap("x", "<leader>cc", "<Plug>kommentary_visual_increase", {})
+
+vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
+vim.api.nvim_set_keymap("x", "<leader>cu", "<Plug>kommentary_visual_decrease", {})
 
 -----------------------------------------------------------------------------------
---括号补全
+--nvim-autoparirs 括号补全
 local npairs=require('nvim-autopairs')
 npairs.setup({
     fast_wrap = {},
@@ -558,7 +701,6 @@ npairs.setup({
         highlight_grey='Comment'
     },
 })
-
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp = require('cmp')
 cmp.event:on(
@@ -569,47 +711,8 @@ cmp_autopairs.on_confirm_done()
 require('nvim-autopairs').setup({
     enable_check_bracket_line = false
 })
-
-----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------
---模糊查找
-vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
-
------------------------------------------------------------------------------------
---Fterm终端
-require'FTerm'.setup({
-    border = 'double',
-    dimensions  = {
-        height = 0.9,
-        width = 0.8,
-    },
-})
-
-local fterm = require("FTerm")
-local btop = fterm:new({
-    ft = 'fterm_lazygit',
-    cmd = "lazygit",
-    dimensions = {
-        height = 0.9,
-        width = 0.8
-    }
-})
-
-vim.keymap.set('n', '<leader>g', function()
-    btop:toggle()
-end)
-
-vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
-vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
------------------------------------------------------------------------------------
-require('indent_blankline').setup {
-    char = '┆',
-    show_trailing_blankline_indent = false,
-}
-------------------------------------------------------------------------------------
---自动保存
+--autosave 自动保存
 local autosave = require("autosave")
 autosave.setup(
 {
@@ -628,66 +731,14 @@ autosave.setup(
     debounce_delay = 135
 }
 )
------------------------------------------------------------------------------------
---注释
-require('kommentary.config').use_extended_mappings()
-vim.api.nvim_set_keymap("n", "<leader>cc", "<Plug>kommentary_line_increase", {})
-vim.api.nvim_set_keymap("x", "<leader>cc", "<Plug>kommentary_visual_increase", {})
-
-vim.api.nvim_set_keymap("n", "<leader>cu", "<Plug>kommentary_line_decrease", {})
-vim.api.nvim_set_keymap("x", "<leader>cu", "<Plug>kommentary_visual_decrease", {})
 ----------------------------------------------------------------------------------
---
+--lastplace 一次的编辑的位置
 require'nvim-lastplace'.setup {
     lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
     lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
     lastplace_open_folds = true
 }
-------------------------------------------------------------------------------------
---git支持
-require('gitsigns').setup {
-    signs = {
-        add          = {hl = 'GitSignsAdd'   , text = '|', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-        change       = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-        delete       = {hl = 'GitSignsDelete', text = '|', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-        topdelete    = {hl = 'GitSignsDelete', text = '|', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-        changedelete = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-    },
-    signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-    numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
-    linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-    word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
-    watch_gitdir = {
-        interval = 1000,
-        follow_files = true
-    },
-    attach_to_untracked = true,
-    current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-    current_line_blame_opts = {
-        virt_text = true,
-        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-        delay = 1000,
-        ignore_whitespace = false,
-    },
-    current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-    sign_priority = 6,
-    update_debounce = 100,
-    status_formatter = nil, -- Use default
-    max_file_length = 40000,
-    preview_config = {
-        -- Options passed to nvim_open_win
-        border = 'single',
-        style = 'minimal',
-        relative = 'cursor',
-        row = 0,
-        col = 1
-    },
-    yadm = {
-        enable = false
-    },
-}
 ----------------------------------------------------------------------------------
------------------------------------------------------------------------------------
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<C-k>", ":bp<CR>", {})
