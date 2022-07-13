@@ -32,16 +32,14 @@ require('packer').startup(function(use)
 
     use 'stevearc/aerial.nvim'--函数列表
     use 'nvim-treesitter/nvim-treesitter'--高亮
-    use "EdenEast/nightfox.nvim" -- 主题
+	use 'olimorris/onedarkpro.nvim'--主题
     use({'glepnir/zephyr-nvim',
     requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
     use 'nvim-lualine/lualine.nvim'--状态栏
-    
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}--缓冲区状态栏
-    
+
     use 'lukas-reineke/indent-blankline.nvim'--对齐线
-    
-    
+
     use 'b3nj5m1n/kommentary'--注释
     use 'mg979/vim-visual-multi' --多光标
     use "Pocco81/AutoSave.nvim"--自动保存
@@ -54,8 +52,8 @@ vim.o.tabstop=4
 vim.bo.tabstop=4
 vim.o.softtabstop=4
 vim.o.shiftwidth=4
-vim.o.scrolloff=4
-vim.o.sidescrolloff=4
+vim.o.scrolloff=5
+vim.o.sidescrolloff=5
 vim.wo.numberwidth=1
 vim.transparent_window = true
 vim.g.mapleader = ','
@@ -75,7 +73,7 @@ vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
-vim.cmd[[ colorscheme zephyr ]]
+vim.cmd[[ colorscheme onedarkpro ]]
 
 -----------------------------------------------------------------------------------
 -- LSP settings
@@ -87,14 +85,14 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    --[[ vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
     vim.keymap.set('n', '<leader>wl', function() vim.inspect(vim.lsp.buf.list_workspace_folders()) end, opts)
-    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
-    vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts) ]]
+    vim.keymap.set('n', 'gr', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', 'gc', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gf', require('telescope.builtin').lsp_document_symbols, opts)
+    -- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
 end
 ---------------------------------------------------------------------------------------------
 --完成函数参数
@@ -157,7 +155,7 @@ vim.diagnostic.config({
 -----------------------------------------------------------------------------------
 local cfg = {
     debug = false, -- set to true to enable debug logging
-    log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
+    -- log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
     verbose = false, -- show debug line number
     bind = true, -- This is mandatory, otherwise border config won't get registered.
     doc_lines = 10, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
@@ -593,7 +591,18 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
      },
  }
  -------------------------------------------------------------------------------
-
+--onedarkpro主题
+require("onedarkpro").setup({
+	dark_theme = "onedark_vivid",
+	colors = {
+		cursorline = "#303030",-- This is optional. The default cursorline color is based on the background
+	},
+	options = {
+		cursorline = true,
+		transparency = true,
+	},
+})
+vim.cmd[[ colorscheme onedarkpro ]]
  -----------------------------------------------------------------------------------
  --statusbar 状态栏
 local colors = {
@@ -693,8 +702,8 @@ npairs.setup({
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp = require('cmp')
 cmp.event:on(
-'confirm_done',
-cmp_autopairs.on_confirm_done()
+	'confirm_done',
+	cmp_autopairs.on_confirm_done()
 )
 
 require('nvim-autopairs').setup({
@@ -746,3 +755,4 @@ vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {})
 vim.api.nvim_set_keymap("n", "<C-w>j", "<C-w>t<C-w>K", {})
 vim.api.nvim_set_keymap("n", "<C-w>k", "<C-w>t<C-w>H", {})
 vim.api.nvim_set_keymap("n", "zl", "<C-w>3>", {})
+vim.api.nvim_set_keymap("n", "zh", "<C-w>3>", {})
