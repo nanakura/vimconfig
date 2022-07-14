@@ -197,6 +197,8 @@ tnoremap <silent><leader>d exit<CR>
 let g:indentLine_color_term = 111
 let g:indentLine_char = '┆'
 let g:indentLine_char_list = ['┆']
+set listchars=tab:\┆\ ,trail:■,extends:>,precedes:<,nbsp:+
+set list
 "------------------------------------------------------------------------------------
 "vim-visual-multi
 let g:AutoPairsShortcutFastWrap = '<C-e>'
@@ -260,7 +262,7 @@ set softtabstop=4
 set tabstop=4
 set scrolloff=5
 set cindent
-set expandtab "设置tab=space
+"set expandtab "设置tab=space
 "set noexpandtab "设置spce=tab
 set mouse-=a
 set nocompatible"不兼容vi模式
@@ -272,8 +274,8 @@ let &t_SI.="\e[6 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 
-setlocal list
-set listchars=tab:>-,trail:*,space:.,eol:$
+"setlocal list
+"set listchars=tab:>-,trail:*,space:.,eol:$
 
 inoremap <silent><C-l> <Right>
 nnoremap <silent><C-j> :bn<CR>
