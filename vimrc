@@ -272,6 +272,9 @@ let &t_SI.="\e[6 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 
+setlocal list
+set listchars=tab:>-,trail:*,space:.,eol:$
+
 inoremap <silent><C-l> <Right>
 nnoremap <silent><C-j> :bn<CR>
 nnoremap <silent><C-k> :bp<CR>
