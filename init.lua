@@ -37,7 +37,6 @@ require('packer').startup(function(use)
     requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
     use 'nvim-lualine/lualine.nvim'--状态栏
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}--缓冲区状态栏
-
     use 'lukas-reineke/indent-blankline.nvim'--对齐线
 
     use 'b3nj5m1n/kommentary'--注释
@@ -73,6 +72,7 @@ vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
+--vim.cmd[[ colorscheme zephyr ]]
 vim.cmd[[ colorscheme onedarkpro ]]
 
 -----------------------------------------------------------------------------------
@@ -157,8 +157,8 @@ local cfg = {
     debug = false, -- set to true to enable debug logging
     -- log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
     verbose = false, -- show debug line number
-    bind = true, -- This is mandatory, otherwise border config won't get registered.
-    doc_lines = 10, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
+    bind = true,
+    doc_lines = 10,
     floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
     floating_window_above_cur_line = true,
     floating_window_off_x = 1,
@@ -169,7 +169,7 @@ local cfg = {
     hint_scheme = "String",
     hi_parameter = "LspSignatureActiveParameter",
     max_height = 2,
-    max_width = 50,
+    max_width = 200,
     handler_opts = {
         border = "rounded"
     },
@@ -199,8 +199,8 @@ local lspkind = require('lspkind')
 require("luasnip.loaders.from_vscode").lazy_load()
 ------------------------------------------------------------------------------------
 -- nvim-cmp setup
-local cmp = require 'cmp'
-cmp.setup {
+local cmp = require('cmp')
+cmp.setup{
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -314,6 +314,11 @@ vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<
 vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
 vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>ft", [[<cmd>lua require('telescope.builtin').git_bcommits()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fs", [[<cmd>lua require('telescope.builtin').lsp_references()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fc", [[<cmd>lua require('telescope.builtin').treesitter()<cr>]],{})
+vim.api.nvim_set_keymap("n", "<leader>fp", [[<cmd>lua require('telescope.builtin').grep_string()<cr>]],{})
+
 ------------------------------------------------------------------------------------
 --gitsigns 支持
 require('gitsigns').setup {
@@ -503,7 +508,7 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
 --aerial 函数列表
  require("aerial").setup({
      on_attach = function(bufnr)
-         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fc', '<cmd>AerialToggle!<CR>', {})
+         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fo', '<cmd>AerialToggle!<CR>', {})
          vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
          vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
          vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
@@ -599,73 +604,47 @@ require("onedarkpro").setup({
 	},
 	options = {
 		cursorline = true,
-		transparency = true,
+		--transparency = true,
 	},
 })
-vim.cmd[[ colorscheme onedarkpro ]]
+vim.cmd[[ colorscheme zephyr ]]
  -----------------------------------------------------------------------------------
  --statusbar 状态栏
-local colors = {
-    blue   = '#80a0ff',
-    cyan   = '#79dac8',
-    black  = '#303030',
-    white  = '#c6c6c6',
-    red    = '#ff5189',
-    violet = '#d183e8',
-    grey   = '#080808',
-}
-
-local bubbles_theme = {
-    normal = {
-        a = { fg = colors.black, bg = colors.violet },
-        b = { fg = colors.white, bg = colors.grey },
-        c = { fg = colors.black, bg = colors.black },
-    },
-
-    insert = { a = { fg = colors.black, bg = colors.blue } },
-    visual = { a = { fg = colors.black, bg = colors.cyan } },
-    replace = { a = { fg = colors.black, bg = colors.red } },
-
-    inactive = {
-        a = { fg = colors.white, bg = colors.black },
-        b = { fg = colors.white, bg = colors.black },
-        c = { fg = colors.black, bg = colors.black },
-    },
-}
-
-require('lualine').setup {
-    options = {
-        theme = bubbles_theme,
-        component_separators = '|',
-        section_separators = { left = '', right = '' },
-    },
-    sections = {
-        lualine_a = {
-            { 'mode', separator = { left = '' }, right_padding = 2 },
-        },
-        lualine_b = { 'filename', 'branch' },
-        lualine_c = { 'fileformat' },
-        lualine_x = {},
-        lualine_y = { 'filetype', 'progress' },
-        lualine_z = {
-            { 'location', separator = { right = '' }, left_padding = 2 },
-        },
-    },
-    inactive_sections = {
-        lualine_a = { 'filename' },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = { 'location' },
-    },
-    tabline = {},
-    extensions = {},
-}
+ require('lualine').setup({
+	  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+    globalstatus = false,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+ })
 ---------------------------------------------------------------------------------
 --bufferline 缓冲区状态栏
-vim.opt.termguicolors = true
-require("bufferline").setup{}
+-- vim.opt.termguicolors = true
+require('bufferline').setup ({
+})
+
 -----------------------------------------------------------------------------------
 --blankline 对齐线
 require('indent_blankline').setup {
