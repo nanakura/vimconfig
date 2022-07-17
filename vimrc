@@ -29,12 +29,16 @@ Plug 'Yggdroot/indentLine'"对其线
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
 Plug 'preservim/nerdcommenter' "注释
 Plug 'vim-autoformat/vim-autoformat'
+Plug 'rhysd/accelerated-jk'
 
 Plug 'airblade/vim-gitgutter' "git修改
 Plug 'tpope/vim-fugitive'
 call plug#end()
 "-------------------------------------------------------------------------------------
 "coc-nvim 补全
+set signcolumn=number
+set signcolumn=yes
+
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ CheckBackspace() ? "\<TAB>" :
@@ -49,12 +53,10 @@ endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
             \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> ]r <Plug>(coc-diagnostic-prev)
+nnoremap <silent> [r <Plug>(coc-diagnostic-next)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gr <Plug>(coc-rename)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 let g:coc_global_extensions = [
@@ -217,6 +219,11 @@ let g:rainbow_load_separately = [
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
+"------------------------------------------------------------------------------------
+"rhysd/accelerated-jk加速
+map j <Plug>(accelerated_jk_gj)
+nmap k <Plug>(accelerated_jk_gk)
+
 "-----------------------------------------------------------------------------------
 "git setting
 set updatetime=100

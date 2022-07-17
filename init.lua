@@ -44,7 +44,7 @@ require('packer').startup(function(use)
     use "Pocco81/AutoSave.nvim"--自动保存
     use 'windwp/nvim-autopairs'--括号补全
     use 'ethanholz/nvim-lastplace'--打开上一次位置
-
+	use 'rhysd/accelerated-jk'
 
 end)
 vim.o.tabstop=4
@@ -80,8 +80,11 @@ vim.cmd[[ colorscheme onedarkpro ]]
 local lspconfig = require 'lspconfig'
 local on_attach = function(_, bufnr)
     local opts = { buffer = bufnr }
+	local opts1 = { noremap=true, silent=true }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+	vim.keymap.set('n', ']r', vim.diagnostic.goto_prev, opts1 )
+	vim.keymap.set('n', '[r', vim.diagnostic.goto_next,  opts1)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
@@ -130,6 +133,11 @@ require('lspconfig')['rust_analyzer'].setup{
     { "rust-analyzer" },
     { "rust" },
 }
+require'lspconfig'.cmake.setup{
+	{"cmake-language-server"},
+	{ "cmake" }
+}
+
 
 -----------------------------------------------------------------------------------
 --在悬停窗口中自动显示线路诊断
@@ -715,6 +723,10 @@ require'nvim-lastplace'.setup {
     lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
     lastplace_open_folds = true
 }
+-------------------------------------------------------------------------------
+--
+vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
+vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
 ----------------------------------------------------------------------------------
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
