@@ -1,9 +1,5 @@
-"windows ~/_vimrc linux ~/.vimrc
-"windows ~/vimfiles/autoload  linux ~/.vim/autoload
-"--with-features=huge --enable-python3interp --enable-luainterp --enable-multibyte --enable-cscope --prefix=/usr/local/vim8
-let mapleader=","
-let g:maplocalleader=","
-"--------------------------------------------------------------------------------------
+" xMonody-x huanbin_xiao@163.com
+
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
 Plug 'honza/vim-snippets'"片段
@@ -34,6 +30,49 @@ Plug 'rhysd/accelerated-jk'
 Plug 'airblade/vim-gitgutter' "git修改
 Plug 'tpope/vim-fugitive'
 call plug#end()
+"------------------------------------------------------------------------------
+hi PMenu              ctermfg=240 ctermbg=243
+hi PMenuSel           ctermfg=240    ctermbg=243
+hi MatchParen ctermbg=gray guibg=gray
+set cursorline
+hi CursorLine         cterm=bold ctermbg=none ctermbg=242
+hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
+let mapleader=","
+let g:maplocalleader=","
+set numberwidth=1
+set bg=dark
+set filetype=glslx
+set viminfo='1000,<666
+set clipboard=unnamed
+set fileencodings=ucs-bom,utf-8,gb18030,default
+set ignorecase "搜索忽略大小写
+" autocmd VimEnter * NoMatchParen "取消括号高亮匹配
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+set belloff=all
+set tm=500
+set number
+"set relativenumber
+set autoindent
+set ts=4
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set scrolloff=5
+set cindent
+"set expandtab "设置tab=space
+"set noexpandtab "设置spce=tab
+set mouse-=a
+set nocompatible"不兼容vi模式
+set cmdheight=1
+set hlsearch
+set backspace=indent,eol,start "设置back键
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+let &t_SI.="\e[6 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
+"setlocal list
+"set listchars=tab:>-,trail:*,space:.,eol:$
 "-------------------------------------------------------------------------------------
 "coc-nvim 补全
 set signcolumn=number
@@ -188,7 +227,7 @@ nnoremap <leader>fl :BLines<CR>
 nnoremap <leader>fa :Ag<CR>
 "------------------------------------------------------------------------------------
 "vim-floaterm终端
-let g:floaterm_title=''
+let g:floaterm_title='xMonody'
 let g:floaterm_width=0.8
 let g:floaterm_height=0.9
 nnoremap <silent><leader>t :FloatermNew --height=0.9 --width=0.8<CR>
@@ -220,13 +259,8 @@ let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------
-"rhysd/accelerated-jk加速
-map j <Plug>(accelerated_jk_gj)
-nmap k <Plug>(accelerated_jk_gk)
-
-"-----------------------------------------------------------------------------------
 "git setting
-set updatetime=100
+set updatetime=150
 let g:gitgutter_max_signs = 500
 let g:gitgutter_max_signs = -1
 highlight GitgutterAdd guifg=#009900 ctermfg=10
@@ -240,50 +274,6 @@ let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
 "--------------------------------------------------------------------------------
 
-
-hi PMenu              ctermfg=240 ctermbg=243
-hi PMenuSel           ctermfg=240    ctermbg=243
-hi MatchParen ctermbg=gray guibg=gray
-set cursorline
-hi CursorLine         cterm=bold ctermbg=none ctermbg=242
-hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
-
-set numberwidth=1
-set bg=dark
-set filetype=glslx
-set viminfo='1000,<666
-set clipboard=unnamed
-set fileencodings=ucs-bom,utf-8,gb18030,default
-set ignorecase "搜索忽略大小写
-" autocmd VimEnter * NoMatchParen "取消括号高亮匹配
-set noerrorbells visualbell t_vb=
-autocmd GUIEnter * set visualbell t_vb=
-set belloff=all
-set tm=500
-set number
-"set relativenumber
-set autoindent
-set ts=4
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-set scrolloff=5
-set cindent
-"set expandtab "设置tab=space
-"set noexpandtab "设置spce=tab
-set mouse-=a
-set nocompatible"不兼容vi模式
-set cmdheight=1
-set hlsearch
-set backspace=indent,eol,start "设置back键
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-let &t_SI.="\e[6 q" "SI = INSERT mode
-let &t_SR.="\e[4 q" "SR = REPLACE mode
-let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
-
-"setlocal list
-"set listchars=tab:>-,trail:*,space:.,eol:$
-
 inoremap <silent><C-l> <Right>
 nnoremap <silent><C-j> :bn<CR>
 nnoremap <silent><C-k> :bp<CR>
@@ -292,6 +282,7 @@ nnoremap <silent><leader>d :bd<CR>
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 
 nnoremap <silent>q :nohl<CR>
+nnoremap ; :
 vnoremap <silent>q <Esc>
 
 nnoremap <silent><leader>yy "+yy

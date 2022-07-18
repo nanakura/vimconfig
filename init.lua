@@ -1,8 +1,5 @@
---linux-~.config/nvim/init.lua
---git clone --depth 1 https://github.com/wbthomason/packer.nvim\ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+-- xMonody-x huanbin_xiao@163.com
 
---windows   ~/AppData\Local\nvim\init.lua
--- git clone https://github.com/wbthomason/packer.nvim "~\AppData\Local\nvim-data\site\pack\packer\start"
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     --补全
@@ -44,7 +41,6 @@ require('packer').startup(function(use)
     use "Pocco81/AutoSave.nvim"--自动保存
     use 'windwp/nvim-autopairs'--括号补全
     use 'ethanholz/nvim-lastplace'--打开上一次位置
-	use 'rhysd/accelerated-jk'
 
 end)
 vim.o.tabstop=4
@@ -724,10 +720,6 @@ require'nvim-lastplace'.setup {
     lastplace_open_folds = true
 }
 -------------------------------------------------------------------------------
---
-vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
-vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
-----------------------------------------------------------------------------------
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<C-k>", ":bp<CR>", {})
@@ -737,6 +729,7 @@ vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>a", ":%s/<C-r><C-w>//g<left><left>", {})
 
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
+vim.api.nvim_set_keymap("n", ";", ":", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})
