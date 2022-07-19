@@ -1,7 +1,7 @@
 " xMonody-x huanbin_xiao@163.com
 
 call plug#begin('~/.vim/plugged')
-Plug 'neoclide/coc.nvim',{'branch':'release'}"代码补全
+Plug 'neoclide/coc.nvim',{'branch':'release'} "代码补全
 Plug 'honza/vim-snippets'"片段
 
 Plug 'Shougo/defx.nvim'"目录树"
@@ -20,16 +20,16 @@ Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
 Plug 'junegunn/fzf.vim'
 
-Plug 'jiangmiao/auto-pairs'"补全括号
+Plug 'jiangmiao/auto-pairs' "补全括号
 Plug '907th/vim-auto-save'
-Plug 'Yggdroot/indentLine'"对其线
+Plug 'Yggdroot/indentLine' "对其线
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
 Plug 'preservim/nerdcommenter' "注释
 Plug 'vim-autoformat/vim-autoformat'
-Plug 'rhysd/accelerated-jk'
 
 Plug 'airblade/vim-gitgutter' "git修改
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 call plug#end()
 "------------------------------------------------------------------------------
 hi PMenu              ctermfg=240 ctermbg=243
@@ -273,6 +273,12 @@ let g:gitgutter_sign_removed='|'
 let g:gitgutter_sign_removed_first_line='|'
 let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
+nmap [c <Plug>(GitGutterNextHunk)
+nmap ]c <Plug>(GitGutterPrevHunk)
+
+nnoremap <silent><leader>hp :Gvdiffsplit<CR>
+nnoremap <silent><leader>ht :Git blame<CR>
+
 "--------------------------------------------------------------------------------
 
 inoremap <silent><C-l> <Right>
