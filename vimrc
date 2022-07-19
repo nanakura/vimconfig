@@ -238,7 +238,7 @@ tnoremap <silent><leader>d exit<CR>
 let g:indentLine_color_term = 111
 let g:indentLine_char = '┆'
 let g:indentLine_char_list = ['┆']
-set listchars=tab:\┆\ ,trail:■,extends:>,precedes:<,nbsp:+
+set listchars=tab:\┆\ ",trail:■,extends:>,precedes:<,nbsp:+
 set list
 "------------------------------------------------------------------------------------
 "vim-visual-multi

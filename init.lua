@@ -18,26 +18,22 @@ require('packer').startup(function(use)
 
 
     use 'numToStr/FTerm.nvim'--终端
-    use {'nvim-telescope/telescope.nvim',
-    requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
+    use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
     use 'lewis6991/gitsigns.nvim'--git修改
     use 'tveskag/nvim-blame-line'--显示git修改
 
-
-    use {'kyazdani42/nvim-tree.lua',requires = {
-        'kyazdani42/nvim-web-devicons',}}-- 树目录
+    use {'kyazdani42/nvim-tree.lua',requires = { 'kyazdani42/nvim-web-devicons',}}-- 树目录
 
     use 'stevearc/aerial.nvim'--函数列表
     use 'nvim-treesitter/nvim-treesitter'--高亮
-	use 'olimorris/onedarkpro.nvim'--主题
-    use({'glepnir/zephyr-nvim',
-    requires = { 'nvim-treesitter/nvim-treesitter', opt = true },})--主题
+	use 'mjlbach/onedark.nvim'--主题
+	--use 'olimorris/onedarkpro.nvim'--主题
     use 'nvim-lualine/lualine.nvim'--状态栏
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}--缓冲区状态栏
     use 'lukas-reineke/indent-blankline.nvim'--对齐线
 
     use 'b3nj5m1n/kommentary'--注释
-    use 'mg979/vim-visual-multi' --多光标
+    --use 'mg979/vim-visual-multi' --多光标
     use "Pocco81/AutoSave.nvim"--自动保存
     use 'windwp/nvim-autopairs'--括号补全
     use 'ethanholz/nvim-lastplace'--打开上一次位置
@@ -68,11 +64,10 @@ vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
---vim.cmd[[ colorscheme zephyr ]]
-vim.cmd[[ colorscheme onedarkpro ]]
+vim.cmd[[ colorscheme onedark]]
 
 -----------------------------------------------------------------------------------
--- LSP settings
+-- lspconfig settings
 local lspconfig = require 'lspconfig'
 local on_attach = function(_, bufnr)
     local opts = { buffer = bufnr }
@@ -129,6 +124,7 @@ require('lspconfig')['rust_analyzer'].setup{
     { "rust-analyzer" },
     { "rust" },
 }
+
 require'lspconfig'.cmake.setup{
 	{"cmake-language-server"},
 	{ "cmake" }
@@ -157,6 +153,7 @@ vim.diagnostic.config({
     }
 })
 -----------------------------------------------------------------------------------
+--sago
 local cfg = {
     debug = false, -- set to true to enable debug logging
     -- log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
@@ -288,7 +285,7 @@ cmp.setup.cmdline(':', {
     })
 })
 -----------------------------------------------------------------------------------
---Fterm 终端
+--fterm 终端
 require'FTerm'.setup({
     border = 'double',
     dimensions  = {
@@ -393,9 +390,9 @@ require('gitsigns').setup {
         --map('n', '<leader>hR', gs.reset_buffer)
         map('n', '<leader>hp', gs.preview_hunk)
         map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-        map('n', '<leader>tb', gs.toggle_current_line_blame)
+        -- map('n', '<leader>tb', gs.toggle_current_line_blame)
         map('n', '<leader>hd', gs.diffthis)
-        map('n', '<leader>td', gs.toggle_deleted)
+        -- map('n', '<leader>td', gs.toggle_deleted)
     end
 
 }
@@ -509,7 +506,7 @@ require'nvim-tree'.setup {
 } -- END_DEFAULT_OPTS
 vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
 --------------------------------------------------------------------------------
---aerial 函数列表
+--function 函数列表
  require("aerial").setup({
      on_attach = function(bufnr)
          vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fo', '<cmd>AerialToggle!<CR>', {})
@@ -593,7 +590,6 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
  require'nvim-treesitter.configs'.setup {
      ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
      sync_install = false,
-     --ignore_install = { "javascript" },
      highlight = {
          enable = true,
          additional_vim_regex_highlighting = false,
@@ -601,23 +597,22 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
  }
  -------------------------------------------------------------------------------
 --onedarkpro主题
-require("onedarkpro").setup({
+--[[ require("onedarkpro").setup({
 	dark_theme = "onedark_vivid",
 	colors = {
 		cursorline = "#303030",-- This is optional. The default cursorline color is based on the background
 	},
 	options = {
 		cursorline = true,
-		--transparency = true,
+		transparency = true,
 	},
-})
-vim.cmd[[ colorscheme zephyr ]]
+}) ]]
  -----------------------------------------------------------------------------------
- --statusbar 状态栏
- require('lualine').setup({
-	  options = {
+ --statusline 状态栏
+require('lualine').setup {
+  options = {
     icons_enabled = true,
-    theme = 'auto',
+    theme = 'palenight',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {},
@@ -642,10 +637,10 @@ vim.cmd[[ colorscheme zephyr ]]
   },
   tabline = {},
   extensions = {}
- })
+}
 ---------------------------------------------------------------------------------
---bufferline 缓冲区状态栏
--- vim.opt.termguicolors = true
+--tabline 缓冲区状态栏
+vim.opt.termguicolors = true
 require('bufferline').setup ({
 })
 
