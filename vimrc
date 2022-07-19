@@ -283,7 +283,8 @@ nnoremap <silent><leader>d :bd<CR>
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 
 nnoremap <silent>q :nohl<CR>
-nnoremap ; :
+nnoremap <silent><leader>q <C-w>q
+nnoremap <silent><leader>o :vsp<CR>
 vnoremap <silent>q <Esc>
 
 nnoremap <silent><leader>yy "+yy

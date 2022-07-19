@@ -63,9 +63,7 @@
         "clangd": {
             "command": "clangd",
             "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-            "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
-		"clangd.semanticHighlighting": true,
-		"coc.preferences.semanticTokensHighlights": false
+            "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
         },
         "rust": {
             "command": "rust-analyzer",
