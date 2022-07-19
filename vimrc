@@ -12,7 +12,8 @@ Plug 'kristijanhusak/defx-icons'
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
-Plug 'rakr/vim-one'"主题
+"Plug 'rakr/vim-one'"主题
+Plug 'kaicataldo/material.vim', { 'branch': 'main' } "主题
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
 
 Plug 'voldikss/vim-floaterm' "终端
@@ -177,20 +178,22 @@ endfunction
 let g:python3_host_prog=('python3')
 
 "-----------------------------------------------------------------------------------
-
-"主题
-"tyrannicaltoucan/vim-quantum "主题\
+"主题 material
 set background=dark
 set termguicolors
-colorscheme one
-"colorscheme dracula
+" 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
+let g:material_theme_style ='palenight-community'
+let ayucolor="light"
+colorscheme material
+
 "------------------------------------------------------------------------------------
 "状态栏
+
 set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'one',
+            \ 'colorscheme': 'material_vim',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -203,8 +206,6 @@ let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 let g:lightline.tabline_separator = g:lightline.separator
 let g:lightline.tabline_subseparator = g:lightline.subseparator
-let g:buftabline_separators=1
-let g:buftabline_indicators=1
 
 "------------------------------------------------------------------------------------
 "高亮
