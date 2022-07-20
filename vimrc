@@ -180,7 +180,7 @@ let g:python3_host_prog=('python3')
 "-----------------------------------------------------------------------------------
 "主题 material
 set background=dark
-set termguicolors
+set termguicolors 
 " 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
 let g:material_theme_style ='palenight-community'
 let ayucolor="light"
@@ -276,8 +276,8 @@ let g:gitgutter_sign_modified_removed='|'
 nmap [c <Plug>(GitGutterNextHunk)
 nmap ]c <Plug>(GitGutterPrevHunk)
 
-nnoremap <silent><leader>hp :Gvdiffsplit<CR>
-nnoremap <silent><leader>ht :Git blame<CR>
+nnoremap <silent><leader>hd :Gvdiffsplit<CR>
+nnoremap <silent><leader>hb :Git blame<CR>
 
 "--------------------------------------------------------------------------------
 
