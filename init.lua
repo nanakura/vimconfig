@@ -43,7 +43,7 @@ vim.o.tabstop=4
 vim.bo.tabstop=4
 vim.o.softtabstop=4
 vim.o.shiftwidth=4
---vim.o.expandtab=true
+--vim.o.expandtab=true --设置tab=空格
 vim.o.scrolloff=5
 vim.wo.numberwidth=1
 vim.transparent_window = true
@@ -725,7 +725,6 @@ vim.api.nvim_set_keymap("n", "<leader>a", ":%s/<C-r><C-w>//g<left><left>", {})
 
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>q", "<C-w>q", {})
-vim.api.nvim_set_keymap("n", "<leader>o", ":vsp<CR>", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})

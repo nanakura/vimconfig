@@ -183,7 +183,7 @@ set background=dark
 set termguicolors 
 " 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
 let g:material_theme_style ='palenight-community'
-let ayucolor="light"
+let ayucolor="dark"
 colorscheme material
 
 "------------------------------------------------------------------------------------
@@ -206,7 +206,9 @@ let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 let g:lightline.tabline_separator = g:lightline.separator
 let g:lightline.tabline_subseparator = g:lightline.subseparator
-
+let g:buftabline_indicators=1
+let g:buftabline_numbers=1
+let g:buftabline_separators=1
 "------------------------------------------------------------------------------------
 "高亮
 let g:cpp_class_scope_highlight = 1
@@ -290,7 +292,6 @@ nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 
 nnoremap <silent>q :nohl<CR>
 nnoremap <silent><leader>q <C-w>q
-nnoremap <silent><leader>o :vsp<CR>
 vnoremap <silent>q <Esc>
 
 nnoremap <silent><leader>yy "+yy
