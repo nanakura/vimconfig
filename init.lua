@@ -727,7 +727,7 @@ vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>q", "<C-w>q", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
-vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})
+vim.api.nvim_set_keymap("n", "<leader>y", '"+yy', {})
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {})
 vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {})
 
