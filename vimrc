@@ -294,7 +294,7 @@ nnoremap <silent>q :nohl<CR>
 nnoremap <silent><leader>q <C-w>q
 vnoremap <silent>q <Esc>
 
-nnoremap <silent><leader>yy "+yy
+nnoremap <silent><leader>y "+yy
 nnoremap <silent><leader>p "+p
 vnoremap <silent><leader>y "+y
 
