@@ -10,6 +10,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'kristijanhusak/defx-icons'
 
 Plug 'itchyny/lightline.vim'
+"lightline-bufferline
 Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
 "Plug 'rakr/vim-one'"主题
