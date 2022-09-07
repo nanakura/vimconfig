@@ -3,6 +3,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim',{'branch':'release'} "代码补全
 Plug 'honza/vim-snippets'"片段
+Plug 'Eric-Song-Nop/vim-glslx'
 
 Plug 'Shougo/defx.nvim'"目录树"
 Plug 'roxma/nvim-yarp'
@@ -13,7 +14,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'mengelbrecht/lightline-bufferline'
 
-"Plug 'rakr/vim-one'"主题
+Plug 'rakr/vim-one'"主题
 Plug 'kaicataldo/material.vim', { 'branch': 'main' } "主题
 
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
@@ -26,7 +27,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs' "补全括号
 Plug '907th/vim-auto-save'
 Plug 'Yggdroot/indentLine' "对其线
-Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
+"Plug 'mg979/vim-visual-multi', {'branch': 'master'} "多光标
 Plug 'preservim/nerdcommenter' "注释
 Plug 'vim-autoformat/vim-autoformat'
 
@@ -49,7 +50,6 @@ let g:maplocalleader=","
 set hlsearch
 set numberwidth=1
 set bg=dark
-set filetype=glslx
 set viminfo='1000,<666
 set clipboard=unnamed
 set fileencodings=ucs-bom,utf-8,gb18030,default
@@ -92,8 +92,6 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
@@ -101,6 +99,21 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+nnoremap <silent> K :call ShowDocumentation()<CR>
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"augroup mygroup
+  "autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  "autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+"augroup end
 
 
 nnoremap <silent> gp <Plug>(coc-diagnostic-prev)
@@ -111,9 +124,7 @@ nnoremap <silent> K :call ShowDocumentation()<CR>
 
 let g:coc_global_extensions = [
             \ 'coc-json',
-            \ 'coc-glslx',
-            \ 'coc-snippets',
-            \ 'coc-go', ]
+            \ 'coc-snippets',]
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
