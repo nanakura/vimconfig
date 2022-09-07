@@ -1,16 +1,4 @@
--- xMonody-x huanbin_xiao@163.com
-
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
-    --补全
-    use 'ray-x/lsp_signature.nvim'
-    use 'neovim/nvim-lspconfig'
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/nvim-cmp'
-    use 'onsails/lspkind.nvim'--图标
-
-    use  'L3MON4D3/LuaSnip'
-    use 'saadparwaiz1/cmp_luasnip'
+-- xMonody-x huanbin_xiao@163.com require('packer').startup(function(use) use 'wbthomason/packer.nvim' --补全 use 'ray-x/lsp_signature.nvim' use 'neovim/nvim-lspconfig' use 'hrsh7th/cmp-nvim-lsp' use 'hrsh7th/nvim-cmp' use 'onsails/lspkind.nvim'--图标 use  'L3MON4D3/LuaSnip' use 'saadparwaiz1/cmp_luasnip'
     use 'rafamadriz/friendly-snippets'--片段
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-buffer'
@@ -39,6 +27,8 @@ require('packer').startup(function(use)
     use 'ethanholz/nvim-lastplace'--打开上一次位置
 
 end)
+
+vim.o.hlsearch=true
 vim.o.tabstop=4
 vim.bo.tabstop=4
 vim.o.softtabstop=4
@@ -65,6 +55,7 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
 vim.cmd[[ colorscheme onedark]]
+--set guifont='CodeNewRoman_Nerd_Font_Mono:h11
 
 -----------------------------------------------------------------------------------
 -- lspconfig settings
@@ -74,8 +65,8 @@ local on_attach = function(_, bufnr)
 	local opts1 = { noremap=true, silent=true }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-	vim.keymap.set('n', ']r', vim.diagnostic.goto_prev, opts1 )
-	vim.keymap.set('n', '[r', vim.diagnostic.goto_next,  opts1)
+	vim.keymap.set('n', 'gp', vim.diagnostic.goto_prev, opts1 )
+	vim.keymap.set('n', 'gn', vim.diagnostic.goto_next,  opts1)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
@@ -371,13 +362,13 @@ require('gitsigns').setup {
         end
 
         -- Navigation
-        map('n', ']c', function()
+        map('n', 'tn', function()
 			if vim.wo.diff then return ']c' end
 			vim.schedule(function() gs.next_hunk() end)
 			return '<Ignore>'
     end, {expr=true})
 
-		map('n', '[c', function()
+		map('n', 'tp', function()
 			if vim.wo.diff then return '[c' end
 			vim.schedule(function() gs.prev_hunk() end)
 			return '<Ignore>'
@@ -388,10 +379,10 @@ require('gitsigns').setup {
         --map('n', '<leader>hS', gs.stage_buffer)
         --map('n', '<leader>hu', gs.undo_stage_hunk)
         --map('n', '<leader>hR', gs.reset_buffer)
-        map('n', '<leader>hv', gs.preview_hunk)
-        map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+        map('n', 'tv', gs.preview_hunk)
+        map('n', 'tb', function() gs.blame_line{full=true} end)
         -- map('n', '<leader>tb', gs.toggle_current_line_blame)
-        map('n', '<leader>hd', gs.diffthis)
+        map('n', 'td', gs.diffthis)
         --map('n', '<leader>td', gs.toggle_deleted)
     end
 

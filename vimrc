@@ -11,14 +11,13 @@ Plug 'kristijanhusak/defx-icons'
 
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
-Plug 'ap/vim-buftabline'
-"Plug 'mengelbrecht/lightline-bufferline'
+Plug 'mengelbrecht/lightline-bufferline'
 
 "Plug 'rakr/vim-one'"主题
 Plug 'kaicataldo/material.vim', { 'branch': 'main' } "主题
 
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
-"Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
@@ -44,6 +43,10 @@ hi CursorLine         cterm=bold ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
 let mapleader=","
 let g:maplocalleader=","
+
+"set guifont='CodeNewRoman_Nerd_Font_Mono:h11
+"set guioptions=
+set hlsearch
 set numberwidth=1
 set bg=dark
 set filetype=glslx
@@ -84,21 +87,24 @@ set signcolumn=number
 set signcolumn=yes
 
 inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ CheckBackspace() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-nnoremap <silent> ]r <Plug>(coc-diagnostic-prev)
-nnoremap <silent> [r <Plug>(coc-diagnostic-next)
+nnoremap <silent> gp <Plug>(coc-diagnostic-prev)
+nnoremap <silent> gn <Plug>(coc-diagnostic-next)
 nnoremap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gr <Plug>(coc-rename)
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -205,14 +211,23 @@ let g:lightline = {
             \ 'component_function': {
             \   'gitbranch': 'gitbranch#name'
             \ },
+			  \ 'tabline': {
+      \   'left': [ ['buffers'] ],
+      \   'right': [ ['close'] ]
+      \ },
+      \ 'component_expand': {
+      \   'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_type': {
+      \   'buffers': 'tabsel'
+      \ }
             \ }
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
-let g:lightline.tabline_separator = g:lightline.separator
-let g:lightline.tabline_subseparator = g:lightline.subseparator
-let g:buftabline_indicators=1
-let g:buftabline_numbers=1
-let g:buftabline_separators=1
+
+set showtabline=2
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+
 "------------------------------------------------------------------------------------
 "高亮
 let g:cpp_class_scope_highlight = 1
@@ -234,7 +249,7 @@ nnoremap <leader>fl :BLines<CR>
 nnoremap <leader>fa :Ag<CR>
 "------------------------------------------------------------------------------------
 "vim-floaterm终端
-let g:floaterm_title='xMonody'
+let g:floaterm_title=''
 let g:floaterm_width=0.8
 let g:floaterm_height=0.9
 nnoremap <silent><leader>t :FloatermNew --height=0.9 --width=0.8<CR>
@@ -279,11 +294,11 @@ let g:gitgutter_sign_removed='|'
 let g:gitgutter_sign_removed_first_line='|'
 let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
-nmap [c <Plug>(GitGutterNextHunk)
-nmap ]c <Plug>(GitGutterPrevHunk)
+nnoremap <silent>tn <Plug>(GitGutterNextHunk)
+nnoremap <silent>tp <Plug>(GitGutterPrevHunk)
 
-nnoremap <silent><leader>hd :Gvdiffsplit<CR>
-nnoremap <silent><leader>hb :Git blame<CR>
+nnoremap <silent>td :Gvdiffsplit<CR>
+nnoremap <silent>tb :Git blame<CR>
 
 "--------------------------------------------------------------------------------
 
@@ -306,15 +321,4 @@ nnoremap <silent><C-w>j <C-w>t<C-w>K
 nnoremap <silent><C-w>k <C-w>t<C-w>H
 nnoremap <silent>zh <C-w>3>
 nnoremap <silent>zl <C-w>3<
-
-nnoremap <expr>m col(".")==col("$")-1 ? "^" : "$"
-
-autocmd vimenter * :call Myhi()
-nnoremap <silent><leader>h :call Myhi()<CR>
-def Myhi()
-    syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
-    syn match cFunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-    hi cFunctions ctermfg=75
-set numberwidth=1
-enddef
 
