@@ -10,12 +10,15 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'kristijanhusak/defx-icons'
 
 Plug 'itchyny/lightline.vim'
-"lightline-bufferline
 Plug 'itchyny/vim-gitbranch'
 Plug 'ap/vim-buftabline'
+"Plug 'mengelbrecht/lightline-bufferline'
+
 "Plug 'rakr/vim-one'"主题
 Plug 'kaicataldo/material.vim', { 'branch': 'main' } "主题
+
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
+"Plug 'sheerun/vim-polyglot'
 
 Plug 'voldikss/vim-floaterm' "终端
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "模糊查找
