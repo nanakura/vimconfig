@@ -1,4 +1,15 @@
--- xMonody-x huanbin_xiao@163.com require('packer').startup(function(use) use 'wbthomason/packer.nvim' --补全 use 'ray-x/lsp_signature.nvim' use 'neovim/nvim-lspconfig' use 'hrsh7th/cmp-nvim-lsp' use 'hrsh7th/nvim-cmp' use 'onsails/lspkind.nvim'--图标 use  'L3MON4D3/LuaSnip' use 'saadparwaiz1/cmp_luasnip'
+-- xMonody-x huanbin_xiao@163.com 
+require('packer').startup(function(use) 
+    use 'wbthomason/packer.nvim' --补全 
+	use { "williamboman/mason.nvim" }
+
+    use 'ray-x/lsp_signature.nvim' 
+    use 'neovim/nvim-lspconfig' 
+    use 'hrsh7th/cmp-nvim-lsp' 
+    use 'hrsh7th/nvim-cmp' 
+    use 'onsails/lspkind.nvim'--图标 
+    use 'L3MON4D3/LuaSnip' 
+    use 'saadparwaiz1/cmp_luasnip'
     use 'rafamadriz/friendly-snippets'--片段
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-buffer'
@@ -22,7 +33,7 @@
 
     use 'b3nj5m1n/kommentary'--注释
     --use 'mg979/vim-visual-multi' --多光标
-    use "Pocco81/AutoSave.nvim"--自动保存
+    use 'Pocco81/auto-save.nvim' --autosave 自动保存
     use 'windwp/nvim-autopairs'--括号补全
     use 'ethanholz/nvim-lastplace'--打开上一次位置
 
@@ -55,9 +66,18 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
 vim.cmd[[ colorscheme onedark]]
---set guifont='CodeNewRoman_Nerd_Font_Mono:h11
+--vim.cmd [[ set guifont=CodeNewRoman_Nerd_Font_Mono:h11 ]]
 
 -----------------------------------------------------------------------------------
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
 -- lspconfig settings
 local lspconfig = require 'lspconfig'
 local on_attach = function(_, bufnr)
@@ -84,7 +104,7 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 ---------------------------------------------------------------------------------------------
-local servers = { 'clangd', 'gopls', 'sumneko_lua','rust_analyzer'}
+local servers = { 'clangd', 'gopls'}
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
@@ -507,7 +527,7 @@ vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(fa
          vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
      end,
      backends = { "treesitter", "lsp", "markdown" },
-     close_behavior = "auto",
+     -- close_behavior= "auto",
      default_bindings = true,
      default_direction = "prefer_right",
      disable_max_lines = 10000,
@@ -680,24 +700,7 @@ require('nvim-autopairs').setup({
 })
 -----------------------------------------------------------------------------------
 --autosave 自动保存
-local autosave = require("autosave")
-autosave.setup(
-{
-    enabled = true,
-    execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-    events = {"InsertLeave", "TextChanged"},
-    conditions = {
-        exists = true,
-        filename_is_not = {},
-        filetype_is_not = {},
-        modifiable = true
-    },
-    write_all_buffers = false,
-    on_off_commands = true,
-    clean_command_line_interval = 0,
-    debounce_delay = 135
-}
-)
+require("auto-save").setup { } --自动保存
 ----------------------------------------------------------------------------------
 --lastplace 一次的编辑的位置
 require'nvim-lastplace'.setup {
@@ -708,8 +711,8 @@ require'nvim-lastplace'.setup {
 -------------------------------------------------------------------------------
 --自定义快捷键
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
-vim.api.nvim_set_keymap("n", "<C-k>", ":bp<CR>", {})
-vim.api.nvim_set_keymap("n", "<C-j>", ":bn<CR>", {})
+vim.api.nvim_set_keymap("n", "<C-h>", ":bp<CR>", {})
+vim.api.nvim_set_keymap("n", "<C-l>", ":bn<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>a", ":%s/<C-r><C-w>//g<left><left>", {})
@@ -718,11 +721,11 @@ vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>q", "<C-w>q", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
-vim.api.nvim_set_keymap("n", "<leader>y", '"+yy', {})
+vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {})
 vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {})
 
-vim.api.nvim_set_keymap("n", "<C-w>j", "<C-w>t<C-w>K", {})
-vim.api.nvim_set_keymap("n", "<C-w>k", "<C-w>t<C-w>H", {})
+vim.api.nvim_set_keymap("n", "<C-w>u", "<C-w>t<C-w>K", {})
+vim.api.nvim_set_keymap("n", "<C-w>i", "<C-w>t<C-w>H", {})
 vim.api.nvim_set_keymap("n", "zl", "<C-w>3>", {})
 vim.api.nvim_set_keymap("n", "zh", "<C-w>3<", {})

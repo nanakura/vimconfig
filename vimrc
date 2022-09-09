@@ -15,7 +15,6 @@ Plug 'itchyny/vim-gitbranch'
 Plug 'mengelbrecht/lightline-bufferline'
 
 Plug 'rakr/vim-one'"主题
-Plug 'kaicataldo/material.vim', { 'branch': 'main' } "主题
 
 Plug 'octol/vim-cpp-enhanced-highlight' "高亮
 Plug 'sheerun/vim-polyglot'
@@ -40,12 +39,12 @@ hi PMenu              ctermfg=240 ctermbg=243
 hi PMenuSel           ctermfg=240    ctermbg=243
 hi MatchParen ctermbg=gray guibg=gray
 set cursorline
-hi CursorLine         cterm=bold ctermbg=none ctermbg=242
-hi CursorLineNr       cterm=bold ctermfg=240 ctermbg=243
+hi CursorLine         cterm=none ctermbg=none ctermbg=242
+hi CursorLineNr       cterm=none ctermfg=240 ctermbg=243
 let mapleader=","
 let g:maplocalleader=","
 
-"set guifont='CodeNewRoman_Nerd_Font_Mono:h11
+"set guifont=CodeNewRoman_Nerd_Font_Mono:h11
 "set guioptions=
 set hlsearch
 set numberwidth=1
@@ -200,12 +199,10 @@ let g:python3_host_prog=('python3')
 
 "-----------------------------------------------------------------------------------
 "主题 material
+"set background=light
 set background=dark
 set termguicolors 
-" 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
-let g:material_theme_style ='palenight-community'
-let ayucolor="dark"
-colorscheme material
+colorscheme one
 
 "------------------------------------------------------------------------------------
 "状态栏
@@ -214,7 +211,7 @@ set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'material_vim',
+            \ 'colorscheme': 'one',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -293,7 +290,7 @@ let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------
 "git setting
-set updatetime=150
+set updatetime=250
 let g:gitgutter_max_signs = 500
 let g:gitgutter_max_signs = -1
 highlight GitgutterAdd guifg=#009900 ctermfg=10
@@ -314,8 +311,8 @@ nnoremap <silent>tb :Git blame<CR>
 "--------------------------------------------------------------------------------
 
 inoremap <silent><C-l> <Right>
-nnoremap <silent><C-j> :bn<CR>
-nnoremap <silent><C-k> :bp<CR>
+nnoremap <silent><C-l> :bn<CR>
+nnoremap <silent><C-h> :bp<CR>
 nnoremap <silent><leader>d :bd<CR>
 
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
@@ -324,12 +321,12 @@ nnoremap <silent>q :nohl<CR>
 nnoremap <silent><leader>q <C-w>q
 vnoremap <silent>q <Esc>
 
-nnoremap <silent><leader>y "+yy
+nnoremap <silent><leader>yy "+yy
 nnoremap <silent><leader>p "+p
 vnoremap <silent><leader>y "+y
 
-nnoremap <silent><C-w>j <C-w>t<C-w>K
-nnoremap <silent><C-w>k <C-w>t<C-w>H
+nnoremap <silent><C-w>u <C-w>t<C-w>K
+nnoremap <silent><C-w>i <C-w>t<C-w>H
 nnoremap <silent>zh <C-w>3>
 nnoremap <silent>zl <C-w>3<
 
