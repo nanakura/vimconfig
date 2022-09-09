@@ -39,7 +39,6 @@ require('packer').startup(function(use)
 
 end)
 
-vim.o.hlsearch=true
 vim.o.tabstop=4
 vim.bo.tabstop=4
 vim.o.softtabstop=4
@@ -53,7 +52,7 @@ vim.g.maplocalleader = ','
 vim.wo.cursorline=true
 vim.o.autoindent=true
 vim.o.shiftround=true
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.mouse = 'a'
 vim.o.swapfile=true
@@ -381,7 +380,7 @@ require('gitsigns').setup {
             vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
+        -- Navigati on
         map('n', 'tn', function()
 			if vim.wo.diff then return ']c' end
 			vim.schedule(function() gs.next_hunk() end)

@@ -86,32 +86,32 @@ set signcolumn=number
 set signcolumn=yes
 
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+			\ coc#pum#visible() ? coc#pum#next(1) :
+			\ CheckBackspace() ? "\<Tab>" :
+			\ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 nnoremap <silent> K :call ShowDocumentation()<CR>
 function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
+	if CocAction('hasProvider', 'hover')
+		call CocActionAsync('doHover')
+	else
+		call feedkeys('K', 'in')
+	endif
 endfunction
 
 "autocmd CursorHold * silent call CocActionAsync('highlight')
 "augroup mygroup
-  "autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  "autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+"autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 "augroup end
 
 
@@ -122,8 +122,8 @@ nnoremap <silent> gr <Plug>(coc-rename)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 let g:coc_global_extensions = [
-            \ 'coc-json',
-            \ 'coc-snippets',]
+			\ 'coc-json',
+			\ 'coc-snippets',]
 "-----------------------------------------------------------------------------------
 
 "Defx 目录树
@@ -142,58 +142,58 @@ let g:defx_icons_nested_opened_tree_icon = ''
 let g:defx_icons_nested_closed_tree_icon = ''
 
 call defx#custom#column('icon', {
-            \ 'directory_icon': '▸ ',
-            \ 'file_icon': '  ',
-            \ 'opened_icon': '▾ ',
-            \ 'root_icon': '  ',
-            \ })
+			\ 'directory_icon': '▸ ',
+			\ 'file_icon': '  ',
+			\ 'opened_icon': '▾ ',
+			\ 'root_icon': '  ',
+			\ })
 
 call defx#custom#column('mark', {
-            \ 'readonly_icon': '✗',
-            \ 'selected_icon': '✓',
-            \ })
+			\ 'readonly_icon': '✗',
+			\ 'selected_icon': '✓',
+			\ })
 
 call defx#custom#option('_', {
-            \ 'columns': 'indent:git:icons:filename',
-            \ 'winwidth': 20,
-            \ 'split': 'vertical',
-            \ 'direction': 'topleft',
-            \ 'show_ignored_files': 0,
-            \ 'root_marker': '≡ ',
-            \ 'ignored_files':
-            \     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.*,.stversions'
-            \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
-            \ })
+			\ 'columns': 'indent:git:icons:filename',
+			\ 'winwidth': 20,
+			\ 'split': 'vertical',
+			\ 'direction': 'topleft',
+			\ 'show_ignored_files': 0,
+			\ 'root_marker': '≡ ',
+			\ 'ignored_files':
+			\     '.mypy_cache,.pytest_cache,.git,.hg,.svn,.*,.stversions'
+			\   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
+			\ })
 
 nnoremap <silent> <LocalLeader>e
-            \ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
+			\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()` <CR>
 
 nnoremap <silent> <LocalLeader>a
-            \ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
+			\ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
 
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR>
-                \ defx#is_directory() ?
-                \ defx#do_action('open_tree') :
-                \ defx#do_action('multi', ['drop'])
+	nnoremap <silent><buffer><expr> <CR>
+				\ defx#is_directory() ?
+				\ defx#do_action('open_tree') :
+				\ defx#do_action('multi', ['drop'])
 
-    nnoremap <silent><buffer><expr> l
-                \ defx#is_directory() ?
-                \ defx#do_action('open_or_close_tree') :
-                \ defx#do_action('multi', ['drop'])
+	nnoremap <silent><buffer><expr> l
+				\ defx#is_directory() ?
+				\ defx#do_action('open_or_close_tree') :
+				\ defx#do_action('multi', ['drop'])
 
-    nnoremap <silent><buffer><expr> a
-                \ defx#do_action('new_file')
+	nnoremap <silent><buffer><expr> a
+				\ defx#do_action('new_file')
 
-    nnoremap <silent><buffer><expr> d
-                \ defx#do_action('remove')
+	nnoremap <silent><buffer><expr> d
+				\ defx#do_action('remove')
 
-    nnoremap <silent><buffer><expr> r
-                \ defx#do_action('rename')
+	nnoremap <silent><buffer><expr> r
+				\ defx#do_action('rename')
 
-    nnoremap <silent><buffer><expr> .
-                \ defx#do_action('toggle_ignored_files')
+	nnoremap <silent><buffer><expr> .
+				\ defx#do_action('toggle_ignored_files')
 endfunction
 let g:python3_host_prog=('python3')
 
@@ -201,7 +201,7 @@ let g:python3_host_prog=('python3')
 "主题 material
 "set background=light
 set background=dark
-set termguicolors 
+set termguicolors
 colorscheme one
 
 "------------------------------------------------------------------------------------
@@ -211,28 +211,27 @@ set laststatus=2
 set hidden
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'one',
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-            \ },
-            \ 'component_function': {
-            \   'gitbranch': 'gitbranch#name'
-            \ },
-			  \ 'tabline': {
-      \   'left': [ ['buffers'] ],
-      \   'right': [ ['close'] ]
-      \ },
-      \ 'component_expand': {
-      \   'buffers': 'lightline#bufferline#buffers'
-      \ },
-      \ 'component_type': {
-      \   'buffers': 'tabsel'
-      \ }
-            \ }
+			\ 'colorscheme': 'one',
+			\ 'active': {
+			\ 'left': [ [ 'mode', 'paste' ],
+			\ [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+			\ },
+			\ 'component_function': {
+			\   'gitbranch': 'gitbranch#name'
+			\ },
+			\ 'tabline': {
+			\   'left': [ ['buffers'] ],
+			\   'right': [ ['close'] ]
+			\ },
+			\ 'component_expand': {
+			\   'buffers': 'lightline#bufferline#buffers'
+			\ },
+			\ 'component_type': {
+			\   'buffers': 'tabsel'
+			\ }
+			\ }
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
-
 set showtabline=2
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
@@ -261,7 +260,6 @@ let g:floaterm_title=''
 let g:floaterm_width=0.8
 let g:floaterm_height=0.9
 nnoremap <silent><leader>t :FloatermNew --height=0.9 --width=0.8<CR>
-nnoremap <silent><leader>g :FloatermNew lazygit<CR>
 tnoremap <silent><leader>d exit<CR>
 "-----------------------------------------------------------------------------------
 "indentLine
@@ -280,17 +278,18 @@ let g:auto_save = 1
 "auto-pairs 括号补全
 let g:rainbow_active = 1
 let g:rainbow_load_separately = [
-            \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-            \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
-            \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-            \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
-            \ ]
+			\ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+			\ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+			\ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+			\ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+			\ ]
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 "------------------------------------------------------------------------------------
 "git setting
 set updatetime=250
+set signcolumn=yes
 let g:gitgutter_max_signs = 500
 let g:gitgutter_max_signs = -1
 highlight GitgutterAdd guifg=#009900 ctermfg=10
