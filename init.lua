@@ -132,18 +132,18 @@ require'lspconfig'.sumneko_lua.setup ({
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
     on_attach(client, bufnr)
-  end,
-  flags = {
-    debounce_text_changes = 150,
-  },
-  capabilities = capabilities,
+	end,
+	flags = {
+		debounce_text_changes = 150,
+	},
+	capabilities = capabilities,
 
 
-  settings = {
-        Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
+settings = {
+    Lua = {
+        runtime = {
+            version = 'LuaJIT',
+         },
             diagnostics = {
                 globals = {'vim'},
             },
@@ -166,9 +166,13 @@ require'lspconfig'.gopls.setup({
   },
 })
 
-require'lspconfig'.rust_analyzer.setup({
-
-	})
+require('lspconfig')['rust_analyzer'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    settings = {
+      ["rust-analyzer"] = {}
+    }
+}
 
 -----------------------------------------------------------------------------------
 --在悬停窗口中自动显示线路诊断
