@@ -24,9 +24,11 @@ colors:
     
 font:
     normal:
-        family: CodeNewRoman Nerd Font Mono
+        family: SauceCodePro Nerd Font Mono
     italic:
-        family: CodeNewRoman Nerd Font Mono
+        family: SauceCodePro Nerd Font Mono
     bold:
-        family: CodeNewRoman Nerd Font Mono
+        family: SauceCodePro Nerd Font Mono
+    bold_italic:
+        family: SauceCodePro Nerd Font Mono
     seze: 11

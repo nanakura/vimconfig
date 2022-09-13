@@ -31,8 +31,6 @@ Plug 'preservim/nerdcommenter' "注释
 Plug 'vim-autoformat/vim-autoformat'
 
 Plug 'airblade/vim-gitgutter' "git修改
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
 call plug#end()
 "------------------------------------------------------------------------------
 hi PMenu              ctermfg=240 ctermbg=243
