@@ -3,7 +3,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim',{'branch':'release'} "代码补全
 Plug 'honza/vim-snippets'"片段
-Plug 'Eric-Song-Nop/vim-glslx'
 
 Plug 'Shougo/defx.nvim'"目录树"
 Plug 'roxma/nvim-yarp'
@@ -35,6 +34,7 @@ call plug#end()
 "------------------------------------------------------------------------------
 hi PMenu              ctermfg=240 ctermbg=243
 hi PMenuSel           ctermfg=240    ctermbg=243
+hi CocMenuSel ctermbg=243 ctermfg=240
 hi MatchParen ctermbg=gray guibg=gray
 set cursorline
 hi CursorLine         cterm=none ctermbg=none ctermbg=242
@@ -64,6 +64,7 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 set scrolloff=5
+set pumheight=15 "菜单选项行数
 set cindent
 "set expandtab "设置tab=space
 "set noexpandtab "设置spce=tab
@@ -80,7 +81,9 @@ let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 "set listchars=tab:>-,trail:*,space:.,eol:$
 "-------------------------------------------------------------------------------------
 "coc-nvim 补全
-set signcolumn=number
+set signcolumn=yes
+set nobackup
+set nowritebackup
 set signcolumn=yes
 
 inoremap <silent><expr> <TAB>
@@ -97,14 +100,19 @@ function! CheckBackspace() abort
 	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Use K to show documentation in preview window.
 nnoremap <silent> K :call ShowDocumentation()<CR>
+
 function! ShowDocumentation()
-	if CocAction('hasProvider', 'hover')
-		call CocActionAsync('doHover')
-	else
-		call feedkeys('K', 'in')
-	endif
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
 endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "autocmd CursorHold * silent call CocActionAsync('highlight')
 "augroup mygroup
@@ -117,12 +125,13 @@ nnoremap <silent> gp <Plug>(coc-diagnostic-prev)
 nnoremap <silent> gn <Plug>(coc-diagnostic-next)
 nnoremap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gr <Plug>(coc-rename)
-nnoremap <silent> K :call ShowDocumentation()<CR>
+
+
 
 let g:coc_global_extensions = [
 			\ 'coc-json',
 			\ 'coc-snippets',]
-"-----------------------------------------------------------------------------------
+"------------------------------------------------------------------------------------
 
 "Defx 目录树
 let g:defx_icons_enable_syntax_highlight = 1
@@ -197,8 +206,14 @@ let g:python3_host_prog=('python3')
 
 "-----------------------------------------------------------------------------------
 "主题 material
-"set background=light
 set background=dark
+
+if has("gui_running")
+	set background=light
+	set guioptions=
+	set guifont=SauceCodePro_Nerd_Font_Mono:h11
+endif
+
 set termguicolors
 colorscheme one
 

@@ -8,6 +8,7 @@ require('packer').startup({function(use)
 	use 'hrsh7th/cmp-nvim-lsp'
 	use 'hrsh7th/nvim-cmp'
 	use 'onsails/lspkind.nvim'--图标
+
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
 	use 'rafamadriz/friendly-snippets'--片段
@@ -15,21 +16,11 @@ require('packer').startup({function(use)
 	use 'hrsh7th/cmp-buffer'
 	use 'hrsh7th/cmp-cmdline'
 
-	use {
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		}
-	}
-
+	use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons', }, tag = 'nightly' }
 
 	use 'numToStr/FTerm.nvim'--终端
 	use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
 	use 'lewis6991/gitsigns.nvim'--git修改
-	use 'tveskag/nvim-blame-line'--显示git修改
 
 
 	use 'stevearc/aerial.nvim'--函数列表
@@ -116,6 +107,9 @@ local on_attach = function(_, bufnr)
 end
 ---------------------------------------------------------------------------------------------
 --完成函数参数
+local lsp_flags = {
+  debounce_text_changes = 150,
+}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 ---------------------------------------------------------------------------------------------
@@ -179,7 +173,7 @@ require('lspconfig')['rust_analyzer'].setup{
 vim.o.updatetime = 250
 vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
-local signs = { Error = "✗", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = "", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -235,7 +229,9 @@ require "lsp_signature".setup({
 			border = "rounded"
 		}
 	})
+
 -----------------------------------------------------------------------------------
+
 -- luasnip setup
 local luasnip = require 'luasnip'
 local lspkind = require('lspkind')
@@ -250,8 +246,8 @@ cmp.setup{
 		end,
 	},
 	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
+		--completion = cmp.config.window.bordered(),
+		--documentation = cmp.config.window.bordered(),
 	},
 	mapping = cmp.mapping.preset.insert({
 			['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -327,170 +323,114 @@ cmp.setup.cmdline(':', {
 			})
 	})
 -----------------------------------------------------------------------------------
-require("neo-tree").setup({
-	close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
-	popup_border_style = "rounded",
-	enable_git_status = true,
-	enable_diagnostics = true,
-	sort_case_insensitive = false, -- used when sorting files and directories in the tree
-	sort_function = nil , -- use a custom function for sorting files and directories in the tree
-	default_component_configs = {
-		container = {
-			enable_character_fade = true
-		},
-		indent = {
-			indent_size = 2,
-			padding = 1, -- extra padding on left hand side
-			with_markers = true,
-			indent_marker = "│",
-			last_indent_marker = "└",
-			highlight = "NeoTreeIndentMarker",
-			with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
-			expander_collapsed = "",
-			expander_expanded = "",
-			expander_highlight = "NeoTreeExpander",
-		},
-		icon = {
-			folder_closed = "",
-			folder_open = "",
-			folder_empty = "ﰊ",
-			default = "*",
-			highlight = "NeoTreeFileIcon"
-		},
-		modified = {
-			symbol = "[+]",
-			highlight = "NeoTreeModified",
-		},
-		name = {
-			trailing_slash = false,
-			use_git_status_colors = true,
-			highlight = "NeoTreeFileName",
-		},
-		git_status = {
-			symbols = {
-				added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-				modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-				deleted   = "✗",-- this can only be used in the git_status source
-				renamed   = "",-- this can only be used in the git_status source
-				untracked = "",
-				ignored   = "",
-				unstaged  = "",
-				staged    = "",
-				conflict  = "",
-			}
-		},
-	},
-	window = {
-		position = "left",
-		width = 27,
-		mapping_options = {
-			noremap = true,
-			nowait = true,
-		},
-		mappings = {
-			["<space>"] = {
-				"toggle_node",
-				nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
-			},
-			["<2-LeftMouse>"] = "open",
-			["<cr>"] = "open",
-			["<esc>"] = "revert_preview",
-			["P"] = { "toggle_preview", config = { use_float = true } },
-			["S"] = "open_split",
-			["s"] = "open_vsplit",
-			-- ["S"] = "split_with_window_picker",
-			-- ["s"] = "vsplit_with_window_picker",
-			["t"] = "open_tabnew",
-			-- ["<cr>"] = "open_drop",
-			-- ["t"] = "open_tab_drop",
-			["w"] = "open_with_window_picker",
-			--["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
-			["C"] = "close_node",
-			["z"] = "close_all_nodes",
-			--["Z"] = "expand_all_nodes",
-			["a"] = {
-				"add",
-				config = {
-					show_path = "none" -- "none", "relative", "absolute"
-				}
-			},
-			["A"] = "add_directory", -- also accepts the optional config.show_path option like "add".
-			["d"] = "delete",
-			["r"] = "rename",
-			["y"] = "copy_to_clipboard",
-			["x"] = "cut_to_clipboard",
-			["p"] = "paste_from_clipboard",
-			["c"] = "copy", -- takes text input for destination, also accepts the optional config.show_path option like "add":
-			["m"] = "move", -- takes text input for destination, also accepts the optional config.show_path option like "add".
-			["q"] = "close_window",
-			["R"] = "refresh",
-			["?"] = "show_help",
-			["<"] = "prev_source",
-			[">"] = "next_source",
-		}
-	},
-	nesting_rules = {},
-	filesystem = {
-		filtered_items = {
-			visible = false, -- when true, they will just be displayed differently than normal items
-			hide_dotfiles = true,
-			hide_gitignored = true,
-			hide_hidden = true, -- only works on Windows for hidden files/directories
-			hide_by_name = {
-			},
-			hide_by_pattern = { -- uses glob style patterns
-			},
-			always_show = { -- remains visible even if other settings would normally hide it
-			},
-			never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-			},
-		},
-		follow_current_file = false, -- This will find and focus the file in the active buffer every
-		group_empty_dirs = false, -- when true, empty folders will be grouped together
-		hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
-		use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
-		window = {
-			mappings = {
-				["<bs>"] = "navigate_up",
-				["."] = "set_root",
-				["H"] = "toggle_hidden",
-				["/"] = "fuzzy_finder",
-				["D"] = "fuzzy_finder_directory",
-				["f"] = "filter_on_submit",
-				["<c-x>"] = "clear_filter",
-				["[g"] = "prev_git_modified",
-				["]g"] = "next_git_modified",
-			}
-		}
-	},
-	buffers = {
-		follow_current_file = true, -- This will find and focus the file in the active buffer every
-		group_empty_dirs = true, -- when true, empty folders will be grouped together
-		show_unloaded = true,
-		window = {
-			mappings = {
-				["bd"] = "buffer_delete",
-				["<bs>"] = "navigate_up",
-				["."] = "set_root",
-			}
-		},
-	},
-	git_status = {
-		window = {
-			position = "float",
-			mappings = {
-				["A"]  = "git_add_all",
-				["gu"] = "git_unstage_file",
-				["ga"] = "git_add_file",
-				["gr"] = "git_revert_file",
-				["gc"] = "git_commit",
-				["gp"] = "git_push",
-				["gg"] = "git_commit_and_push",
-			}
-		}
-	}
-})
-vim.cmd([[ nnoremap <leader>e :NeoTreeFloat<cr> ]])
+--Vim-tree
+require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
+  auto_reload_on_write = true,
+  disable_netrw = false,
+  hijack_cursor = false,
+  hijack_netrw = true,
+  hijack_unnamed_buffer_when_opening = false,
+  ignore_buffer_on_setup = false,
+  open_on_setup = false,
+  open_on_setup_file = false,
+  open_on_tab = false,
+  sort_by = "name",
+  update_cwd = false,
+  view = {
+    width = 25,
+    height = 10,
+    side = "left",
+    preserve_window_proportions = false,
+    number = false,
+    relativenumber = false,
+    signcolumn = "yes",
+    mappings = {
+      custom_only = false,
+      list = {
+      },
+    },
+  },
+  renderer = {
+    indent_markers = {
+      enable = false,
+      icons = {
+        corner = "└ ",
+        edge = "│ ",
+        none = "  ",
+      },
+    },
+  },
+  hijack_directories = {
+    enable = true,
+    auto_open = true,
+  },
+  update_focused_file = {
+    enable = false,
+    update_cwd = false,
+    ignore_list = {},
+  },
+  ignore_ft_on_setup = {},
+  system_open = {
+    cmd = nil,
+    args = {},
+  },
+  diagnostics = {
+    enable = false,
+    show_on_dirs = false,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    },
+  },
+  filters = {
+    dotfiles = false,
+    custom = {},
+    exclude = {},
+  },
+  git = {
+    enable = true,
+    ignore = true,
+    timeout = 400,
+  },
+  actions = {
+    use_system_clipboard = true,
+    change_dir = {
+      enable = true,
+      global = false,
+    },
+    open_file = {
+      quit_on_open = false,
+      resize_window = false,
+      window_picker = {
+        enable = true,
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        exclude = {
+          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+          buftype = { "nofile", "terminal", "help" },
+        },
+      },
+    },
+  },
+  trash = {
+    cmd = "trash",
+    require_confirm = true,
+  },
+  log = {
+    enable = false,
+    truncate = false,
+    types = {
+      all = false,
+      config = false,
+      copy_paste = false,
+      git = false,
+      profile = false,
+    },
+  },
+} -- END_DEFAULT_OPTS
+vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
+
 
 ----------------------------------------------------------------------------------
 --fterm 终端

@@ -27,7 +27,7 @@
         "value": "\uf89f",
         "variable": "\ue71b"
     },
-    "diagnostic.errorSign": "✗",
+    "diagnostic.errorSign": "",
     "diagnostic.warningSign": "",
     "diagnostic.infoSign": "",
     "diagnostic.hintSign": "",
@@ -35,13 +35,19 @@
     "diagnostic.refreshOnInsertMode": false,
     "diagnostic.checkCurrentLine": true,
     "diagnostic.virtualTextPrefix": "●●●",
-    "suggest.labelMaxLength": 20,
+    "suggest.labelMaxLength": 30,
 //    "suggest.floatEnable": false,
 	
 	"notification.disabledProgressSources": "*",
 	"diagnostic.virtualText": true,
 	//"diagnostic.virtualTextLevel": ,
 	"hover.target": "preview",
+	"suggest.formatItems": [
+		"kind",
+		"abbr",
+		"menu",
+		"shortcut"
+	],
 	
 	"codeLens.enable": true,
     "suggest.detailMaxLength": 20,
@@ -65,12 +71,18 @@
         },
         "lua": {
             "command": "lua-language-server",
+			"rootPatterns": [".git"],
             "filetypes": ["lua"]
         },
         "rust": {
             "command": "rust-analyzer",
             "filetypes": ["rust"],
             "rootPatterns": ["Cargo.toml"]
-        }
+        },
+		"clangd": {
+			"command": "clangd",
+			"rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+			"filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
+		}
     }
 }
