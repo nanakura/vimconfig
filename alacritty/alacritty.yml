@@ -21,14 +21,42 @@ colors:
     magenta: '#dcbdfb'
     cyan:    '#96d0ff'
     white:   '#adbac7'
-    
+
 font:
-    normal:
-        family: SauceCodePro Nerd Font Mono
+  normal:
+    family: UbuntuMono Nerd Font Mono
     italic:
-        family: SauceCodePro Nerd Font Mono
+      family: UbuntuMono Nerd Font Mono
     bold:
-        family: SauceCodePro Nerd Font Mono
+      family: UbuntuMono Nerd Font Mono
     bold_italic:
-        family: SauceCodePro Nerd Font Mono
-    seze: 11
+      family: UbuntuMono Nerd Font Mono
+    seze: 9
+    offset:
+      x: 0
+      y: 0
+
+    glyph_offset:
+      x: 0
+      y: 0
+
+key_bindings:
+  - { key: V,        mods: Alt,       action: Paste             }
+  - { key: C,        mods: Alt,       action: Copy              }
+
+window:
+  #dimensions:
+  #columns: 100
+  #lines: 85
+
+  dynamic_padding: false
+
+  padding:
+    x: 0
+    y: 0
+
+    startup_mode: Windowed
+    opacity: 0.8
+
+      #decorations: none
+
