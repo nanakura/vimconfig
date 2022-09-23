@@ -173,7 +173,7 @@ require('lspconfig')['rust_analyzer'].setup{
 vim.o.updatetime = 250
 vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
-local signs = { Error = "", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -203,7 +203,9 @@ local cfg = {
 	floating_window_off_y = -1,
 	fix_pos = false,
 	hint_enable = true,
-	hint_prefix = "💡",
+	--hint_prefix = "💡",
+	--hint_prefix = "🔔 ",
+	hint_prefix = "💜 ",
 	hint_scheme = "String",
 	hi_parameter = "LspSignatureActiveParameter",
 	max_height = 2,

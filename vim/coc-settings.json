@@ -34,7 +34,7 @@
     "diagnostic.displayByAle": false,
     "diagnostic.refreshOnInsertMode": false,
     "diagnostic.checkCurrentLine": true,
-    "diagnostic.virtualTextPrefix": "●●●",
+    "diagnostic.virtualTextPrefix": "   ● ",
     "suggest.labelMaxLength": 30,
 //    "suggest.floatEnable": false,
 	
