@@ -41,9 +41,6 @@ hi CursorLine         cterm=none ctermbg=none ctermbg=242
 hi CursorLineNr       cterm=none ctermfg=240 ctermbg=243
 let mapleader=","
 let g:maplocalleader=","
-
-"set guifont=CodeNewRoman_Nerd_Font_Mono:h11
-"set guioptions=
 set hlsearch
 set numberwidth=1
 set bg=dark
@@ -65,6 +62,7 @@ set softtabstop=4
 set tabstop=4
 set scrolloff=5
 set pumheight=15 "菜单选项行数
+set autoread
 set cindent
 "set expandtab "设置tab=space
 "set noexpandtab "设置spce=tab
@@ -208,6 +206,10 @@ let g:python3_host_prog=('python3')
 "主题 material
 set background=dark
 
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', 'hhhhhh')
+endfunction
+
 if has("gui_running")
 	set background=light
 	set guioptions=
@@ -223,14 +225,17 @@ colorscheme one
 set laststatus=2
 set hidden
 set noshowmode
+
 let g:lightline = {
 			\ 'colorscheme': 'one',
 			\ 'active': {
 			\ 'left': [ [ 'mode', 'paste' ],
-			\ [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+			\ [ 'cocstatus','gitbranch', 'readonly', 'filename', 'modified' ] ]
 			\ },
 			\ 'component_function': {
-			\   'gitbranch': 'gitbranch#name'
+			\ 'gitbranch': 'gitbranch#name',
+			\ 'cocstatus': 'coc#status',
+			\ 'currentfunction': 'CocCurrentFunction'
 			\ },
 			\ 'tabline': {
 			\   'left': [ ['buffers'] ],
@@ -241,14 +246,14 @@ let g:lightline = {
 			\ },
 			\ 'component_type': {
 			\   'buffers': 'tabsel'
-			\ }
+			\ },
 			\ }
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 set showtabline=2
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
-"------------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------------
 "高亮
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
@@ -262,18 +267,18 @@ let g:cpp_no_function_highlight = 1
 "------------------------------------------------------------------------------------
 "fzf
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.9, 'relative': v:true, 'border':'sharp'} }
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fg :Rg<CR>
-nnoremap <leader>fb :Buffers<CR>
-nnoremap <leader>fl :BLines<CR>
-nnoremap <leader>fa :Ag<CR>
+nnoremap ff :Files<CR>
+nnoremap fg :Rg<CR>
+nnoremap fb :Buffers<CR>
+nnoremap fl :BLines<CR>
+nnoremap fa :Ag<CR>
 "------------------------------------------------------------------------------------
 "vim-floaterm终端
 let g:floaterm_title=''
 let g:floaterm_width=0.8
 let g:floaterm_height=0.9
-nnoremap <silent><leader>t :FloatermNew --height=0.9 --width=0.8<CR>
-tnoremap <silent><leader>d exit<CR>
+nnoremap <silent>tt :FloatermNew --height=0.9 --width=0.8 --name=xiaobin<CR>
+tnoremap <silent>tq exit<CR>
 "-----------------------------------------------------------------------------------
 "indentLine
 let g:indentLine_color_term = 111
@@ -314,9 +319,8 @@ let g:gitgutter_sign_removed='|'
 let g:gitgutter_sign_removed_first_line='|'
 let g:gitgutter_sign_removed_above_and_below='|'
 let g:gitgutter_sign_modified_removed='|'
-nnoremap <silent>tn <Plug>(GitGutterNextHunk)
-nnoremap <silent>tp <Plug>(GitGutterPrevHunk)
-
+nnoremap <silent>tj <Plug>(GitGutterNextHunk)
+nnoremap <silent>tk <Plug>(GitGutterPrevHunk)
 nnoremap <silent>td :Gvdiffsplit<CR>
 nnoremap <silent>tb :Git blame<CR>
 
@@ -325,12 +329,11 @@ nnoremap <silent>tb :Git blame<CR>
 inoremap <silent><C-l> <Right>
 nnoremap <silent><C-l> :bn<CR>
 nnoremap <silent><C-h> :bp<CR>
-nnoremap <silent><leader>d :bd<CR>
+nnoremap <silent><C-q> :bd<CR>
 
 nnoremap <leader>a :%s/<C-r><C-w>//g<left><left>
 
 nnoremap <silent>q :nohl<CR>
-nnoremap <silent><leader>q <C-w>q
 vnoremap <silent>q <Esc>
 
 nnoremap <silent><leader>yy "+yy

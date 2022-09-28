@@ -7,7 +7,6 @@ require('packer').startup({function(use)
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/cmp-nvim-lsp'
 	use 'hrsh7th/nvim-cmp'
-	use 'onsails/lspkind.nvim'--图标
 
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
@@ -18,16 +17,21 @@ require('packer').startup({function(use)
 
 	use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons', }, tag = 'nightly' }
 
-	use 'numToStr/FTerm.nvim'--终端
+
+	use {"akinsho/toggleterm.nvim", tag = '*'}
+
 	use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
 	use 'lewis6991/gitsigns.nvim'--git修改
-
-
 	use 'stevearc/aerial.nvim'--函数列表
 	use 'nvim-treesitter/nvim-treesitter'--高亮
-	use 'mjlbach/onedark.nvim'--主题
+
+	--use 'mjlbach/onedark.nvim'--主题
+	use 'projekt0n/github-nvim-theme'
+
 	use 'nvim-lualine/lualine.nvim'--状态栏
-	use 'kdheepak/tabline.nvim'--缓冲区状态栏
+
+	use { 'romgrk/barbar.nvim', requires = {'kyazdani42/nvim-web-devicons'}
+}
 	use 'lukas-reineke/indent-blankline.nvim'--对齐线
 
 	use 'b3nj5m1n/kommentary'--注释
@@ -61,7 +65,7 @@ vim.o.shiftround=true
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.mouse = 'a'
-vim.o.swapfile=true
+vim.o.swapfile=false
 vim.o.breakindent = true
 vim.opt.undofile = true
 vim.o.ignorecase = true
@@ -70,7 +74,8 @@ vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
-vim.cmd[[ colorscheme onedark]]
+
+--vim.cmd[[ colorscheme onedark]]
 --vim.cmd [[ set guifont=CodeNewRoman_Nerd_Font_Mono:h11 ]]
 
 --------------------------------------------------------------------------
@@ -108,7 +113,7 @@ end
 ---------------------------------------------------------------------------------------------
 --完成函数参数
 local lsp_flags = {
-  debounce_text_changes = 150,
+	debounce_text_changes = 150,
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -122,51 +127,53 @@ for _, lsp in ipairs(servers) do
 end
 
 require'lspconfig'.sumneko_lua.setup ({
-	on_attach = function(client, bufnr)
-    client.server_capabilities.document_formatting = false
-    client.server_capabilities.document_range_formatting = false
-    on_attach(client, bufnr)
-	end,
-	flags = {
-		debounce_text_changes = 150,
-	},
-	capabilities = capabilities,
+		on_attach = function(client, bufnr)
+			client.server_capabilities.document_formatting = false
+			client.server_capabilities.document_range_formatting = false
+			on_attach(client, bufnr)
+		end,
+		flags = {
+			debounce_text_changes = 150,
+		},
+		capabilities = capabilities,
 
 
-settings = {
-    Lua = {
-        runtime = {
-            version = 'LuaJIT',
-         },
-            diagnostics = {
-                globals = {'vim'},
-            },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-})
+		settings = {
+			Lua = {
+				runtime = {
+					version = 'LuaJIT',
+				},
+				diagnostics = {
+					globals = {'vim'},
+				},
+				workspace = {
+					library = vim.api.nvim_get_runtime_file("", true),
+				},
+				telemetry = {
+					enable = false,
+				},
+			},
+		},
+	})
 
 require'lspconfig'.gopls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-	init_options = {
-    usePlaceholders = true,
-    completeUnimported = true,
-  },
-})
+		on_attach = on_attach,
+		capabilities = capabilities,
+		init_options = {
+			usePlaceholders = true,
+			completeUnimported = true,
+		},
+	})
 
 require('lspconfig')['rust_analyzer'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    settings = {
-      ["rust-analyzer"] = {}
-    }
+	on_attach = on_attach,
+	flags = lsp_flags,
+	settings = {
+		["rust-analyzer"] = {}
+	}
 }
+
+
 
 -----------------------------------------------------------------------------------
 --在悬停窗口中自动显示线路诊断
@@ -203,12 +210,10 @@ local cfg = {
 	floating_window_off_y = -1,
 	fix_pos = false,
 	hint_enable = true,
-	--hint_prefix = "💡",
-	--hint_prefix = "🔔 ",
-	hint_prefix = "💜 ",
+	hint_prefix = "💡 ",
 	hint_scheme = "String",
 	hi_parameter = "LspSignatureActiveParameter",
-	max_height = 2,
+	max_height = 5,
 	max_width = 200,
 	handler_opts = {
 		border = "rounded"
@@ -236,9 +241,36 @@ require "lsp_signature".setup({
 
 -- luasnip setup
 local luasnip = require 'luasnip'
-local lspkind = require('lspkind')
 require("luasnip.loaders.from_vscode").lazy_load()
 ------------------------------------------------------------------------------------
+local kind_icons = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "ﴯ",
+  Interface = "",
+  Module = "",
+  Property = "ﰠ",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = ""
+}
+
 -- nvim-cmp setup
 local cmp = require('cmp')
 cmp.setup{
@@ -249,7 +281,7 @@ cmp.setup{
 	},
 	window = {
 		--completion = cmp.config.window.bordered(),
-		--documentation = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
 	},
 	mapping = cmp.mapping.preset.insert({
 			['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -288,18 +320,25 @@ cmp.setup{
 		entries = {name = 'custom' }
 	},
 	formatting = {
-		format = lspkind.cmp_format({
-				mode = "symbol",
-				menu = ({
-						buffer = "[Buf]",
-						nvim_lsp = "[Lsp]",
-						luasnip = "[Snp]",
-						nvim_lua = "[Lua]",
-						latex_symbols = "[Lat]",
-					})
-			}),
-	},
+		format = function(entry, vim_item)
+		 -- Kind icons
+		vim_item.kind = string.format('%s', kind_icons[vim_item.kind]) -- This concatonates the icons with the name of the item kind
+      -- Source
+		vim_item.menu = ({
+        buffer = "[Buf]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[Snp]",
+      })[entry.source.name]
+      return vim_item
+    end
+  },
 }
+
+require'luasnip'.filetype_extend("c++", {"rails"})
+require'luasnip'.filetype_extend("c", {"rails"})
+require'luasnip'.filetype_extend("rust", {"rails"})
+require'luasnip'.filetype_extend("lua", {"rails"})
+require'luasnip'.filetype_extend("go", {"rails"})
 
 cmp.setup.filetype('gitcommit', {
 		sources = cmp.config.sources({
@@ -327,134 +366,150 @@ cmp.setup.cmdline(':', {
 -----------------------------------------------------------------------------------
 --Vim-tree
 require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
-  auto_reload_on_write = true,
-  disable_netrw = false,
-  hijack_cursor = false,
-  hijack_netrw = true,
-  hijack_unnamed_buffer_when_opening = false,
-  ignore_buffer_on_setup = false,
-  open_on_setup = false,
-  open_on_setup_file = false,
-  open_on_tab = false,
-  sort_by = "name",
-  update_cwd = false,
-  view = {
-    width = 25,
-    height = 10,
-    side = "left",
-    preserve_window_proportions = false,
-    number = false,
-    relativenumber = false,
-    signcolumn = "yes",
-    mappings = {
-      custom_only = false,
-      list = {
-      },
-    },
-  },
-  renderer = {
-    indent_markers = {
-      enable = false,
-      icons = {
-        corner = "└ ",
-        edge = "│ ",
-        none = "  ",
-      },
-    },
-  },
-  hijack_directories = {
-    enable = true,
-    auto_open = true,
-  },
-  update_focused_file = {
-    enable = false,
-    update_cwd = false,
-    ignore_list = {},
-  },
-  ignore_ft_on_setup = {},
-  system_open = {
-    cmd = nil,
-    args = {},
-  },
-  diagnostics = {
-    enable = false,
-    show_on_dirs = false,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
-  },
-  filters = {
-    dotfiles = false,
-    custom = {},
-    exclude = {},
-  },
-  git = {
-    enable = true,
-    ignore = true,
-    timeout = 400,
-  },
-  actions = {
-    use_system_clipboard = true,
-    change_dir = {
-      enable = true,
-      global = false,
-    },
-    open_file = {
-      quit_on_open = false,
-      resize_window = false,
-      window_picker = {
-        enable = true,
-        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-        exclude = {
-          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-          buftype = { "nofile", "terminal", "help" },
-        },
-      },
-    },
-  },
-  trash = {
-    cmd = "trash",
-    require_confirm = true,
-  },
-  log = {
-    enable = false,
-    truncate = false,
-    types = {
-      all = false,
-      config = false,
-      copy_paste = false,
-      git = false,
-      profile = false,
-    },
-  },
+	auto_reload_on_write = true,
+	disable_netrw = false,
+	hijack_cursor = false,
+	hijack_netrw = true,
+	hijack_unnamed_buffer_when_opening = false,
+	ignore_buffer_on_setup = false,
+	open_on_setup = false,
+	open_on_setup_file = false,
+	open_on_tab = false,
+	sort_by = "name",
+	update_cwd = false,
+	view = {
+		width = 25,
+		height = 10,
+		side = "left",
+		preserve_window_proportions = false,
+		number = false,
+		relativenumber = false,
+		signcolumn = "yes",
+		mappings = {
+			custom_only = false,
+			list = {
+			},
+		},
+	},
+	renderer = {
+		indent_markers = {
+			enable = false,
+			icons = {
+				corner = "└ ",
+				edge = "│ ",
+				none = "  ",
+			},
+		},
+	},
+	hijack_directories = {
+		enable = true,
+		auto_open = true,
+	},
+	update_focused_file = {
+		enable = false,
+		update_cwd = false,
+		ignore_list = {},
+	},
+	ignore_ft_on_setup = {},
+	system_open = {
+		cmd = nil,
+		args = {},
+	},
+	diagnostics = {
+		enable = false,
+		show_on_dirs = false,
+		icons = {
+			hint = "",
+			info = "",
+			warning = "",
+			error = "",
+		},
+	},
+	filters = {
+		dotfiles = false,
+		custom = {},
+		exclude = {},
+	},
+	git = {
+		enable = true,
+		ignore = true,
+		timeout = 400,
+	},
+	actions = {
+		use_system_clipboard = true,
+		change_dir = {
+			enable = true,
+			global = false,
+		},
+		open_file = {
+			quit_on_open = false,
+			resize_window = false,
+			window_picker = {
+				enable = true,
+				chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+				exclude = {
+					filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+					buftype = { "nofile", "terminal", "help" },
+				},
+			},
+		},
+	},
+	trash = {
+		cmd = "trash",
+		require_confirm = true,
+	},
+	log = {
+		enable = false,
+		truncate = false,
+		types = {
+			all = false,
+			config = false,
+			copy_paste = false,
+			git = false,
+			profile = false,
+		},
+	},
 } -- END_DEFAULT_OPTS
 vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
 
 
 ----------------------------------------------------------------------------------
---fterm 终端
-require'FTerm'.setup({
-		border = 'double',
-		dimensions  = {
-			height = 0.9,
-			width = 0.8,
-		},
-	})
+--toggleterm 终端
+require("toggleterm").setup{
+  -- size can be a number or function which is passed the current terminal
+  open_mapping = [[<c-\>]],
+  shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+  start_in_insert = true,
+  insert_mappings = true, -- whether or not the open mapping applies in insert mode
+  terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
+  persist_size = true,
+  persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
+  close_on_exit = true, -- close the terminal window when the process exits
+  auto_scroll = true, -- automatically scroll to the bottom on terminal output
+  direction ='float',
+  float_opts = {
+    border = 'curved',-- | 'double' | 'shadow' | 'curved' | ... other options supported by win open
+    width =100,
+    height =70,
+    winblend = 10,
+  },
+    winbar = {
+    enabled = false,
+    name_formatter = function(term) --  term: Terminal
+      return term.name
+    end
+  },
+}
 
-vim.keymap.set('n', '<leader>t', '<CMD>lua require("FTerm").toggle()<CR>')
-vim.keymap.set('t', '<leader>d', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 ----------------------------------------------------------------------------------
 --telescope 模糊查
-vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fm", [[<cmd>lua require('telescope.builtin').git_bcommits()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fs", [[<cmd>lua require('telescope.builtin').lsp_references()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fc", [[<cmd>lua require('telescope.builtin').treesitter()<cr>]],{})
-vim.api.nvim_set_keymap("n", "<leader>fp", [[<cmd>lua require('telescope.builtin').grep_string()<cr>]],{})
+vim.api.nvim_set_keymap("n", "ff", [[<cmd>lua require('telescope.builtin').find_files()<cr>]],{})
+vim.api.nvim_set_keymap("n", "fg", [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],{})
+vim.api.nvim_set_keymap("n", "fb", [[<cmd>lua require('telescope.builtin').buffers()<cr>]],{})
+vim.api.nvim_set_keymap("n", "fm", [[<cmd>lua require('telescope.builtin').git_bcommits()<cr>]],{})
+vim.api.nvim_set_keymap("n", "fs", [[<cmd>lua require('telescope.builtin').lsp_references()<cr>]],{})
+vim.api.nvim_set_keymap("n", "fc", [[<cmd>lua require('telescope.builtin').treesitter()<cr>]],{})
+vim.api.nvim_set_keymap("n", "fp", [[<cmd>lua require('telescope.builtin').grep_string()<cr>]],{})
 
 ------------------------------------------------------------------------------------
 --gitsigns 支持
@@ -507,13 +562,13 @@ require('gitsigns').setup {
 		end
 
 		-- Navigati on
-		map('n', 'tn', function()
+		map('n', 'tj', function()
 			if vim.wo.diff then return ']c' end
 			vim.schedule(function() gs.next_hunk() end)
 			return '<Ignore>'
 		end, {expr=true})
 
-	map('n', 'tp', function()
+	map('n', 'tk', function()
 		if vim.wo.diff then return '[c' end
 		vim.schedule(function() gs.prev_hunk() end)
 		return '<Ignore>'
@@ -538,7 +593,7 @@ map('n', 'td', gs.diffthis)
 --function 函数列表
 require("aerial").setup({
 		on_attach = function(bufnr)
-			vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fo', '<cmd>AerialToggle!<CR>', {})
+			vim.api.nvim_buf_set_keymap(bufnr, 'n', 'fo', '<cmd>AerialToggle!<CR>', {})
 			vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
 			vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
 			vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
@@ -617,7 +672,7 @@ require("aerial").setup({
 ----------------------------------------------------------------------------------
 -- Treesitter 高亮
 require'nvim-treesitter.configs'.setup {
-	ensure_installed = { "c", "cpp", "lua", "rust","go","cmake" },
+	ensure_installed = { "c", "cpp", "lua", "rust","go" },
 	sync_install = false,
 	highlight = {
 		enable = true,
@@ -625,23 +680,29 @@ require'nvim-treesitter.configs'.setup {
 	},
 }
 -------------------------------------------------------------------------------
---onedarkpro主题
---[[ require("onedarkpro").setup({
-	dark_theme = "onedark_vivid",
-	colors = {
-		cursorline = "#303030",-- This is optional. The default cursorline color is based on the background
-	},
-	options = {
-		cursorline = true,
-		transparency = true,
-	},
-}) ]]
+--github-theme主题
+-- Example config in Lua
+require("github-theme").setup({
+	comment_style = "NONE",
+	keyword_style = "NONE",
+	function_style = "NONE",
+	variable_style = "NONE",
+	theme_style="dark",
+	sidebars = {"qf", "vista_kind", "terminal", "packer"},
+	colors = {hint = "orange", error = "#ff0000"},
+	overrides = function(c) return {
+		htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
+		DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
+		TSField = {},
+	}
+  end
+})
 -----------------------------------------------------------------------------------
 --statusline 状态栏
 require('lualine').setup {
 	options = {
 		icons_enabled = true,
-		theme = 'palenight',
+		theme = 'auto',
 		component_separators = { left = '', right = ''},
 		section_separators = { left = '', right = ''},
 		disabled_filetypes = {},
@@ -669,22 +730,48 @@ require('lualine').setup {
 }
 ---------------------------------------------------------------------------------
 --tabline 缓冲区状态栏
-require'tabline'.setup {
-	enable = true,
-	options = {
-		section_separators = {'', ''},
-		component_separators = {'', ''},
-		max_bufferline_percent = 66, -- set to nil by default, and it uses vim.o.columns * 2/3
-		show_tabs_always = false, -- this shows tabs only when there are more than one tab or if the first tab is named
-		show_devicons = true, -- this shows devicons in buffer section
-		show_bufnr = false, -- this appends [bufnr] to buffer section,
-		show_filename_only = false, -- shows base filename only instead of relative path in filename
-		modified_icon = "+", -- change the default modified icon
-		modified_italic = false, -- set to true by default; this determines whether the filename turns italic if modified
-		show_tabs_only = false, -- this shows only tabs instead of tabs + buffers
-	}
+-- Set barbar's options
+require'bufferline'.setup {
+  animation = true,
+
+  auto_hide = false,
+
+  tabpages = true,
+
+  closable = true,
+
+  clickable = true,
+
+  exclude_ft = {'javascript'},
+  exclude_name = {'package.json'},
+
+  icons = true,
+
+  icon_custom_colors = false,
+
+  icon_separator_active = '▎',
+  icon_separator_inactive = '▎',
+  icon_close_tab = '',
+  icon_close_tab_modified = '●',
+  icon_pinned = '車',
+
+  insert_at_end = false,
+  insert_at_start = false,
+
+  maximum_padding = 1,
+
+  minimum_padding = 1,
+
+  maximum_length = 30,
+
+  semantic_letters = true,
+
+  letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
+
+  no_name_title = nil,
 }
------------------------------------------------------------------------------------
+
+
 --blankline 对齐线
 require('indent_blankline').setup {
 	char = '┆',
@@ -707,7 +794,7 @@ npairs.setup({
 	})
 npairs.setup({
 		fast_wrap = {
-			map = '<M-e>',
+			map = '<C-e>',
 			chars = { '{', '[', '(', '"', "'" },
 			pattern = [=[[%'%"%)%>%]%)%}%,]]=],
 			end_key = '$',
@@ -742,12 +829,11 @@ require'nvim-lastplace'.setup {
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<C-h>", ":bp<CR>", {})
 vim.api.nvim_set_keymap("n", "<C-l>", ":bn<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>d", ":bd<CR>", {})
+vim.api.nvim_set_keymap("n", "<C-q>", ":bd<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>a", ":%s/<C-r><C-w>//g<left><left>", {})
 
 vim.api.nvim_set_keymap("n", "q", ":nohl<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>q", "<C-w>q", {})
 vim.api.nvim_set_keymap("v", "q", "<Esc>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>yy", '"+yy', {})

@@ -1,46 +1,42 @@
 {
-    "suggest.completionItemKindLabels":
-    {
-        "class": "\uf0e8",
-        "color": "\ue22b",
-        "constant": "\uf8fe",
-        "default": "\uf29c",
-        "enum": "\uf435",
-        "enumMember": "\uf02b",
-        "event": "\ufacd",
-        "field": "\uf93d",
-        "file": "\uf723",
-        "folder": "\uf115",
-        "function": "\u0192",
-        "interface": "\uf417",
-        "keyword": "\uf1de",
-        "method": "\uf6a6",
-        "module": "\uf40d",
-        "operator": "\uf915",
-        "property": "\ue624",
-        "reference": "\ufa46",
-        "snippet": "\ue60b",
-        "struct": "\ufb44",
-        "text": "\ue612",
-        "typeParameter": "\uf728",
-        "unit": "\uf475",
-        "value": "\uf89f",
-        "variable": "\ue71b"
-    },
-    "diagnostic.errorSign": "",
-    "diagnostic.warningSign": "",
-    "diagnostic.infoSign": "",
-    "diagnostic.hintSign": "",
-    "diagnostic.displayByAle": false,
-    "diagnostic.refreshOnInsertMode": false,
-    "diagnostic.checkCurrentLine": true,
-    "diagnostic.virtualTextPrefix": "   ● ",
-    "suggest.labelMaxLength": 30,
-//    "suggest.floatEnable": false,
-	
-	"notification.disabledProgressSources": "*",
+	"suggest.completionItemKindLabels":
+	{
+		"class": "\uf0e8",
+		"color": "\ue22b",
+		"constant": "\uf8fe",
+		"default": "\uf29c",
+		"enum": "\uf435",
+		"enumMember": "\uf02b",
+		"event": "\ufacd",
+		"field": "\uf93d",
+		"file": "\uf723",
+		"folder": "\uf115",
+		"function": "\u0192",
+		"interface": "\uf417",
+		"keyword": "\uf1de",
+		"method": "\uf6a6",
+		"module": "\uf40d",
+		"operator": "\uf915",
+		"property": "\ue624",
+		"reference": "\ufa46",
+		"snippet": "\ue60b",
+		"struct": "\ufb44",
+		"text": "\ue612",
+		"typeParameter": "\uf728",
+		"unit": "\uf475",
+		"value": "\uf89f",
+		"variable": "\ue71b"
+	},
+	"diagnostic.errorSign": "",
+	"diagnostic.warningSign": "",
+	"diagnostic.infoSign": "",
+	"diagnostic.hintSign": "",
+	"diagnostic.displayByAle": false,
+	"diagnostic.refreshOnInsertMode": false,
+	"diagnostic.checkCurrentLine": true,
+	"diagnostic.virtualTextPrefix": "   ● ",
+	"suggest.labelMaxLength": 30,
 	"diagnostic.virtualText": true,
-	//"diagnostic.virtualTextLevel": ,
 	"hover.target": "preview",
 	"suggest.formatItems": [
 		"kind",
@@ -48,41 +44,39 @@
 		"menu",
 		"shortcut"
 	],
-	
 	"codeLens.enable": true,
-    "suggest.detailMaxLength": 20,
+	"suggest.floatConfig": {"shadow": true},
+	//"suggest.floatEnable": true,
+	//"suggest.detailMaxLength": 20,
+	//"suggest.floatEnable": false,
+	//"notification.disabledProgressSources": "*",
+	//"diagnostic.virtualTextLevel": ,
 
-    "languageserver": {
-        "go": {
-            "command": "gopls",
-            "rootPatterns": ["go.mod"],
-            "trace.server": "verbose",
-            "filetypes": ["go"]
-        },
-        "cmake": {
-            "command": "cmake-language-server",
-            "filetypes": ["cmake"],
-            "rootPatterns": [
-                "build/"
-            ],
-            "initializationOptions": {
-                "buildDirectory": "build"
-            }
-        },
-        "lua": {
-            "command": "lua-language-server",
+	"languageserver": {
+		"go": {
+			"command": "gopls",
+			"rootPatterns": ["go.mod"],
+			"trace.server": "verbose",
+			"filetypes": ["go"]
+		},
+
+		"lua": {
+			"command": "lua-language-server",
 			"rootPatterns": [".git"],
-            "filetypes": ["lua"]
-        },
-        "rust": {
-            "command": "rust-analyzer",
-            "filetypes": ["rust"],
-            "rootPatterns": ["Cargo.toml"]
-        },
+			"filetypes": ["lua"]
+		},
+
+		"rust": {
+			"command": "rust-analyzer",
+			"filetypes": ["rust"],
+			"rootPatterns": ["Cargo.toml"]
+		},
+
 		"clangd": {
 			"command": "clangd",
 			"rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-			"filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
+			"filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+			"disableSnippetCompletion": true
 		}
-    }
+	}
 }
