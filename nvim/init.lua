@@ -25,8 +25,8 @@ require('packer').startup({function(use)
 	use 'stevearc/aerial.nvim'--函数列表
 	use 'nvim-treesitter/nvim-treesitter'--高亮
 
-	--use 'mjlbach/onedark.nvim'--主题
-	use 'projekt0n/github-nvim-theme'
+	use 'mjlbach/onedark.nvim'--主题
+	-- use 'Mofiqul/vscode.nvim'
 
 	use 'nvim-lualine/lualine.nvim'--状态栏
 
@@ -75,7 +75,7 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menuone,noselect'
 
---vim.cmd[[ colorscheme onedark]]
+vim.cmd[[ colorscheme onedark]]
 --vim.cmd [[ set guifont=CodeNewRoman_Nerd_Font_Mono:h11 ]]
 
 --------------------------------------------------------------------------
@@ -680,23 +680,21 @@ require'nvim-treesitter.configs'.setup {
 	},
 }
 -------------------------------------------------------------------------------
---github-theme主题
--- Example config in Lua
-require("github-theme").setup({
-	comment_style = "NONE",
-	keyword_style = "NONE",
-	function_style = "NONE",
-	variable_style = "NONE",
-	theme_style="dark",
-	sidebars = {"qf", "vista_kind", "terminal", "packer"},
-	colors = {hint = "orange", error = "#ff0000"},
-	overrides = function(c) return {
-		htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
-		DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
-		TSField = {},
-	}
-  end
-})
+--vscode-theme主题
+--[[ vim.o.background = 'dark'
+local c = require('vscode.colors')
+require('vscode').setup({
+    transparent = true,
+    italic_comments = false,
+    disable_nvimtree_bg = true,
+    color_overrides = {
+        vscLineNumber = '#FFFFFF',
+    },
+    group_overrides = {
+        Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=false },
+    }
+}) ]]
+
 -----------------------------------------------------------------------------------
 --statusline 状态栏
 require('lualine').setup {
