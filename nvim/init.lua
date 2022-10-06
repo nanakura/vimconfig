@@ -18,20 +18,19 @@ require('packer').startup({function(use)
 	use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons', }, tag = 'nightly' }
 
 
-	use {"akinsho/toggleterm.nvim", tag = '*'}
+	use 'akinsho/toggleterm.nvim'
 
 	use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/plenary.nvim'}}--模糊搜索
 	use 'lewis6991/gitsigns.nvim'--git修改
 	use 'stevearc/aerial.nvim'--函数列表
 	use 'nvim-treesitter/nvim-treesitter'--高亮
 
-	use 'mjlbach/onedark.nvim'--主题
-	-- use 'Mofiqul/vscode.nvim'
+	-- use 'mjlbach/onedark.nvim'--主题
+	use 'marko-cerovac/material.nvim'
 
 	use 'nvim-lualine/lualine.nvim'--状态栏
 
-	use { 'romgrk/barbar.nvim', requires = {'kyazdani42/nvim-web-devicons'}
-}
+	use { 'romgrk/barbar.nvim', requires = {'kyazdani42/nvim-web-devicons'} }
 	use 'lukas-reineke/indent-blankline.nvim'--对齐线
 
 	use 'b3nj5m1n/kommentary'--注释
@@ -40,6 +39,12 @@ require('packer').startup({function(use)
 	use 'ethanholz/nvim-lastplace'--打开上一次位置
 
 end,
+git = {
+
+	depth = 1, -- Git clone depth
+	clone_timeout = 60, -- Timeout, in seconds, for git clones
+	default_url_format = 'git@github.com:%s',-- Lua format string used for "aaa/bbb" style plugins
+},
 config = {
 	display = {
 		open_fn = function()
@@ -54,7 +59,8 @@ vim.bo.tabstop=4
 vim.o.softtabstop=4
 vim.o.shiftwidth=4
 --vim.o.expandtab=true --设置tab=空格
-vim.o.scrolloff=5
+vim.o.scrolloff=6
+vim.o.pumheight=10
 vim.wo.numberwidth=1
 vim.transparent_window = true
 vim.g.mapleader = ','
@@ -73,9 +79,9 @@ vim.o.smartcase = true
 vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
+vim.o.backspace='indent,eol,start' --设置back键
 vim.o.completeopt = 'menuone,noselect'
 
-vim.cmd[[ colorscheme onedark]]
 --vim.cmd [[ set guifont=CodeNewRoman_Nerd_Font_Mono:h11 ]]
 
 --------------------------------------------------------------------------
@@ -198,44 +204,63 @@ vim.diagnostic.config({
 	})
 -----------------------------------------------------------------------------------
 --sago
+
 local cfg = {
-	debug = false, -- set to true to enable debug logging
-	-- log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
-	verbose = false, -- show debug line number
-	bind = true,
-	doc_lines = 10,
-	floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
-	floating_window_above_cur_line = true,
-	floating_window_off_x = 1,
-	floating_window_off_y = -1,
-	fix_pos = false,
-	hint_enable = true,
-	hint_prefix = "💡 ",
-	hint_scheme = "String",
-	hi_parameter = "LspSignatureActiveParameter",
-	max_height = 5,
-	max_width = 200,
-	handler_opts = {
-		border = "rounded"
-	},
-	always_trigger = false,
-	auto_close_after = nil,
-	extra_trigger_chars = {},
-	zindex = 200,
-	padding = '',
-	transparency = nil,
-	shadow_blend = 36,
-	shadow_guibg = 'Black',
-	timer_interval = 200,
-	toggle_key = nil
+  debug = false, -- set to true to enable debug logging
+  -- log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
+  -- default is  ~/.cache/nvim/lsp_signature.log
+  verbose = false, -- show debug line number
+
+  bind = true, -- This is mandatory, otherwise border config won't get registered.
+  
+               -- If you want to hook lspsaga or other signature handler, pls set to false
+  doc_lines = 1, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
+                 -- set to 0 if you DO NOT want any API comments be shown
+                 -- This setting only take effect in insert mode, it does not affect signature help in normal
+                 -- mode, 10 by default
+
+  max_height = 3, -- max height of signature floating_window
+  max_width = 100, -- max_width of signature floating_window
+  wrap = true, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
+
+  floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
+
+  floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
+  -- will set to true when fully tested, set to false will use whichever side has more space
+  -- this setting will be helpful if you do not want the PUM and floating win overlap
+
+  floating_window_off_x =90, -- adjust float windows x position.
+  floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
+
+  close_timeout = 4000, -- close floating window after ms when laster parameter is entered
+  fix_pos = true,  -- set to true, the floating window will not auto-close until finish all parameters
+  hint_enable = false, -- virtual hint enable
+  hint_prefix = "💡",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+  hint_scheme = "String",
+  hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
+  handler_opts = {
+    border = "rounded"   -- double, rounded, single, shadow, none
+  },
+
+  always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
+
+  auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
+  extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
+  zindex = 10, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
+
+  padding = ' ', -- character to pad on left and right of signature can be ' ', or '|'  etc
+
+  transparency = nil, -- disabled by default, allow floating win transparent value 1~100
+  shadow_blend = 36, -- if you using shadow as border use this set the opacity
+  shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
+  timer_interval = 20, -- default timer check interval set to lower value if you want to reduce latency
+ toggle_key = '<c-s>', --toggle signature on and off in insert mode,  e.g. toggle_key = '<m-x>'
+  select_signature_key = '<c-n>', --cycle to next signature, e.g. '<m-n>' function overloading
+  move_cursor_key = '<c-m>', --imap, use nvim_set_current_win to move cursor between current win and floating
 }
-require'lsp_signature'.setup(cfg)
-require "lsp_signature".setup({
-		bind = true,
-		handler_opts = {
-			border = "rounded"
-		}
-	})
+
+-- recommended:
+require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
 
 -----------------------------------------------------------------------------------
 
@@ -271,45 +296,55 @@ local kind_icons = {
   TypeParameter = ""
 }
 
+local ELLIPSIS_CHAR = '…'
+local MAX_LABEL_WIDTH = 20
+
+
 -- nvim-cmp setup
 local cmp = require('cmp')
 cmp.setup{
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
+snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+		luasnip.lsp_expand(args.body)
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
 	window = {
-		--completion = cmp.config.window.bordered(),
+		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
 	},
+
 	mapping = cmp.mapping.preset.insert({
-			['<C-d>'] = cmp.mapping.scroll_docs(-4),
-			['<C-f>'] = cmp.mapping.scroll_docs(4),
-			['<C-Space>'] = cmp.mapping.complete(),
-			['<CR>'] = cmp.mapping.confirm {
-				behavior = cmp.ConfirmBehavior.Replace,
-				select = true,
-			},
-			['<Tab>'] = cmp.mapping(function(fallback)
-				if cmp.visible() then
-					cmp.select_next_item()
-				elseif luasnip.expand_or_jumpable() then
-					luasnip.expand_or_jump()
-				else
-					fallback()
-				end
-			end, { 'i', 's' }),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
-}),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+
 	sources = {
 		{ name = 'nvim_lsp' },
 		{ name = 'luasnip' },
@@ -320,9 +355,15 @@ cmp.setup{
 		entries = {name = 'custom' }
 	},
 	formatting = {
+		fields = { "kind", "abbr", "menu" },
 		format = function(entry, vim_item)
+		local label = vim_item.abbr
+		local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+		if truncated_label ~= label then
+        vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+		end
 		 -- Kind icons
-		vim_item.kind = string.format('%s', kind_icons[vim_item.kind]) -- This concatonates the icons with the name of the item kind
+		vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
       -- Source
 		vim_item.menu = ({
         buffer = "[Buf]",
@@ -334,38 +375,40 @@ cmp.setup{
   },
 }
 
-require'luasnip'.filetype_extend("c++", {"rails"})
-require'luasnip'.filetype_extend("c", {"rails"})
-require'luasnip'.filetype_extend("rust", {"rails"})
-require'luasnip'.filetype_extend("lua", {"rails"})
-require'luasnip'.filetype_extend("go", {"rails"})
 
 cmp.setup.filetype('gitcommit', {
 		sources = cmp.config.sources({
 				{ name = 'cmp_git' },
 			}, {
 				{ name = 'buffer' },
-			})
-	})
+			}),
+})
 
 cmp.setup.cmdline('/', {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = 'buffer' }
-		}
-	})
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = 'buffer' }
+	}
+})
 
-cmp.setup.cmdline(':', {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = cmp.config.sources({
-				{ name = 'path' }
-			}, {
-				{ name = 'cmdline' }
-			})
-	})
+
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+
+
+require'luasnip'.filetype_extend("c++", {"rails"})
+require'luasnip'.filetype_extend("c", {"rails"})
+require'luasnip'.filetype_extend("rust", {"rails"})
+require'luasnip'.filetype_extend("lua", {"rails"})
+require'luasnip'.filetype_extend("go", {"rails"})
 -----------------------------------------------------------------------------------
---Vim-tree
-require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
+--nVim-tree
+require'nvim-tree'.setup {-- BEGIN_DEFAULT_OPTS
 	auto_reload_on_write = true,
 	disable_netrw = false,
 	hijack_cursor = false,
@@ -469,37 +512,41 @@ require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
 			profile = false,
 		},
 	},
-} -- END_DEFAULT_OPTS
-vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(false, true)<CR>", { noremap = true, silent = true })
+}
+vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua require'nvim-tree'.toggle(true)<CR>", { noremap = true, silent = true })
 
+--------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------
 --toggleterm 终端
-require("toggleterm").setup{
-  -- size can be a number or function which is passed the current terminal
-  open_mapping = [[<c-\>]],
-  shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
-  start_in_insert = true,
-  insert_mappings = true, -- whether or not the open mapping applies in insert mode
-  terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
-  persist_size = true,
-  persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
-  close_on_exit = true, -- close the terminal window when the process exits
-  auto_scroll = true, -- automatically scroll to the bottom on terminal output
-  direction ='float',
-  float_opts = {
-    border = 'curved',-- | 'double' | 'shadow' | 'curved' | ... other options supported by win open
-    width =100,
-    height =70,
-    winblend = 10,
-  },
-    winbar = {
-    enabled = false,
-    name_formatter = function(term) --  term: Terminal
-      return term.name
-    end
-  },
-}
+local status_ok, toggleterm = pcall(require, "toggleterm")
+if not status_ok then
+	return
+end
+
+toggleterm.setup({
+	size = 20,
+  -- TODO: add my own keymapping to <space-t>
+	open_mapping = [[<c-\>]],
+	hide_numbers = false,
+	shade_filetypes = {},
+	shade_terminals = true,
+	shading_factor = 3,
+	start_in_insert = true,
+	insert_mappings = true,
+	persist_size = true,
+	direction = "float",
+	close_on_exit = true,
+	shell = vim.o.shell,
+	float_opts = {
+		border = "double",
+		winblend = 3,
+		highlights = {
+			border = "Normal",
+			background = "Normal",
+		},
+	},
+})
 
 ----------------------------------------------------------------------------------
 --telescope 模糊查
@@ -680,24 +727,76 @@ require'nvim-treesitter.configs'.setup {
 	},
 }
 -------------------------------------------------------------------------------
---vscode-theme主题
---[[ vim.o.background = 'dark'
-local c = require('vscode.colors')
-require('vscode').setup({
-    transparent = true,
-    italic_comments = false,
-    disable_nvimtree_bg = true,
-    color_overrides = {
-        vscLineNumber = '#FFFFFF',
+--material
+require('material').setup({
+    contrast = {
+        sidebars = false, -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
+        floating_windows = false, -- Enable contrast for floating windows
+        cursor_line = false, -- Enable darker background for the cursor line
+        non_current_windows = false, -- Enable darker background for non-current windows
+        popup_menu = false, -- Enable lighter background for the popup menu
     },
-    group_overrides = {
-        Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=false },
+
+    italics = {
+        comments = false, -- Enable italic comments
+        keywords = false, -- Enable italic keywords
+        functions = false, -- Enable italic functions
+        strings = false, -- Enable italic strings
+        variables = false -- Enable italic variables
+    },
+
+    contrast_filetypes = { -- Specify which filetypes get the contrasted (darker) background
+        "terminal", -- Darker terminal background
+        "packer", -- Darker packer background
+        "qf" -- Darker qf list background
+    },
+
+    high_visibility = {
+        lighter = false, -- Enable higher contrast text for lighter style
+        darker = false -- Enable higher contrast text for darker style
+    },
+
+    disable = {
+        colored_cursor = false, -- Disable the colored cursor
+        borders = false, -- Disable borders between verticaly split windows
+        background = false, -- Prevent the theme from setting the background (NeoVim then uses your teminal background)
+        term_colors = false, -- Prevent the theme from setting terminal colors
+        eob_lines = false -- Hide the end-of-buffer lines
+    },
+
+    lualine_style = "default", -- Lualine style ( can be 'stealth' or 'default' )
+
+    async_loading = true, -- Load parts of the theme asyncronously for faster startup (turned on by default)
+
+    custom_highlights = {}, -- Overwrite highlights with your own
+
+    plugins = { -- Here, you can disable(set to false) plugins that you don't use or don't want to apply the theme to
+        trouble = true,
+        nvim_cmp = true,
+        neogit = true,
+        gitsigns = true,
+        git_gutter = true,
+        telescope = true,
+        nvim_tree = true,
+        sidebar_nvim = true,
+        lsp_saga = true,
+        nvim_dap = true,
+        nvim_navic = true,
+        which_key = true,
+        sneak = true,
+        hop = true,
+        indent_blankline = true,
+        nvim_illuminate = true,
+        mini = true,
     }
-}) ]]
+})
+vim.g.material_style = "palenight"
+--Lua:
+vim.cmd 'colorscheme material'
 
 -----------------------------------------------------------------------------------
 --statusline 状态栏
-require('lualine').setup {
+ require('lualine').setup {
 	options = {
 		icons_enabled = true,
 		theme = 'auto',
@@ -769,11 +868,15 @@ require'bufferline'.setup {
   no_name_title = nil,
 }
 
-
+------------------------------------------------------------------------------------------------------
 --blankline 对齐线
-require('indent_blankline').setup {
-	char = '┆',
-	show_trailing_blankline_indent = false,
+vim.opt.list = true
+vim.opt.listchars:append "space:⋅"
+-- vim.opt.listchars:append "eol:↴"
+
+require("indent_blankline").setup {
+    show_end_of_line = true,
+    space_char_blankline = " ",
 }
 -----------------------------------------------------------------------------------
 --commentary 注释
@@ -792,7 +895,7 @@ npairs.setup({
 	})
 npairs.setup({
 		fast_wrap = {
-			map = '<C-e>',
+			map = '<A-e>',
 			chars = { '{', '[', '(', '"', "'" },
 			pattern = [=[[%'%"%)%>%]%)%}%,]]=],
 			end_key = '$',
@@ -824,6 +927,7 @@ require'nvim-lastplace'.setup {
 }
 -------------------------------------------------------------------------------
 --自定义快捷键
+vim.api.nvim_set_keymap("n", "<leader>cs", "<cmd>lua require('material.functions').toggle_style()<CR>", {})
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
 vim.api.nvim_set_keymap("n", "<C-h>", ":bp<CR>", {})
 vim.api.nvim_set_keymap("n", "<C-l>", ":bn<CR>", {})
