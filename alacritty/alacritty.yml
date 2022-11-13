@@ -1,44 +1,47 @@
-# The 'Dark dimmed' colorscheme from Github.
 colors:
+  # Default colors
   primary:
-    background: '#2d333b'
-    foreground: '#adbac7'
+    background: '0x1b182c'
+    foreground: '0xcbe3e7'
+
+  # Normal colors
   normal:
-    black:   '#2d333b'
-    red:     '#f47067'
-    green:   '#8ddb8c'
-    yellow:  '#f69d50'
-    blue:    '#6cb6ff'
-    magenta: '#dcbdfb'
-    cyan:    '#96d0ff'
-    white:   '#adbac7'
+    black:   '0x100e23'
+    red:     '0xff8080'
+    green:   '0x95ffa4'
+    yellow:  '0xffe9aa'
+    blue:    '0x91ddff'
+    magenta: '0xc991e1'
+    cyan:    '0xaaffe4'
+    white:   '0xcbe3e7'
+
+  # Bright colors
   bright:
-    black:   '#768390'
-    red:     '#f47067'
-    green:   '#8ddb8c'
-    yellow:  '#f69d50'
-    blue:    '#6cb6ff'
-    magenta: '#dcbdfb'
-    cyan:    '#96d0ff'
-    white:   '#adbac7'
-
+    black:   '0x565575'
+    red:     '0xff5458'
+    green:   '0x62d196'
+    yellow:  '0xffb378'
+    blue:    '0x65b2ff'
+    magenta: '0x906cff'
+    cyan:    '0x63f2f1'
+    white:   '0xa6b3cc'
 font:
-  normal:
-    family: UbuntuMono Nerd Font Mono
-    italic:
-      family: UbuntuMono Nerd Font Mono
-    bold:
-      family: UbuntuMono Nerd Font Mono
-    bold_italic:
-      family: UbuntuMono Nerd Font Mono
-    seze: 9
-    offset:
-      x: 0
-      y: 0
+  offset:
+    x: 1
+    y: 0
 
-    glyph_offset:
-      x: 0
-      y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  normal:
+    family: SauceCodePro Nerd Font Mono
+    italic:
+      family: SauceCodePro Nerd Font Mono
+    bold:
+      family: SauceCodePro Nerd Font Mono
+    bold_italic:
+      family: SauceCodePro Nerd Font Mono
+    size: 10
 
 key_bindings:
   - { key: V,        mods: Alt,       action: Paste             }
@@ -59,4 +62,5 @@ window:
     opacity: 0.8
 
       #decorations: none
+
 
