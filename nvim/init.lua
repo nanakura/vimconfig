@@ -316,32 +316,31 @@ require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use t
 ------------------------------------------------------------------------------------
 local kind_icons = {
   Text = "",
-  Method = "",
+    Method = "",
   Function = "",
-  Constructor = "",
+    Constructor = "",
   Field = "",
-  Variable = "",
+    Variable = "",
   Class = "ﴯ",
-  Interface = "",
+    Interface = "",
   Module = "",
-  Property = "ﰠ",
-  Unit = "",
-  Value = "",
+    Property = "ﰠ",
+  Unit = "",
+    Value = "",
   Enum = "",
-  Keyword = "",
+    Keyword = "",
   Snippet = "",
-  Color = "",
+    Color = "",
   File = "",
-  Reference = "",
+    Reference = "",
   Folder = "",
-  EnumMember = "",
+    EnumMember = "",
   Constant = "",
-  Struct = "",
+    Struct = "",
   Event = "",
-  Operator = "",
+    Operator = "",
   TypeParameter = ""
-}
-
+  }
 
 local ELLIPSIS_CHAR = '…'
 local MAX_LABEL_WIDTH = 40
