@@ -10,15 +10,15 @@ require('packer').startup({function(use)
 
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
-
-use {
-	"nvim-neo-tree/neo-tree.nvim", branch = "v2.x",
-	requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim", }
-}
+	use 'rafamadriz/friendly-snippets'
 
 	use 'hrsh7th/cmp-path'
 	use 'hrsh7th/cmp-buffer'
 	use 'hrsh7th/cmp-cmdline'
+
+	use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x",
+		requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim", } }
+
 
 	use 'akinsho/toggleterm.nvim'
 
@@ -80,10 +80,7 @@ vim.o.termguicolors = true
 vim.o.backspace='indent,eol,start' --设置back键
 vim.o.completeopt = 'menuone,noselect'
 
---vim.cmd [[ set guifont=CodeNewRoman_Nerd_Font_Mono:h11 ]]
-
 --------------------------------------------------------------------------
-
 require("mason").setup({
 		ui = {
 			icons = {
@@ -103,7 +100,7 @@ local on_attach = function(_, bufnr)
 	vim.keymap.set('n', 'gn', vim.diagnostic.goto_next,  opts1)
 	vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
 	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-	--vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+	vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 	--[[ vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
 	vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
 	vim.keymap.set('n', '<leader>wl', function() vim.inspect(vim.lsp.buf.list_workspace_folders()) end, opts)
@@ -114,8 +111,6 @@ local on_attach = function(_, bufnr)
 	-- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
 end
 ---------------------------------------------------------------------------------------------
---完成函数参数
-
 vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
 vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 local border = {
@@ -141,18 +136,42 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+--在悬停窗口中自动显示线路诊断
+vim.o.updatetime = 250
+-- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+--local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+local signs = { Error = "", Warn = "", Hint = "", Info = "ﴞ" }
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+vim.diagnostic.config({
+	virtual_text = true,
+    signs = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = false,
+})
+
+vim.diagnostic.config({
+	virtual_text = {
+		prefix = '●',--'x'
+	}
+})
 
 local lsp_flags = {
 	debounce_text_changes = 150,
 }
-
-vim.diagnostic.config({ virtual_text = false })
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 require'lspconfig'.clangd.setup({
+	handlers=handlers,
+	flags = lsp_flags,
 	on_attach = on_attach,
 	capabilities = capabilities,
-	handlers=handlers,
 })
 
 require'lspconfig'.glslls.setup({
@@ -162,8 +181,8 @@ require'lspconfig'.glslls.setup({
 })
 
 require'lspconfig'.sumneko_lua.setup ({
+	-- handlers=handlers,
 	capabilities = capabilities,
-	handlers=handlers,
 	on_attach = function(client, bufnr)
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.document_range_formatting = false
@@ -192,7 +211,8 @@ require'lspconfig'.sumneko_lua.setup ({
 })
 
 require'lspconfig'.gopls.setup({
-	handlers=handlers,
+	-- handlers=handlers,
+	flags = lsp_flags,
 	on_attach = on_attach,
 	capabilities = capabilities,
 	init_options = {
@@ -202,7 +222,7 @@ require'lspconfig'.gopls.setup({
 })
 
 require('lspconfig')['rust_analyzer'].setup{
-	handlers=handlers,
+	-- handlers=handlers,
 	on_attach = on_attach,
 	flags = lsp_flags,
 	settings = {
@@ -210,160 +230,59 @@ require('lspconfig')['rust_analyzer'].setup{
 	}
 }
 
-vim.cmd [[
-  highlight! DiagnosticLineNrError guibg=#51202A guifg=#FF0000 gui=bold
-  highlight! DiagnosticLineNrWarn guibg=#51412A guifg=#FFA500 gui=bold
-  highlight! DiagnosticLineNrInfo guibg=#1E535D guifg=#00FFFF gui=bold
-  highlight! DiagnosticLineNrHint guibg=#1E205D guifg=#0000FF gui=bold
-
-  sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=DiagnosticLineNrError
-  sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=DiagnosticLineNrWarn
-  sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
-  sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
-]]
-
 -----------------------------------------------------------------------------------
---在悬停窗口中自动显示线路诊断
-vim.o.updatetime = 250
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
-
-local signs = { Error = "", Warn = "", Hint = "", Info = "" }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
---[[ vim.diagnostic.config({
-	virtual_text = {
-		prefix = '●',
-		virtual_text = false,
-		signs = false,
-		underline = false,
-		update_in_insert = false,
-		severity_sort = false,
-	}
-}) ]]
-
-vim.diagnostic.config({
-	virtual_text = false,
-	signs = true,
-	underline = true,
-	update_in_insert = false,
-	severity_sort = true,
-})
-
------------------------------------------------------------------------------------
---sago
-local cfg = {
-  debug = false, -- set to true to enable debug logging
-  -- default is  ~/.cache/nvim/lsp_signature.log
-  verbose = false, -- show debug line number
-
-  bind = true, -- This is mandatory, otherwise border config won't get registered.
-               -- If you want to hook lspsaga or other signature handler, pls set to false
-  doc_lines = 1, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
-                 -- set to 0 if you DO NOT want any API comments be shown
-                 -- This setting only take effect in insert mode, it does not affect signature help in normal
-                 -- mode, 10 by default
-
-  max_height = 2, -- max height of signature floating_window
-  max_width = 100, -- max_width of signature floating_window
-  wrap = true, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
-
-  floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
-
-  floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
-  -- will set to true when fully tested, set to false will use whichever side has more space
-  -- this setting will be helpful if you do not want the PUM and floating win overlap
-
-  floating_window_off_x =0, -- adjust float windows x position.
-  floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
-
-  close_timeout = 4000, -- close floating window after ms when laster parameter is entered
-  fix_pos = true,  -- set to true, the floating window will not auto-close until finish all parameters
-  hint_enable = false, -- virtual hint enable
-  hint_prefix = "💡",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
-  hint_scheme = "String",
-  hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
-  handler_opts = {
-    border = "rounded"   -- double, rounded, single, shadow, none
-  },
-
-  always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
-
-  auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
-  extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
-  zindex = 10, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
-
-  padding = ' ', -- character to pad on left and right of signature can be ' ', or '|'  etc
-
-  transparency = nil, -- disabled by default, allow floating win transparent value 1~100
-  shadow_blend = 36, -- if you using shadow as border use this set the opacity
-  shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
-  timer_interval = 20, -- default timer check interval set to lower value if you want to reduce latency
- toggle_key = '<C-g>', --toggle signature on and off in insert mode,  e.g. toggle_key = '<m-x>'
-  --select_signature_key = '<c-n>', --cycle to next signature, e.g. '<m-n>' function overloading
-  --move_cursor_key = '<c-m>', --imap, use nvim_set_current_win to move cursor between current win and floating
-}
-
--- recommended:
-require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
-
------------------------------------------------------------------------------------
-
 -- luasnip setup
---require("luasnip.loaders.from_vscode").lazy_load()
-------------------------------------------------------------------------------------
 local kind_icons = {
-  Text = "",
+	Text = "",
     Method = "",
-  Function = "",
+	Function = "",
     Constructor = "",
-  Field = "",
-    Variable = "",
-  Class = "ﴯ",
-    Interface = "",
-  Module = "",
-    Property = "ﰠ",
-  Unit = "",
+	Field = "",
+	Variable = "",
+	Class = "ﴯ",
+	Interface = "",
+	Module = "",
+	Property = "ﰠ",
+	Unit = "",
     Value = "",
-  Enum = "",
+	Enum = "",
     Keyword = "",
-  Snippet = "",
+	Snippet = "",
     Color = "",
-  File = "",
+	File = "",
     Reference = "",
-  Folder = "",
+	Folder = "",
     EnumMember = "",
-  Constant = "",
+	Constant = "",
     Struct = "",
-  Event = "",
+	Event = "",
     Operator = "",
-  TypeParameter = ""
-  }
+	TypeParameter = ""
+}
 
 local ELLIPSIS_CHAR = '…'
 local MAX_LABEL_WIDTH = 40
 
 local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 
 
+require("luasnip.loaders.from_vscode").lazy_load()
 local luasnip = require("luasnip")
 local cmp = require('cmp')
 cmp.setup{
+	expand = function(args)
+		require('luasnip').lsp_expand(args.body)
+	end,
+
 	window = {
 		completion = cmp.config.window.bordered(),
-		-- documentation = cmp.config.window.bordered(),
-		documentation=cmp.config.disable,
+		documentation = cmp.config.window.bordered(),
+		-- documentation=cmp.config.disable,
 	},
-
-	 expand = function(args)
-     require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-     end,
 
 	mapping = {
 		["<Tab>"] = cmp.mapping(function(fallback)
@@ -410,15 +329,21 @@ cmp.setup{
 
 		['<C-u>'] = cmp.mapping.abort(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+		["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
     },
 
 	sources = {
 		{ name = 'nvim_lsp' },
+		{ name = 'luasnip'},
 		{ name = 'path'},
 		{ name = 'buffer'},
 	},
 
-	view = { entries = {name = 'custom' } },
+	view = {
+		entries = {name = 'custom' ,},
+		-- entries= {window.documentation.width=10},
+	},
 
 
 	formatting = {
@@ -429,41 +354,94 @@ cmp.setup{
 		if truncated_label ~= label then
 			vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
 		end
-	-- Kind icons
+		-- Kind icons
 		vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
 
 		vim_item.menu = ({
-			buffer   = "[Buf]",
         	nvim_lsp = "[LSP]",
+			luasnip  = "[Snp]",
+			buffer   = "[Buf]",
 			paht     = "[Pat]",
 		})[entry.source.name]
 			return vim_item
 		end
 	},
 }
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-    }, {
-      { name = 'buffer' },
-    })
-  })
+cmp.setup.filetype('gitcommit', {
+	sources = cmp.config.sources({
+		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+	}, {
+		{ name = 'buffer' },
+	})
+})
 
-  cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' }
+cmp.setup.cmdline({ '/', '?' }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = 'buffer' }
     }
-  })
+})
 
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
+cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-      { name = 'path' }
+		{ name = 'path' }
     }, {
-      { name = 'cmdline' }
-    })
-  })
+		{ name = 'cmdline' }
+	})
+})
+ ----------------------------------------------------------------------------------
+
+ local cfg={
+	debug = false, -- set to true to enable debug logging
+	log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
+	-- default is  ~/.cache/nvim/lsp_signature.log
+	verbose = false, -- show debug line number
+
+	bind = true, -- This is mandatory, otherwise border config won't get registered.
+               -- If you want to hook lspsaga or other signature handler, pls set to false
+	doc_lines = 0, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
+
+	max_height = 3, -- max height of signature floating_window
+	max_width = 200, -- max_width of signature floating_window
+	noice = false, -- set to true if you using noice to render markdown
+	wrap = false, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
+	floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
+
+	floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
+
+	floating_window_off_x = 1, -- adjust float windows x position.
+	floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
+
+	close_timeout = 4000, -- close floating window after ms when laster parameter is entered
+	fix_pos = true,  -- set to true, the floating window will not auto-close until finish all parameters
+	hint_enable = false, -- virtual hint enable
+	hint_prefix = "🐼 ",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+	hint_scheme = "String",
+	-- hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
+	hi_parameter='Search',
+	handler_opts = {
+		border = "rounded"   -- double, rounded, single, shadow, none
+	},
+
+	always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
+
+	auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
+	extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
+	zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
+
+	padding = '', -- character to pad on left and right of signature can be ' ', or '|'  etc
+
+	transparency = nil, -- disabled by default, allow floating win transparent value 1~100
+	shadow_blend = 100, -- if you using shadow as border use this set the opacity
+	shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
+	timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
+	toggle_key = '<C-e>', -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+	select_signature_key = nil, -- cycle to next signature, e.g. '<M-n>' function overloading
+	move_cursor_key = nil, -- imap, use nvim_set_current_win to move cursor between current win and floating
+}
+require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
+
 -----------------------------------------------------------------------------------
 --neo-tree
 require("neo-tree").setup({

@@ -25,14 +25,17 @@ colors:
     magenta: '0x906cff'
     cyan:    '0x63f2f1'
     white:   '0xa6b3cc'
+
 font:
+  size: 10
   offset:
-    x: 1
+    x: 0
     y: 0
 
   glyph_offset:
     x: 0
     y: 0
+
   normal:
     family: SauceCodePro Nerd Font Mono
     italic:
@@ -41,26 +44,21 @@ font:
       family: SauceCodePro Nerd Font Mono
     bold_italic:
       family: SauceCodePro Nerd Font Mono
-    size: 10
+
 
 key_bindings:
   - { key: V,        mods: Alt,       action: Paste             }
   - { key: C,        mods: Alt,       action: Copy              }
 
 window:
-  #dimensions:
-  #columns: 100
-  #lines: 85
-
   dynamic_padding: false
+  opacity: 0.8 
+
 
   padding:
     x: 0
     y: 0
 
     startup_mode: Windowed
-    opacity: 0.8
-
-      #decorations: none
-
+    opacity: 
 
