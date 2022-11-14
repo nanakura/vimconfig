@@ -271,6 +271,7 @@ end
 
 
 require("luasnip.loaders.from_vscode").lazy_load()
+
 local luasnip = require("luasnip")
 local cmp = require('cmp')
 cmp.setup{
@@ -280,8 +281,20 @@ cmp.setup{
 
 	window = {
 		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
+		-- documentation = cmp.config.window.bordered(),
 		-- documentation=cmp.config.disable,
+		documentation={
+			-- border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+			border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
+			winhighlight = 'Normal:CmpPmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
+			max_width=30,
+			max_height=10,
+		},
+
+	    --[[ completion = {
+	        border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
+			winhighlight = 'FloatBorder:FloatBorder',
+		}, ]]
 	},
 
 	mapping = {
@@ -416,7 +429,7 @@ cmp.setup.cmdline(':', {
 	close_timeout = 4000, -- close floating window after ms when laster parameter is entered
 	fix_pos = true,  -- set to true, the floating window will not auto-close until finish all parameters
 	hint_enable = false, -- virtual hint enable
-	hint_prefix = "🐼 ",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+	hint_prefix = "",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
 	hint_scheme = "String",
 	-- hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
 	hi_parameter='Search',
