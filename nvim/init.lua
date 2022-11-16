@@ -3,10 +3,12 @@ require('packer').startup({function(use)
 	use 'wbthomason/packer.nvim' --补全
 	use { "williamboman/mason.nvim" }
 
-	use 'ray-x/lsp_signature.nvim'
+	-- use 'ray-x/lsp_signature.nvim'
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/cmp-nvim-lsp'
 	use 'hrsh7th/nvim-cmp'
+	use 'hrsh7th/cmp-nvim-lua'
+
 
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
@@ -90,51 +92,46 @@ require("mason").setup({
 			}
 		}
 	})
+----------------------------------------------------------------------------
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
-local on_attach = function(_, bufnr)
-	local opts = { buffer = bufnr }
-	local opts1 = { noremap=true, silent=true }
-	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-	vim.keymap.set('n', 'gp', vim.diagnostic.goto_prev, opts1 )
-	vim.keymap.set('n', 'gn', vim.diagnostic.goto_next,  opts1)
-	vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-	vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-	--[[ vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-	vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-	vim.keymap.set('n', '<leader>wl', function() vim.inspect(vim.lsp.buf.list_workspace_folders()) end, opts)
-	vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts) ]]
-	vim.keymap.set('n', 'gr', vim.lsp.buf.rename, opts)
-	vim.keymap.set('n', 'gc', vim.lsp.buf.references, opts)
-	vim.keymap.set('n', 'gf', require('telescope.builtin').lsp_document_symbols, opts)
-	-- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
+
+local lsp_flags = {
+  debounce_text_changes = 150,
+}
+
 ---------------------------------------------------------------------------------------------
 vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
 vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
-local border = {
-      {"╭", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╮", "FloatBorder"},
-      {"│", "FloatBorder"},
-      {"╯", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╰", "FloatBorder"},
-      {"│", "FloatBorder"},
-}
-
-local handlers =  {
-  ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = border}),
-  ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = border }),
-}
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = opts.border or border
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
 
 
 --在悬停窗口中自动显示线路诊断
@@ -158,60 +155,66 @@ vim.diagnostic.config({
 
 vim.diagnostic.config({
 	virtual_text = {
-		prefix = '●',--'x'
+		prefix = '●',
 	}
 })
 
-local lsp_flags = {
-	debounce_text_changes = 150,
+
+
+capabilities = vim.lsp.protocol.make_client_capabilities()
+
+capabilities.textDocument.completion.completionItem = {
+  documentationFormat = { "markdown", "plaintext" },
+  snippetSupport = true,
+  preselectSupport = true,
+  insertReplaceSupport = true,
+  labelDetailsSupport = true,
+  deprecatedSupport = true,
+  commitCharactersSupport = true,
+  tagSupport = { valueSet = { 1 } },
+  resolveSupport = {
+    properties = {
+      "documentation",
+      "detail",
+      "additionalTextEdits",
+    },
+  },
 }
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+
 
 require'lspconfig'.clangd.setup({
-	handlers=handlers,
 	flags = lsp_flags,
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
 
 require'lspconfig'.glslls.setup({
-	handlers=handlers,
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
 
 require'lspconfig'.sumneko_lua.setup ({
-	-- handlers=handlers,
+	on_attach = on_attach,
 	capabilities = capabilities,
-	on_attach = function(client, bufnr)
-		client.server_capabilities.document_formatting = false
-		client.server_capabilities.document_range_formatting = false
-		on_attach(client, bufnr)
-	end,
-	flags = {
-		debounce_text_changes = 150,
-	},
-
 	settings = {
-		Lua = {
-			runtime = {
-				version = 'LuaJIT',
-			},
-			diagnostics = {
-				globals = {'vim'},
-			},
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			telemetry = {
-				enable = false,
-			},
-		},
-	},
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+        },
+        maxPreload = 100000,
+        preloadFileSize = 10000,
+      },
+    },
+  },
 })
 
 require'lspconfig'.gopls.setup({
-	-- handlers=handlers,
 	flags = lsp_flags,
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -263,21 +266,21 @@ local kind_icons = {
 local ELLIPSIS_CHAR = '…'
 local MAX_LABEL_WIDTH = 40
 
-local has_words_before = function()
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-
-
+local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local luasnip = require("luasnip")
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 local cmp = require('cmp')
 cmp.setup{
-	expand = function(args)
-		require('luasnip').lsp_expand(args.body)
-	end,
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end
+	},
 
 	window = {
 		completion = cmp.config.window.bordered(),
@@ -299,46 +302,26 @@ cmp.setup{
 
 	mapping = {
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			elseif has_words_before() then
-				cmp.complete()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
 
-		["<C-n>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			elseif has_words_before() then
-				cmp.complete()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<C-p>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
 
 		['<C-u>'] = cmp.mapping.abort(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -348,9 +331,11 @@ cmp.setup{
 
 	sources = {
 		{ name = 'nvim_lsp' },
+		{ name = 'nvim_lua' },
 		{ name = 'luasnip'},
 		{ name = 'path'},
 		{ name = 'buffer'},
+		{name = 'nvim_lsp_signature_help'}
 	},
 
 	view = {
@@ -375,6 +360,7 @@ cmp.setup{
 			luasnip  = "[Snp]",
 			buffer   = "[Buf]",
 			paht     = "[Pat]",
+			nvim_lua = "[lua]",
 		})[entry.source.name]
 			return vim_item
 		end
@@ -404,56 +390,6 @@ cmp.setup.cmdline(':', {
 	})
 })
  ----------------------------------------------------------------------------------
-
- local cfg={
-	debug = false, -- set to true to enable debug logging
-	log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
-	-- default is  ~/.cache/nvim/lsp_signature.log
-	verbose = false, -- show debug line number
-
-	bind = true, -- This is mandatory, otherwise border config won't get registered.
-               -- If you want to hook lspsaga or other signature handler, pls set to false
-	doc_lines = 0, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
-
-	max_height = 3, -- max height of signature floating_window
-	max_width = 200, -- max_width of signature floating_window
-	noice = false, -- set to true if you using noice to render markdown
-	wrap = false, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
-	floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
-
-	floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
-
-	floating_window_off_x = 1, -- adjust float windows x position.
-	floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
-
-	close_timeout = 4000, -- close floating window after ms when laster parameter is entered
-	fix_pos = true,  -- set to true, the floating window will not auto-close until finish all parameters
-	hint_enable = false, -- virtual hint enable
-	hint_prefix = "",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
-	hint_scheme = "String",
-	-- hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
-	hi_parameter='Search',
-	handler_opts = {
-		border = "rounded"   -- double, rounded, single, shadow, none
-	},
-
-	always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
-
-	auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
-	extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
-	zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
-
-	padding = '', -- character to pad on left and right of signature can be ' ', or '|'  etc
-
-	transparency = nil, -- disabled by default, allow floating win transparent value 1~100
-	shadow_blend = 100, -- if you using shadow as border use this set the opacity
-	shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
-	timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
-	toggle_key = '<C-e>', -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
-	select_signature_key = nil, -- cycle to next signature, e.g. '<M-n>' function overloading
-	move_cursor_key = nil, -- imap, use nvim_set_current_win to move cursor between current win and floating
-}
-require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
 
 -----------------------------------------------------------------------------------
 --neo-tree
