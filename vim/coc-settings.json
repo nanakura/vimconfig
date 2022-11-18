@@ -60,23 +60,17 @@
 			"filetypes": ["go"]
 		},
 
-		"lua": {
+        "lua": {
 			"command": "lua-language-server",
-			"rootPatterns": [".git"],
-			"filetypes": ["lua"]
-		},
-
+			"args": ["-E", "-e", "LANG=en", "~/.local/share/nvim/mason/packages/lua-language-server/extension/server/bin/main.lua"],
+			"filetypes": ["lua"],
+			"rootPatterns": [".git/"]
+        },
 		"rust": {
 			"command": "rust-analyzer",
 			"filetypes": ["rust"],
 			"rootPatterns": ["Cargo.toml"]
 		}
-
-		//"clangd": {
-			//"command": "clangd",
-			//"rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-			//"filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
-			//"disableSnippetCompletion": true
-		//}
-	}
+  },
+  "Lua.telemetry.enable": false
 }

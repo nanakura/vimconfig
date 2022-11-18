@@ -3,11 +3,12 @@ require('packer').startup({function(use)
 	use 'wbthomason/packer.nvim' --补全
 	use { "williamboman/mason.nvim" }
 
-	-- use 'ray-x/lsp_signature.nvim'
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/cmp-nvim-lsp'
 	use 'hrsh7th/nvim-cmp'
 	use 'hrsh7th/cmp-nvim-lua'
+	use 'hrsh7th/cmp-nvim-lsp-signature-help'
+	use 'rmagatti/goto-preview'
 
 
 	use 'L3MON4D3/LuaSnip'
@@ -29,7 +30,6 @@ require('packer').startup({function(use)
 	use 'stevearc/aerial.nvim'--函数列表
 	use 'nvim-treesitter/nvim-treesitter'--高亮
 
-	-- use 'mjlbach/onedark.nvim'--主题
 	use 'folke/tokyonight.nvim'
 
 	use 'nvim-lualine/lualine.nvim'--状态栏
@@ -78,56 +78,50 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.updatetime = 200
 vim.wo.signcolumn = 'yes'
+vim.o.cmdheight=0
 vim.o.termguicolors = true
 vim.o.backspace='indent,eol,start' --设置back键
-vim.o.completeopt = 'menuone,noselect'
+vim.opt.completeopt = "menu,menuone,noinsert"
 
 --------------------------------------------------------------------------
 require("mason").setup({
-		ui = {
-			icons = {
-				package_installed = "✓",
-				package_pending = "➜",
-				package_uninstalled = "✗"
-			}
+	ui = {
+		icons = {
+			package_installed = "✓",
+			package_pending = "➜",
+			package_uninstalled = "✗"
 		}
-	})
+	}
+})
+
 ----------------------------------------------------------------------------
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', 'gn', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', 'gp', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	-- Mappings.
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	local bufopts = { noremap=true, silent=true, buffer=bufnr }
+	vim.keymap.set('n', 'ga', vim.lsp.buf.declaration, bufopts)
+	vim.keymap.set('n', 'gm', vim.lsp.buf.definition, bufopts)
+	vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+	vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+	vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+	vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+	vim.keymap.set('n', '<space>wl', function()print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
+	vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+	vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+	vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+	vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+	vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
-
-local lsp_flags = {
-  debounce_text_changes = 150,
-}
 
 ---------------------------------------------------------------------------------------------
 vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
@@ -160,28 +154,12 @@ vim.diagnostic.config({
 })
 
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-capabilities = vim.lsp.protocol.make_client_capabilities()
-
-capabilities.textDocument.completion.completionItem = {
-  documentationFormat = { "markdown", "plaintext" },
-  snippetSupport = true,
-  preselectSupport = true,
-  insertReplaceSupport = true,
-  labelDetailsSupport = true,
-  deprecatedSupport = true,
-  commitCharactersSupport = true,
-  tagSupport = { valueSet = { 1 } },
-  resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  },
+local lsp_flags = {
+  debounce_text_changes = 150,
 }
-
-
 
 require'lspconfig'.clangd.setup({
 	flags = lsp_flags,
@@ -225,7 +203,6 @@ require'lspconfig'.gopls.setup({
 })
 
 require('lspconfig')['rust_analyzer'].setup{
-	-- handlers=handlers,
 	on_attach = on_attach,
 	flags = lsp_flags,
 	settings = {
@@ -284,15 +261,15 @@ cmp.setup{
 
 	window = {
 		completion = cmp.config.window.bordered(),
-		-- documentation = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
 		-- documentation=cmp.config.disable,
-		documentation={
+		--[[ documentation={
 			-- border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
 			border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
 			winhighlight = 'Normal:CmpPmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
 			max_width=30,
 			max_height=10,
-		},
+		}, ]]
 
 	    --[[ completion = {
 	        border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
@@ -302,37 +279,37 @@ cmp.setup{
 
 	mapping = {
 		["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			elseif has_words_before() then
+				cmp.complete()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 
 		['<C-u>'] = cmp.mapping.abort(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
-		["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
-		["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+		["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+		["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
     },
 
 	sources = {
-		{ name = 'nvim_lsp' },
 		{ name = 'nvim_lua' },
 		{ name = 'luasnip'},
+		{ name = 'nvim_lsp' },
 		{ name = 'path'},
 		{ name = 'buffer'},
 		{name = 'nvim_lsp_signature_help'}
@@ -340,7 +317,6 @@ cmp.setup{
 
 	view = {
 		entries = {name = 'custom' ,},
-		-- entries= {window.documentation.width=10},
 	},
 
 
@@ -360,7 +336,7 @@ cmp.setup{
 			luasnip  = "[Snp]",
 			buffer   = "[Buf]",
 			paht     = "[Pat]",
-			nvim_lua = "[lua]",
+			nvim_lua = "[Lua]",
 		})[entry.source.name]
 			return vim_item
 		end
@@ -385,18 +361,42 @@ cmp.setup.cmdline(':', {
 	mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
 		{ name = 'path' }
-    }, {
+    },
+	{
 		{ name = 'cmdline' }
 	})
 })
  ----------------------------------------------------------------------------------
+ require('goto-preview').setup {
+	width = 120; -- Width of the floating window
+    height = 15; -- Height of the floating window
+	border = {"┌", "─" ,"┐", "│", "┘", "─", "└", "│"}; -- Border characters of the floating window
+    default_mappings = false; -- Bind default mappings
+	debug = false; -- Print debug information
+    opacity = nil; -- 0-100 opacity level of the floating window where 100 is fully transparent.
+	resizing_mappings = false; -- Binds arrow keys to resizing the floating window.
+    post_open_hook = nil; -- A function taking two arguments, a buffer and a window to be ran as a hook.
+		references = { -- Configure the telescope UI for slowing the references cycling window.
+    };
+   -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
+    focus_on_open = true; -- Focus the floating window when opening it.
+    dismiss_on_move = false; -- Dismiss the floating window when moving the cursor.
+    force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
+    bufhidden = "wipe", -- the bufhidden option to set on the floating window. See :h bufhidden
+}
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", {noremap=true})
+vim.api.nvim_set_keymap("n", "gt", "<cmd>lua require('goto-preview').goto_preview_type_definition()<CR>", {noremap=true})
+vim.api.nvim_set_keymap("n", "gq", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", {noremap=true})
+vim.api.nvim_set_keymap("n", "<C-[>","<cmd>lua require('goto-preview').close_all_win()<CR>", {noremap=true})
+vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", {noremap=true})
 
------------------------------------------------------------------------------------
+ --------------------------------------------------------------------------------
+
 --neo-tree
 require("neo-tree").setup({
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "rounded",
-    enable_git_status = true,
+    enable_git_status = false,
     enable_diagnostics = true,
     sort_case_insensitive = false, -- used when sorting files and directories in the tree
     sort_function = nil , -- use a custom function for sorting files and directories in the tree 
@@ -422,8 +422,6 @@ require("neo-tree").setup({
 			folder_closed = "",
 			folder_open = "",
 			folder_empty = "ﰊ",
-			-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
-			-- then these will never be used.
 			default = "*",
 			highlight = "NeoTreeFileIcon"
 		},
@@ -436,21 +434,21 @@ require("neo-tree").setup({
 			use_git_status_colors = true,
 			highlight = "NeoTreeFileName",
 		},
-		git_status = {
+		--[[ git_status = {
 			symbols = {
 				-- Change type
-				added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+				added     = "+", -- or "✚", but this is redundant info if you use git_status_colors on the name
 				modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-				deleted   = "✖",-- this can only be used in the git_status source
+				deleted   = "-",-- this can only be used in the git_status source
 				renamed   = "",-- this can only be used in the git_status source
 				-- Status type
-				untracked = "",
+				untracked = "",
 				ignored   = "",
-				unstaged  = "",
+				unstaged  = "",
 				staged    = "",
 				conflict  = "",
 			}
-		},
+		}, ]]
     },
     window = {
 		position = "left",
@@ -498,18 +496,12 @@ require("neo-tree").setup({
 		hide_gitignored = true,
 		hide_hidden = true, -- only works on Windows for hidden files/directories
 		hide_by_name = {
-		--"node_modules"
 		},
 		hide_by_pattern = { -- uses glob style patterns
-			--"*.meta",
-			--"*/src/*/tsconfig.json",
 		},
 		always_show = { -- remains visible even if other settings would normally hide it
-			--".gitignored",
 		},
 		never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-			--".DS_Store",
-			--"thumbs.db"
 		},
 		never_show_by_pattern = { -- uses glob style patterns
 			--".null-ls_*",
@@ -551,7 +543,7 @@ require("neo-tree").setup({
             }
           },
         },
-	git_status = {
+	--[[ git_status = {
         window = {
             position = "float",
             mappings = {
@@ -564,7 +556,7 @@ require("neo-tree").setup({
 				["gg"] = "git_commit_and_push",
             }
         }
-	}
+	} ]]
 })
 vim.keymap.set('n', '<leader>e', ':Neotree toggle reveal<CR>',{})
 
@@ -590,7 +582,7 @@ toggleterm.setup({
 	close_on_exit = true,
 	shell = vim.o.shell,
 	float_opts = {
-		border = "double",
+		border = "curved",
 		winblend = 3,
 		highlights = {
 			border = "Normal",
@@ -847,7 +839,7 @@ require("aerial").setup({
     update_delay = 300,
   },
 })
-vim.keymap.set('n', '<leader>fo', '<cmd>AerialToggle!<CR>')
+vim.keymap.set('n', 'fo', '<cmd>AerialToggle!<CR>')
 
 ----------------------------------------------------------------------------------
 -- Treesitter 高亮
@@ -885,35 +877,221 @@ vim.cmd[[ colorscheme tokyonight-moon ]]
 
 -----------------------------------------------------------------------------------
 --statusline 状态栏
- require('lualine').setup {
-	options = {
-		icons_enabled = true,
-		theme = 'auto',
-		component_separators = { left = '', right = ''},
-		section_separators = { left = '', right = ''},
-		disabled_filetypes = {},
-		always_divide_middle = true,
-		globalstatus = false,
-	},
-	sections = {
-		lualine_a = {'mode'},
-		lualine_b = {'branch', 'diff', 'diagnostics'},
-		lualine_c = {'filename'},
-		lualine_x = {'encoding', 'fileformat', 'filetype'},
-		lualine_y = {'progress'},
-		lualine_z = {'location'}
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = {'filename'},
-		lualine_x = {'location'},
-		lualine_y = {},
-		lualine_z = {}
-	},
-	tabline = {},
-	extensions = {}
+local lualine = require('lualine')
+
+-- Color table for highlights
+-- stylua: ignore
+local colors = {
+  bg       = '#202328',
+  fg       = '#bbc2cf',
+  yellow   = '#ECBE7B',
+  cyan     = '#008080',
+  darkblue = '#081633',
+  green    = '#98be65',
+  orange   = '#FF8800',
+  violet   = '#a9a1e1',
+  magenta  = '#c678dd',
+  blue     = '#51afef',
+  red      = '#ec5f67',
 }
+
+local conditions = {
+  buffer_not_empty = function()
+    return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+  end,
+  hide_in_width = function()
+    return vim.fn.winwidth(0) > 80
+  end,
+  check_git_workspace = function()
+    local filepath = vim.fn.expand('%:p:h')
+    local gitdir = vim.fn.finddir('.git', filepath .. ';')
+    return gitdir and #gitdir > 0 and #gitdir < #filepath
+  end,
+}
+
+-- Config
+local config = {
+  options = {
+    -- Disable sections and component separators
+    component_separators = '',
+    section_separators = '',
+    theme = {
+      -- We are going to use lualine_c an lualine_x as left and
+      -- right section. Both are highlighted by c theme .  So we
+      -- are just setting default looks o statusline
+      normal = { c = { fg = colors.fg, bg = colors.bg } },
+      inactive = { c = { fg = colors.fg, bg = colors.bg } },
+    },
+  },
+  sections = {
+    -- these are to remove the defaults
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    -- These will be filled later
+    lualine_c = {},
+    lualine_x = {},
+  },
+  inactive_sections = {
+    -- these are to remove the defaults
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    lualine_c = {},
+    lualine_x = {},
+  },
+}
+
+-- Inserts a component in lualine_c at left section
+local function ins_left(component)
+  table.insert(config.sections.lualine_c, component)
+end
+
+-- Inserts a component in lualine_x ot right section
+local function ins_right(component)
+  table.insert(config.sections.lualine_x, component)
+end
+
+ins_left {
+  function()
+    return '▊'
+  end,
+  color = { fg = colors.blue }, -- Sets highlighting of component
+  padding = { left = 0, right = 1 }, -- We don't need space before this
+}
+
+ins_left {
+  -- mode component
+  function()
+    return ''
+  end,
+  color = function()
+    -- auto change color according to neovims mode
+    local mode_color = {
+      n = colors.red,
+      i = colors.green,
+      v = colors.blue,
+      [''] = colors.blue,
+      V = colors.blue,
+      c = colors.magenta,
+      no = colors.red,
+      s = colors.orange,
+      S = colors.orange,
+      [''] = colors.orange,
+      ic = colors.yellow,
+      R = colors.violet,
+      Rv = colors.violet,
+      cv = colors.red,
+      ce = colors.red,
+      r = colors.cyan,
+      rm = colors.cyan,
+      ['r?'] = colors.cyan,
+      ['!'] = colors.red,
+      t = colors.red,
+    }
+    return { fg = mode_color[vim.fn.mode()] }
+  end,
+  padding = { right = 1 },
+}
+
+ins_left {
+  -- filesize component
+  'filesize',
+  cond = conditions.buffer_not_empty,
+}
+
+ins_left {
+  'filename',
+  cond = conditions.buffer_not_empty,
+  color = { fg = colors.magenta, gui = 'bold' },
+}
+
+ins_left { 'location' }
+
+ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+
+ins_left {
+  'diagnostics',
+  sources = { 'nvim_diagnostic' },-- Error = "", Warn = "", Hint = "", Info = "ﴞ"
+  symbols = { error = ' ', warn = ' ', info = 'ﴞ ',hint = ' ' },
+  diagnostics_color = {
+    color_error = { fg = colors.red },
+    color_warn = { fg = colors.yellow },
+    color_info = { fg = colors.cyan },
+  },
+}
+
+-- Insert mid section. You can make any number of sections in neovim :)
+-- for lualine it's any number greater then 2
+ins_left {
+  function()
+    return '%='
+  end,
+}
+
+ins_left {
+  -- Lsp server name .
+  function()
+    local msg = 'No Active Lsp'
+    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local clients = vim.lsp.get_active_clients()
+    if next(clients) == nil then
+      return msg
+    end
+    for _, client in ipairs(clients) do
+      local filetypes = client.config.filetypes
+      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        return client.name
+      end
+    end
+    return msg
+  end,
+  icon = ' LSP:',
+  color = { fg = '#ffffff', gui = 'bold' },
+}
+
+-- Add components to right sections
+ins_right {
+  'o:encoding', -- option component same as &encoding in viml
+  fmt = string.upper, -- I'm not sure why it's upper case either ;)
+  cond = conditions.hide_in_width,
+  color = { fg = colors.green, gui = 'bold' },
+}
+
+ins_right {
+  'fileformat',
+  fmt = string.upper,
+  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+  color = { fg = colors.green, gui = 'bold' },
+}
+
+ins_right {
+  'branch',
+  icon = '',
+  color = { fg = colors.violet, gui = 'bold' },
+}
+
+ins_right {
+  'diff',
+  symbols = { added = ' ', modified = '柳 ', removed = ' ' },
+  diff_color = {
+    added = { fg = colors.green },
+    modified = { fg = colors.orange },
+    removed = { fg = colors.red },
+  },
+  cond = conditions.hide_in_width,
+}
+
+ins_right {
+  function()
+    return '▊'
+  end,
+  color = { fg = colors.blue },
+  padding = { left = 1 },
+}
+lualine.setup(config)
 ---------------------------------------------------------------------------------
 --tabline 缓冲区状态栏
 -- Set barbar's options
