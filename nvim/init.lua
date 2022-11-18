@@ -1,4 +1,19 @@
 -- xMonody-x huanbin_xiao@163.com
+
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+
+
 require('packer').startup({function(use)
 	use 'wbthomason/packer.nvim' --补全
 	use { "williamboman/mason.nvim" }
@@ -41,17 +56,21 @@ require('packer').startup({function(use)
 	use 'windwp/nvim-autopairs'--括号补全
 	use 'ethanholz/nvim-lastplace'--打开上一次位置
 
+	if packer_bootstrap then
+		require('packer').sync()
+	end
 end,
 
-git = { depth = 1, clone_timeout = 300, --default_url_format = 'git@github.com:%s',
-},
-config = {
-	display = {
-		open_fn = function()
+	git = { depth = 1, clone_timeout = 300, --default_url_format = 'git@github.com:%s',
+	},
+	config = {
+		display = {
+			open_fn = function()
 			return require('packer.util').float({ border = 'single' })
-		end
+			end
+		}
 	}
-}})
+})
 
 
 vim.o.tabstop=4
@@ -124,12 +143,11 @@ local on_attach = function(client, bufnr)
 end
 
 ---------------------------------------------------------------------------------------------
-vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
-vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
+--vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
+--vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 
 
 --在悬停窗口中自动显示线路诊断
-vim.o.updatetime = 250
 -- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 --local signs = { Error = "", Warn = "", Hint = "", Info = "" }
@@ -149,7 +167,7 @@ vim.diagnostic.config({
 
 vim.diagnostic.config({
 	virtual_text = {
-		prefix = '●',
+		prefix = '',
 	}
 })
 
@@ -260,21 +278,20 @@ cmp.setup{
 	},
 
 	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
+		-- completion = cmp.config.window.bordered(),
+		-- documentation = cmp.config.window.bordered(),
 		-- documentation=cmp.config.disable,
-		--[[ documentation={
+		documentation={
 			-- border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
 			border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
-			winhighlight = 'Normal:CmpPmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
-			max_width=30,
+			cmp.config.window.bordered(),
+			max_width=40,
 			max_height=10,
-		}, ]]
+		},
 
-	    --[[ completion = {
+	    completion = {
 	        border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
-			winhighlight = 'FloatBorder:FloatBorder',
-		}, ]]
+		},
 	},
 
 	mapping = {
@@ -300,10 +317,21 @@ cmp.setup{
 			end
 		end, { "i", "s" }),
 
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.get_selected_entry() then
+				cmp.confirm({ select = true })
+			else
+				fallback()
+			end
+		end, { "i", "c" }),
+
+
 		['<C-u>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		-- ['<CR>'] = cmp.mapping.confirm({ select = true }),
 		["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
 		["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+		["<C-k>"] = cmp.mapping.scroll_docs(-4),
+		["<C-j>"] = cmp.mapping.scroll_docs(4),
     },
 
 	sources = {
@@ -342,13 +370,6 @@ cmp.setup{
 		end
 	},
 }
-cmp.setup.filetype('gitcommit', {
-	sources = cmp.config.sources({
-		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-	}, {
-		{ name = 'buffer' },
-	})
-})
 
 cmp.setup.cmdline({ '/', '?' }, {
 	mapping = cmp.mapping.preset.cmdline(),
@@ -375,10 +396,6 @@ cmp.setup.cmdline(':', {
 	debug = false; -- Print debug information
     opacity = nil; -- 0-100 opacity level of the floating window where 100 is fully transparent.
 	resizing_mappings = false; -- Binds arrow keys to resizing the floating window.
-    post_open_hook = nil; -- A function taking two arguments, a buffer and a window to be ran as a hook.
-		references = { -- Configure the telescope UI for slowing the references cycling window.
-    };
-   -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
     focus_on_open = true; -- Focus the floating window when opening it.
     dismiss_on_move = false; -- Dismiss the floating window when moving the cursor.
     force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
@@ -873,7 +890,7 @@ require("tokyonight").setup({
   dim_inactive = false,
   lualine_bold = false,
 })
-vim.cmd[[ colorscheme tokyonight-moon ]]
+vim.cmd[[ colorscheme tokyonight-moon]]
 
 -----------------------------------------------------------------------------------
 --statusline 状态栏
